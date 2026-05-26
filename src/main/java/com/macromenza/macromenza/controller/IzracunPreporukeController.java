@@ -18,5 +18,10 @@ public class IzracunPreporukeController {
     public Preporuka izracunajPreporuku(@PathVariable Long korisnikId) {
         return izracunPreporukeService.izracunajPreporuku(korisnikId);
     }
+
+    @GetMapping("/{korisnikId}")
+    public Preporuka dohvatiZadnjuPreporuku(@PathVariable Long korisnikId) {
+        return izracunPreporukeService.dohvatiZadnjuPreporuku(korisnikId);
+    }
 }
 
