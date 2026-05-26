@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/jela")
+@RequestMapping("/api/jela")
 public class JeloController {
 
     private final JeloRepository jeloRepository;
@@ -52,6 +52,13 @@ public class JeloController {
     @DeleteMapping("/{id}")
     public void obrisiJelo(@PathVariable Long id) {
         jeloRepository.deleteById(id);
+    }
+
+    @GetMapping("/pretraga")
+    public List<Jelo> pretraziJela(
+            @RequestParam String naziv
+    ) {
+        return jeloRepository.findByNazivContainingIgnoreCase(naziv);
     }
 
 }
