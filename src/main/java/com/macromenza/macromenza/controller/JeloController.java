@@ -61,4 +61,29 @@ public class JeloController {
         return jeloRepository.findByNazivContainingIgnoreCase(naziv);
     }
 
+    @GetMapping("/filter")
+    public List<Jelo> filtrirajJela(
+            @RequestParam(required = false) Integer minKalorije,
+            @RequestParam(required = false) Integer maxKalorije,
+            @RequestParam(required = false) Integer minProteini,
+            @RequestParam(required = false) Integer maxProteini,
+            @RequestParam(required = false) Integer minUgljikohidrati,
+            @RequestParam(required = false) Integer maxUgljikohidrati,
+            @RequestParam(required = false) Integer minMasti,
+            @RequestParam(required = false) Integer maxMasti
+    ) {
+        return jeloRepository.findAll()
+                .stream()
+                .filter(jelo -> minKalorije == null || jelo.getKalorije() >= minKalorije)
+                .filter(jelo -> maxKalorije == null || jelo.getKalorije() <= maxKalorije)
+                .filter(jelo -> minProteini == null || jelo.getProteini() >= minProteini)
+                .filter(jelo -> maxProteini == null || jelo.getProteini() <= maxProteini)
+                .filter(jelo -> minUgljikohidrati == null || jelo.getUgljikohidrati() >= minUgljikohidrati)
+                .filter(jelo -> maxUgljikohidrati == null || jelo.getUgljikohidrati() <= maxUgljikohidrati)
+                .filter(jelo -> minMasti == null || jelo.getMasti() >= minMasti)
+                .filter(jelo -> maxMasti == null || jelo.getMasti() <= maxMasti)
+                .toList();
+    }
+
+
 }

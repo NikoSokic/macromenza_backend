@@ -33,8 +33,23 @@ public class KonzumacijaService {
 
     public Konzumacija dodajKonzumaciju(Konzumacija konzumacija) {
 
-        Jelo jelo = jeloRepository.findById(konzumacija.getIdJelo())
-                .orElseThrow(() -> new RuntimeException("Jelo ne postoji"));
+        if (konzumacija.getIdKorisnik() == null) {
+            throw new RuntimeException("Korisnik je obavezan");
+        }
+
+        if (konzumacija.getIdJelo() == null) {
+            throw new RuntimeException("Jelo je obavezno");
+        }
+
+        if (konzumacija.getKolicina() == null || konzumacija.getKolicina() <= 0) {
+            throw new RuntimeException("Kolicina mora biti veca od 0");
+        }
+
+        if (konzumacija.getTip_obroka() == null || konzumacija.getTip_obroka().isBlank()) {
+            throw new RuntimeException("Tip obroka je obavezan");
+        }
+
+        Jelo jelo = jeloRepository.findById(konzumacija.getIdJelo()).orElseThrow(() -> new RuntimeException("Jelo ne postoji"));
 
         konzumacija.setDatum(LocalDate.now());
 
