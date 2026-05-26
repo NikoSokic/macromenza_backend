@@ -4,7 +4,10 @@ import com.macromenza.macromenza.dto.DashboardDTO;
 import com.macromenza.macromenza.dto.NutritivneVrijednostiDTO;
 import com.macromenza.macromenza.dto.UkupniUnosDTO;
 import com.macromenza.macromenza.model.Preporuka;
+
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 public class DashboardService {
@@ -54,4 +57,5 @@ public class DashboardService {
 
         return new DashboardDTO(preporuka, pojedeno, preostalo);
     }
+
 }

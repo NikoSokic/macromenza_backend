@@ -12,6 +12,8 @@ public interface KonzumacijaRepository extends JpaRepository<Konzumacija, Long> 
     List<Konzumacija> findByIdKorisnik(Long idKorisnik);
     List<Konzumacija> findByIdKorisnikAndDatum(Long idKorisnik, LocalDate datum);
     List<Konzumacija> findByIdKorisnikOrderByDatumDesc(Long idKorisnik);
+    List<Konzumacija> findByIdKorisnikAndDatumBetween(Long idKorisnik, LocalDate datumOd, LocalDate datumDo);
+    
 
 
 }

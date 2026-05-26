@@ -5,6 +5,7 @@ import com.macromenza.macromenza.repository.KonzumacijaRepository;
 import com.macromenza.macromenza.services.KonzumacijaService;
 import com.macromenza.macromenza.dto.UkupniUnosDTO;
 import com.macromenza.macromenza.dto.PovijestDanaDTO;
+import com.macromenza.macromenza.dto.TjedniPregledDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -57,6 +58,7 @@ public class KonzumacijaController {
         return konzumacijaService
                 .izracunajDnevniUnos(idKorisnik);
     }
+
     @GetMapping("/povijest/dani/{idKorisnik}")
     public List<LocalDate> povijestDana(
             @PathVariable Long idKorisnik
@@ -67,6 +69,7 @@ public class KonzumacijaController {
                         idKorisnik
                 );
     }
+
     @GetMapping("/povijest/{idKorisnik}")
     public PovijestDanaDTO povijestZaDan(
 
@@ -81,5 +84,12 @@ public class KonzumacijaController {
                         idKorisnik,
                         datum
                 );
+    }
+
+    @GetMapping("/tjedni-pregled/{idKorisnik}")
+    public TjedniPregledDTO tjedniPregled(
+            @PathVariable Long idKorisnik
+    ) {
+        return konzumacijaService.dohvatiTjedniPregled(idKorisnik);
     }
 }

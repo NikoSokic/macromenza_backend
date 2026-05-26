@@ -7,12 +7,15 @@ import com.macromenza.macromenza.model.Konzumacija;
 import com.macromenza.macromenza.model.Jelo;
 import com.macromenza.macromenza.repository.KonzumacijaRepository;
 import com.macromenza.macromenza.repository.JeloRepository;
+import com.macromenza.macromenza.dto.DnevniPregledDTO;
+import com.macromenza.macromenza.dto.TjedniPregledDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 @Service
 public class KonzumacijaService {
@@ -150,6 +153,76 @@ public class KonzumacijaService {
                 ugljikohidrati,
                 masti,
                 obroci
+        );
+    }
+    public TjedniPregledDTO dohvatiTjedniPregled(Long idKorisnik) {
+
+        LocalDate datumDo = LocalDate.now();
+        LocalDate datumOd = datumDo.minusDays(6);
+
+        List<Konzumacija> konzumacije =
+                konzumacijaRepository.findByIdKorisnikAndDatumBetween(
+                        idKorisnik,
+                        datumOd,
+                        datumDo
+                );
+
+        List<DnevniPregledDTO> dani = new ArrayList<>();
+
+        int ukupnoKalorije = 0;
+        int ukupnoProteini = 0;
+        int ukupnoUgljikohidrati = 0;
+        int ukupnoMasti = 0;
+
+        for (LocalDate datum = datumOd; !datum.isAfter(datumDo); datum = datum.plusDays(1)) {
+
+            int kalorijeDan = 0;
+            int proteiniDan = 0;
+            int ugljikohidratiDan = 0;
+            int mastiDan = 0;
+
+            for (Konzumacija k : konzumacije) {
+
+                if (k.getDatum().equals(datum)) {
+
+                    Jelo jelo = jeloRepository
+                            .findById(k.getIdJelo())
+                            .orElseThrow();
+
+                    kalorijeDan += jelo.getKalorije() * k.getKolicina();
+                    proteiniDan += jelo.getProteini() * k.getKolicina();
+                    ugljikohidratiDan += jelo.getUgljikohidrati() * k.getKolicina();
+                    mastiDan += jelo.getMasti() * k.getKolicina();
+                }
+            }
+
+            ukupnoKalorije += kalorijeDan;
+            ukupnoProteini += proteiniDan;
+            ukupnoUgljikohidrati += ugljikohidratiDan;
+            ukupnoMasti += mastiDan;
+
+            dani.add(
+                    new DnevniPregledDTO(
+                            datum,
+                            kalorijeDan,
+                            proteiniDan,
+                            ugljikohidratiDan,
+                            mastiDan
+                    )
+            );
+        }
+
+        double prosjekKalorija = ukupnoKalorije / 7.0;
+
+        return new TjedniPregledDTO(
+                datumOd,
+                datumDo,
+                ukupnoKalorije,
+                ukupnoProteini,
+                ukupnoUgljikohidrati,
+                ukupnoMasti,
+                prosjekKalorija,
+                dani
         );
     }
 }
