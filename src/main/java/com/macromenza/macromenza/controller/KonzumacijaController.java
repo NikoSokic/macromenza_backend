@@ -2,18 +2,25 @@ package com.macromenza.macromenza.controller;
 
 import com.macromenza.macromenza.model.Konzumacija;
 import com.macromenza.macromenza.repository.KonzumacijaRepository;
+import com.macromenza.macromenza.services.KonzumacijaService;
+import com.macromenza.macromenza.dto.UkupniUnosDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/konzumacije")
+@RequestMapping("/api/konzumacije")
 public class KonzumacijaController {
 
     private final KonzumacijaRepository konzumacijaRepository;
+    private final KonzumacijaService konzumacijaService;
 
-    public KonzumacijaController(KonzumacijaRepository konzumacijaRepository) {
+    public KonzumacijaController(
+            KonzumacijaRepository konzumacijaRepository,
+            KonzumacijaService konzumacijaService
+    ) {
         this.konzumacijaRepository = konzumacijaRepository;
+        this.konzumacijaService = konzumacijaService;
     }
 
     @GetMapping
@@ -33,11 +40,19 @@ public class KonzumacijaController {
 
     @PostMapping
     public Konzumacija dodajKonzumaciju(@RequestBody Konzumacija konzumacija) {
-        return konzumacijaRepository.save(konzumacija);
+        return konzumacijaService.dodajKonzumaciju(konzumacija);
     }
 
     @DeleteMapping("/{id}")
     public void obrisiKonzumaciju(@PathVariable Long id) {
         konzumacijaRepository.deleteById(id);
+    }
+
+    @GetMapping("/ukupno/{idKorisnik}")
+    public UkupniUnosDTO ukupniUnos(
+            @PathVariable Long idKorisnik
+    ) {
+        return konzumacijaService
+                .izracunajDnevniUnos(idKorisnik);
     }
 }
