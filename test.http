@@ -1,0 +1,11 @@
+POST http://localhost:8080/jela
+Content-Type: application/json
+
+{
+  "naziv": "Test jelo",
+  "opis": "Opis testnog jela",
+  "kalorije": 500,
+  "proteini": 30,
+  "ugljikohidrati": 60,
+  "masti": 15
+}
