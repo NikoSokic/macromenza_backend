@@ -37,10 +37,7 @@ public class ProfilPodaciController {
     }
 
     @PutMapping("/{id}")
-    public ProfilPodaci azurirajProfil(
-            @PathVariable Long id,
-            @RequestBody ProfilPodaci noviProfil
-    ) {
+    public ProfilPodaci azurirajProfil(@PathVariable Long id, @RequestBody ProfilPodaci noviProfil) {
 
         ProfilPodaci profil =
                 profilRepository.findById(id).orElse(null);

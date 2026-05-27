@@ -13,16 +13,19 @@ public class MjerenjeController {
     private final MjerenjeRepository mjerenjeRepository;
 
     public MjerenjeController(MjerenjeRepository mjerenjeRepository) {
+
         this.mjerenjeRepository = mjerenjeRepository;
     }
 
     @GetMapping
     public List<Mjerenje> getSvaMjerenja() {
+
         return mjerenjeRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Mjerenje getMjerenjePoId(@PathVariable Long id) {
+
         return mjerenjeRepository.findById(id).orElse(null);
     }
 
@@ -33,11 +36,13 @@ public class MjerenjeController {
 
     @PostMapping
     public Mjerenje dodajMjerenje(@RequestBody Mjerenje mjerenje) {
+
         return mjerenjeRepository.save(mjerenje);
     }
 
     @DeleteMapping("/{id}")
     public void obrisiMjerenje(@PathVariable Long id) {
+
         mjerenjeRepository.deleteById(id);
     }
 }

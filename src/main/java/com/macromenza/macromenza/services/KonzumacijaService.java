@@ -58,11 +58,7 @@ public class KonzumacijaService {
 
     public UkupniUnosDTO izracunajDnevniUnos(Long idKorisnik) {
 
-        List<Konzumacija> konzumacije =
-                konzumacijaRepository.findByIdKorisnikAndDatum(
-                        idKorisnik,
-                        LocalDate.now()
-                );
+        List<Konzumacija> konzumacije = konzumacijaRepository.findByIdKorisnikAndDatum(idKorisnik, LocalDate.now());
 
         UkupniUnosDTO rezultat = new UkupniUnosDTO();
 
@@ -73,9 +69,7 @@ public class KonzumacijaService {
 
         for (Konzumacija k : konzumacije) {
 
-            Jelo jelo = jeloRepository
-                    .findById(k.getIdJelo())
-                    .orElseThrow();
+            Jelo jelo = jeloRepository.findById(k.getIdJelo()).orElseThrow();
 
             kalorije += jelo.getKalorije() * k.getKolicina();
             proteini += jelo.getProteini() * k.getKolicina();
@@ -106,20 +100,15 @@ public class KonzumacijaService {
             LocalDate datum
     ) {
 
-        List<Konzumacija> lista =
-                konzumacijaRepository.findByIdKorisnikAndDatum(
-                        idKorisnik,
-                        datum
-                );
+        List<Konzumacija> lista = konzumacijaRepository.findByIdKorisnikAndDatum(idKorisnik, datum);
 
         List<StavkaObrokaDTO> stavke =
                 lista.stream()
                         .map(k -> {
 
-                            Jelo jelo =
-                                    jeloRepository
-                                            .findById(k.getIdJelo())
-                                            .orElseThrow();
+                            Jelo jelo = jeloRepository
+                                    .findById(k.getIdJelo())
+                                    .orElseThrow();
 
                             return new StavkaObrokaDTO(
                                     jelo.getNaziv(),
@@ -133,32 +122,24 @@ public class KonzumacijaService {
                         })
                         .toList();
 
-        int kalorije =
-                stavke.stream()
+        int kalorije = stavke.stream()
                         .mapToInt(StavkaObrokaDTO::getKalorije)
                         .sum();
 
-        int proteini =
-                stavke.stream()
+        int proteini = stavke.stream()
                         .mapToInt(StavkaObrokaDTO::getProteini)
                         .sum();
 
-        int ugljikohidrati =
-                stavke.stream()
+        int ugljikohidrati = stavke.stream()
                         .mapToInt(StavkaObrokaDTO::getUgljikohidrati)
                         .sum();
 
-        int masti =
-                stavke.stream()
+        int masti = stavke.stream()
                         .mapToInt(StavkaObrokaDTO::getMasti)
                         .sum();
 
-        Map<String, List<StavkaObrokaDTO>> obroci =
-                stavke.stream()
-                        .collect(
-                                Collectors.groupingBy(
-                                        StavkaObrokaDTO::getTipObroka
-                                )
+        Map<String, List<StavkaObrokaDTO>> obroci = stavke.stream()
+                        .collect(Collectors.groupingBy(StavkaObrokaDTO::getTipObroka)
                         );
 
         return new PovijestDanaDTO(
@@ -175,12 +156,7 @@ public class KonzumacijaService {
         LocalDate datumDo = LocalDate.now();
         LocalDate datumOd = datumDo.minusDays(6);
 
-        List<Konzumacija> konzumacije =
-                konzumacijaRepository.findByIdKorisnikAndDatumBetween(
-                        idKorisnik,
-                        datumOd,
-                        datumDo
-                );
+        List<Konzumacija> konzumacije = konzumacijaRepository.findByIdKorisnikAndDatumBetween(idKorisnik, datumOd, datumDo);
 
         List<DnevniPregledDTO> dani = new ArrayList<>();
 
@@ -200,9 +176,7 @@ public class KonzumacijaService {
 
                 if (k.getDatum().equals(datum)) {
 
-                    Jelo jelo = jeloRepository
-                            .findById(k.getIdJelo())
-                            .orElseThrow();
+                    Jelo jelo = jeloRepository.findById(k.getIdJelo()).orElseThrow();
 
                     kalorijeDan += jelo.getKalorije() * k.getKolicina();
                     proteiniDan += jelo.getProteini() * k.getKolicina();
@@ -216,15 +190,7 @@ public class KonzumacijaService {
             ukupnoUgljikohidrati += ugljikohidratiDan;
             ukupnoMasti += mastiDan;
 
-            dani.add(
-                    new DnevniPregledDTO(
-                            datum,
-                            kalorijeDan,
-                            proteiniDan,
-                            ugljikohidratiDan,
-                            mastiDan
-                    )
-            );
+            dani.add(new DnevniPregledDTO(datum, kalorijeDan, proteiniDan, ugljikohidratiDan, mastiDan));
         }
 
         double prosjekKalorija = ukupnoKalorije / 7.0;
@@ -239,5 +205,35 @@ public class KonzumacijaService {
                 prosjekKalorija,
                 dani
         );
+    }
+    public Konzumacija azurirajKonzumaciju(
+            Long id,
+            Konzumacija novaKonzumacija
+    ) {
+        Konzumacija postojecaKonzumacija = konzumacijaRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Konzumacija ne postoji"));
+
+        if (novaKonzumacija.getIdJelo() == null) {
+            throw new RuntimeException("Jelo je obavezno");
+        }
+
+        if (novaKonzumacija.getKolicina() == null || novaKonzumacija.getKolicina() <= 0) {
+            throw new RuntimeException("Kolicina mora biti veca od 0");
+        }
+
+        if (novaKonzumacija.getTip_obroka() == null || novaKonzumacija.getTip_obroka().isBlank()) {
+            throw new RuntimeException("Tip obroka je obavezan");
+        }
+
+        Jelo jelo = jeloRepository
+                .findById(novaKonzumacija.getIdJelo())
+                .orElseThrow(() -> new RuntimeException("Jelo ne postoji"));
+
+        postojecaKonzumacija.setIdJelo(novaKonzumacija.getIdJelo());
+        postojecaKonzumacija.setKolicina(novaKonzumacija.getKolicina());
+        postojecaKonzumacija.setTip_obroka(novaKonzumacija.getTip_obroka());
+
+        return konzumacijaRepository.save(postojecaKonzumacija);
     }
 }

@@ -55,9 +55,7 @@ public class JeloController {
     }
 
     @GetMapping("/pretraga")
-    public List<Jelo> pretraziJela(
-            @RequestParam String naziv
-    ) {
+    public List<Jelo> pretraziJela(@RequestParam String naziv) {
         return jeloRepository.findByNazivContainingIgnoreCase(naziv);
     }
 

@@ -25,11 +25,9 @@ public class DashboardService {
 
     public DashboardDTO dohvatiDashboard(Long idKorisnik) {
 
-        Preporuka preporukaBaza =
-                izracunPreporukeService.dohvatiZadnjuPreporuku(idKorisnik);
+        Preporuka preporukaBaza = izracunPreporukeService.dohvatiZadnjuPreporuku(idKorisnik);
 
-        UkupniUnosDTO pojedenoBaza =
-                konzumacijaService.izracunajDnevniUnos(idKorisnik);
+        UkupniUnosDTO pojedenoBaza = konzumacijaService.izracunajDnevniUnos(idKorisnik);
 
         NutritivneVrijednostiDTO preporuka =
                 new NutritivneVrijednostiDTO(

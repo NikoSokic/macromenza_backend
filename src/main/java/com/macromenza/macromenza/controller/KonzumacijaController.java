@@ -52,44 +52,28 @@ public class KonzumacijaController {
     }
 
     @GetMapping("/ukupno/{idKorisnik}")
-    public UkupniUnosDTO ukupniUnos(
-            @PathVariable Long idKorisnik
-    ) {
-        return konzumacijaService
-                .izracunajDnevniUnos(idKorisnik);
+    public UkupniUnosDTO ukupniUnos(@PathVariable Long idKorisnik) {
+        return konzumacijaService.izracunajDnevniUnos(idKorisnik);
     }
 
     @GetMapping("/povijest/dani/{idKorisnik}")
-    public List<LocalDate> povijestDana(
-            @PathVariable Long idKorisnik
-    ){
-
-        return konzumacijaService
-                .dohvatiPovijestDana(
-                        idKorisnik
-                );
+    public List<LocalDate> povijestDana(@PathVariable Long idKorisnik) {
+        return konzumacijaService.dohvatiPovijestDana(idKorisnik);
     }
 
     @GetMapping("/povijest/{idKorisnik}")
-    public PovijestDanaDTO povijestZaDan(
-
-            @PathVariable Long idKorisnik,
-
-            @RequestParam LocalDate datum
-
-    ){
-
-        return konzumacijaService
-                .dohvatiPovijestZaDan(
-                        idKorisnik,
-                        datum
-                );
+    public PovijestDanaDTO povijestZaDan(@PathVariable Long idKorisnik, @RequestParam LocalDate datum) {
+        return konzumacijaService.dohvatiPovijestZaDan(idKorisnik, datum);
     }
 
     @GetMapping("/tjedni-pregled/{idKorisnik}")
-    public TjedniPregledDTO tjedniPregled(
-            @PathVariable Long idKorisnik
-    ) {
+    public TjedniPregledDTO tjedniPregled(@PathVariable Long idKorisnik) {
         return konzumacijaService.dohvatiTjedniPregled(idKorisnik);
     }
+
+    @PutMapping("/{id}")
+    public Konzumacija azurirajKonzumaciju(@PathVariable Long id,@RequestBody Konzumacija novaKonzumacija) {
+        return konzumacijaService.azurirajKonzumaciju(id, novaKonzumacija);
+    }
+
 }
