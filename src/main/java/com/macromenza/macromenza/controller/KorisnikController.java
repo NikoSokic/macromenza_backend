@@ -5,6 +5,7 @@ import com.macromenza.macromenza.repository.KorisnikRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/korisnici")
@@ -26,9 +27,25 @@ public class KorisnikController {
         return korisnikRepository.findById(id).orElse(null);
     }
 
+    @GetMapping("/supabase/{supabaseUid}")
+    public Korisnik getKorisnikPoSupabaseUid(@PathVariable UUID supabaseUid) {
+        return korisnikRepository.findBySupabaseUid(supabaseUid).orElse(null);
+    }
+
     @PostMapping
     public Korisnik dodajKorisnika(@RequestBody Korisnik korisnik) {
         return korisnikRepository.save(korisnik);
+    }
+
+    @PostMapping("/supabase")
+    public Korisnik pronadiIliDodajKorisnikaPrekoSupabase(@RequestBody Korisnik noviKorisnik) {
+        if (noviKorisnik.getSupabaseUid() == null) {
+            return null;
+        }
+
+        return korisnikRepository
+                .findBySupabaseUid(noviKorisnik.getSupabaseUid())
+                .orElseGet(() -> korisnikRepository.save(noviKorisnik));
     }
 
     @PutMapping("/{id}")
