@@ -17,7 +17,13 @@ public class JeloController {
     }
 
     @GetMapping
-    public List<Jelo> getSvaJela() {
+    public List<Jelo> getSvaJela(
+            @RequestParam(required = false) String search
+    ) {
+        if (search != null && !search.isBlank()) {
+            return jeloRepository.findByNazivContainingIgnoreCase(search);
+        }
+
         return jeloRepository.findAll();
     }
 

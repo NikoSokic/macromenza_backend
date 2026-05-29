@@ -3,6 +3,8 @@ package com.macromenza.macromenza.controller;
 import com.macromenza.macromenza.model.Preporuka;
 import com.macromenza.macromenza.repository.PreporukaRepository;
 import org.springframework.web.bind.annotation.*;
+import com.macromenza.macromenza.services.IzracunPreporukeService;
+
 
 import java.util.List;
 
@@ -11,10 +13,16 @@ import java.util.List;
 public class PreporukaController {
 
     private final PreporukaRepository preporukaRepository;
+    private final IzracunPreporukeService izracunPreporukeService;
 
-    public PreporukaController(PreporukaRepository preporukaRepository) {
+    public PreporukaController(
+            PreporukaRepository preporukaRepository,
+            IzracunPreporukeService izracunPreporukeService
+    ) {
         this.preporukaRepository = preporukaRepository;
+        this.izracunPreporukeService = izracunPreporukeService;
     }
+
 
     @GetMapping
     public List<Preporuka> getSvePreporuke() {
@@ -40,4 +48,10 @@ public class PreporukaController {
     public void obrisiPreporuku(@PathVariable Long id) {
         preporukaRepository.deleteById(id);
     }
+
+    @PostMapping("/izracunaj/{idKorisnik}")
+    public Preporuka izracunajPreporuku(@PathVariable Long idKorisnik) {
+        return izracunPreporukeService.izracunajPreporuku(idKorisnik);
+    }
+
 }

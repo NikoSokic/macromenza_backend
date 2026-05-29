@@ -31,7 +31,9 @@ public class IzracunPreporukeService {
     public Preporuka izracunajPreporuku(Long korisnikId) {
 
         Mjerenje mjerenje = mjerenjeRepository
-                .findTopByIdKorisnikOrderByDatumDesc(korisnikId)
+                .findZadnjaMjerenjaZaKorisnika(korisnikId)
+                .stream()
+                .findFirst()
                 .orElseThrow(() -> new RuntimeException("Korisnik nema mjerenje"));
 
         ProfilPodaci profil = profilPodaciRepository
@@ -96,6 +98,7 @@ public class IzracunPreporukeService {
         return preporukaRepository
                 .findTopByIdKorisnikOrderByIdDesc(korisnikId)
                 .orElseGet(() -> izracunajPreporuku(korisnikId));
+
     }
 
 
