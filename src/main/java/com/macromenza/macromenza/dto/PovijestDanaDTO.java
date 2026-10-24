@@ -1,5 +1,7 @@
 package com.macromenza.macromenza.dto;
 
+import java.math.BigDecimal;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -8,19 +10,19 @@ public class PovijestDanaDTO {
 
     private LocalDate datum;
 
-    private Integer ukupnoKalorije;
-    private Integer ukupnoProteini;
-    private Integer ukupnoUgljikohidrati;
-    private Integer ukupnoMasti;
+    private BigDecimal ukupnoKalorije;
+    private BigDecimal ukupnoProteini;
+    private BigDecimal ukupnoUgljikohidrati;
+    private BigDecimal ukupnoMasti;
 
     private Map<String, List<StavkaObrokaDTO>> obroci;
 
     public PovijestDanaDTO(
             LocalDate datum,
-            Integer ukupnoKalorije,
-            Integer ukupnoProteini,
-            Integer ukupnoUgljikohidrati,
-            Integer ukupnoMasti,
+            BigDecimal ukupnoKalorije,
+            BigDecimal ukupnoProteini,
+            BigDecimal ukupnoUgljikohidrati,
+            BigDecimal ukupnoMasti,
             Map<String, List<StavkaObrokaDTO>> obroci
     ) {
         this.datum = datum;
@@ -35,19 +37,19 @@ public class PovijestDanaDTO {
         return datum;
     }
 
-    public Integer getUkupnoKalorije() {
+    public BigDecimal getUkupnoKalorije() {
         return ukupnoKalorije;
     }
 
-    public Integer getUkupnoProteini() {
+    public BigDecimal getUkupnoProteini() {
         return ukupnoProteini;
     }
 
-    public Integer getUkupnoUgljikohidrati() {
+    public BigDecimal getUkupnoUgljikohidrati() {
         return ukupnoUgljikohidrati;
     }
 
-    public Integer getUkupnoMasti() {
+    public BigDecimal getUkupnoMasti() {
         return ukupnoMasti;
     }
 

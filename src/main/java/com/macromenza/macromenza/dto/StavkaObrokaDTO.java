@@ -1,5 +1,7 @@
 package com.macromenza.macromenza.dto;
 
+import java.math.BigDecimal;
+
 public class StavkaObrokaDTO {
 
     private String nazivJela;
@@ -7,19 +9,19 @@ public class StavkaObrokaDTO {
 
     private Integer kolicina;
 
-    private Integer kalorije;
-    private Integer proteini;
-    private Integer ugljikohidrati;
-    private Integer masti;
+    private BigDecimal kalorije;
+    private BigDecimal proteini;
+    private BigDecimal ugljikohidrati;
+    private BigDecimal masti;
 
     public StavkaObrokaDTO(
             String nazivJela,
             String tipObroka,
             Integer kolicina,
-            Integer kalorije,
-            Integer proteini,
-            Integer ugljikohidrati,
-            Integer masti
+            BigDecimal kalorije,
+            BigDecimal proteini,
+            BigDecimal ugljikohidrati,
+            BigDecimal masti
     ) {
         this.nazivJela = nazivJela;
         this.tipObroka = tipObroka;
@@ -42,19 +44,19 @@ public class StavkaObrokaDTO {
         return kolicina;
     }
 
-    public Integer getKalorije() {
+    public BigDecimal getKalorije() {
         return kalorije;
     }
 
-    public Integer getProteini() {
+    public BigDecimal getProteini() {
         return proteini;
     }
 
-    public Integer getUgljikohidrati() {
+    public BigDecimal getUgljikohidrati() {
         return ugljikohidrati;
     }
 
-    public Integer getMasti() {
+    public BigDecimal getMasti() {
         return masti;
     }
 }

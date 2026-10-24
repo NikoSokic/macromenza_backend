@@ -1,5 +1,7 @@
 package com.macromenza.macromenza.dto;
 
+import java.math.BigDecimal;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,10 +10,10 @@ public class TjedniPregledDTO {
     private LocalDate datumOd;
     private LocalDate datumDo;
 
-    private Integer ukupnoKalorije;
-    private Integer ukupnoProteini;
-    private Integer ukupnoUgljikohidrati;
-    private Integer ukupnoMasti;
+    private BigDecimal ukupnoKalorije;
+    private BigDecimal ukupnoProteini;
+    private BigDecimal ukupnoUgljikohidrati;
+    private BigDecimal ukupnoMasti;
 
     private Double prosjekKalorija;
 
@@ -20,10 +22,10 @@ public class TjedniPregledDTO {
     public TjedniPregledDTO(
             LocalDate datumOd,
             LocalDate datumDo,
-            Integer ukupnoKalorije,
-            Integer ukupnoProteini,
-            Integer ukupnoUgljikohidrati,
-            Integer ukupnoMasti,
+            BigDecimal ukupnoKalorije,
+            BigDecimal ukupnoProteini,
+            BigDecimal ukupnoUgljikohidrati,
+            BigDecimal ukupnoMasti,
             Double prosjekKalorija,
             List<DnevniPregledDTO> dani
     ) {
@@ -45,19 +47,19 @@ public class TjedniPregledDTO {
         return datumDo;
     }
 
-    public Integer getUkupnoKalorije() {
+    public BigDecimal getUkupnoKalorije() {
         return ukupnoKalorije;
     }
 
-    public Integer getUkupnoProteini() {
+    public BigDecimal getUkupnoProteini() {
         return ukupnoProteini;
     }
 
-    public Integer getUkupnoUgljikohidrati() {
+    public BigDecimal getUkupnoUgljikohidrati() {
         return ukupnoUgljikohidrati;
     }
 
-    public Integer getUkupnoMasti() {
+    public BigDecimal getUkupnoMasti() {
         return ukupnoMasti;
     }
 

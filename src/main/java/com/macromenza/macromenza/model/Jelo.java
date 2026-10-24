@@ -2,6 +2,8 @@ package com.macromenza.macromenza.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "jelo")
 public class Jelo {
@@ -13,10 +15,16 @@ public class Jelo {
     private String naziv;
     private String opis;
 
-    private Integer kalorije;
-    private Integer proteini;
-    private Integer ugljikohidrati;
-    private Integer masti;
+    private BigDecimal kalorije;
+    private BigDecimal proteini;
+    private BigDecimal ugljikohidrati;
+    private BigDecimal masti;
+
+    private Integer sifra;
+    private String kategorija;
+    private BigDecimal cijenaEur;
+    private String napomena;
+    private Boolean aktivno = true;
 
     public Jelo() {
     }
@@ -33,20 +41,40 @@ public class Jelo {
         return opis;
     }
 
-    public Integer getKalorije() {
+    public BigDecimal getKalorije() {
         return kalorije;
     }
 
-    public Integer getProteini() {
+    public BigDecimal getProteini() {
         return proteini;
     }
 
-    public Integer getUgljikohidrati() {
+    public BigDecimal getUgljikohidrati() {
         return ugljikohidrati;
     }
 
-    public Integer getMasti() {
+    public BigDecimal getMasti() {
         return masti;
+    }
+
+    public Integer getSifra() {
+        return sifra;
+    }
+
+    public String getKategorija() {
+        return kategorija;
+    }
+
+    public BigDecimal getCijenaEur() {
+        return cijenaEur;
+    }
+
+    public String getNapomena() {
+        return napomena;
+    }
+
+    public Boolean getAktivno() {
+        return aktivno;
     }
 
     public void setNaziv(String naziv) {
@@ -57,22 +85,39 @@ public class Jelo {
         this.opis = opis;
     }
 
-    public void setKalorije(Integer kalorije) {
+    public void setKalorije(BigDecimal kalorije) {
         this.kalorije = kalorije;
     }
 
-    public void setProteini(Integer proteini) {
+    public void setProteini(BigDecimal proteini) {
         this.proteini = proteini;
     }
 
-    public void setUgljikohidrati(Integer ugljikohidrati) {
+    public void setUgljikohidrati(BigDecimal ugljikohidrati) {
         this.ugljikohidrati = ugljikohidrati;
     }
 
-    public void setMasti(Integer masti) {
+    public void setMasti(BigDecimal masti) {
         this.masti = masti;
     }
 
+    public void setSifra(Integer sifra) {
+        this.sifra = sifra;
+    }
 
+    public void setKategorija(String kategorija) {
+        this.kategorija = kategorija;
+    }
+
+    public void setCijenaEur(BigDecimal cijenaEur) {
+        this.cijenaEur = cijenaEur;
+    }
+
+    public void setNapomena(String napomena) {
+        this.napomena = napomena;
+    }
+
+    public void setAktivno(Boolean aktivno) {
+        this.aktivno = aktivno;
+    }
 }
-

@@ -5,12 +5,15 @@ import com.macromenza.macromenza.dto.StavkaObrokaDTO;
 import com.macromenza.macromenza.dto.UkupniUnosDTO;
 import com.macromenza.macromenza.model.Konzumacija;
 import com.macromenza.macromenza.model.Jelo;
+import com.macromenza.macromenza.model.JeloNutritivno;
 import com.macromenza.macromenza.repository.KonzumacijaRepository;
+import com.macromenza.macromenza.repository.JeloNutritivnoRepository;
 import com.macromenza.macromenza.repository.JeloRepository;
 import com.macromenza.macromenza.dto.DnevniPregledDTO;
 import com.macromenza.macromenza.dto.TjedniPregledDTO;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +25,16 @@ public class KonzumacijaService {
 
     private final KonzumacijaRepository konzumacijaRepository;
     private final JeloRepository jeloRepository;
+    private final JeloNutritivnoRepository jeloNutritivnoRepository;
 
     public KonzumacijaService(
             KonzumacijaRepository konzumacijaRepository,
-            JeloRepository jeloRepository
+            JeloRepository jeloRepository,
+            JeloNutritivnoRepository jeloNutritivnoRepository
     ) {
         this.konzumacijaRepository = konzumacijaRepository;
         this.jeloRepository = jeloRepository;
+        this.jeloNutritivnoRepository = jeloNutritivnoRepository;
     }
 
     public Konzumacija dodajKonzumaciju(Konzumacija konzumacija) {
@@ -62,19 +68,20 @@ public class KonzumacijaService {
 
         UkupniUnosDTO rezultat = new UkupniUnosDTO();
 
-        int kalorije = 0;
-        int proteini = 0;
-        int ugljikohidrati = 0;
-        int masti = 0;
+        BigDecimal kalorije = BigDecimal.ZERO;
+        BigDecimal proteini = BigDecimal.ZERO;
+        BigDecimal ugljikohidrati = BigDecimal.ZERO;
+        BigDecimal masti = BigDecimal.ZERO;
 
         for (Konzumacija k : konzumacije) {
 
-            Jelo jelo = jeloRepository.findById(k.getIdJelo()).orElseThrow();
+            JeloNutritivno jelo = jeloNutritivnoRepository.findById(k.getIdJelo()).orElseThrow();
+            BigDecimal kolicina = BigDecimal.valueOf(k.getKolicina());
 
-            kalorije += jelo.getKalorije() * k.getKolicina();
-            proteini += jelo.getProteini() * k.getKolicina();
-            ugljikohidrati += jelo.getUgljikohidrati() * k.getKolicina();
-            masti += jelo.getMasti() * k.getKolicina();
+            kalorije = kalorije.add(jelo.getKalorije().multiply(kolicina));
+            proteini = proteini.add(jelo.getProteini().multiply(kolicina));
+            ugljikohidrati = ugljikohidrati.add(jelo.getUgljikohidrati().multiply(kolicina));
+            masti = masti.add(jelo.getMasti().multiply(kolicina));
         }
 
         rezultat.setKalorije(kalorije);
@@ -110,33 +117,38 @@ public class KonzumacijaService {
                                     .findById(k.getIdJelo())
                                     .orElseThrow();
 
+                            JeloNutritivno nutritivno = jeloNutritivnoRepository
+                                    .findById(k.getIdJelo())
+                                    .orElseThrow();
+                            BigDecimal kolicina = BigDecimal.valueOf(k.getKolicina());
+
                             return new StavkaObrokaDTO(
                                     jelo.getNaziv(),
                                     k.getTip_obroka(),
                                     k.getKolicina(),
-                                    jelo.getKalorije() * k.getKolicina(),
-                                    jelo.getProteini() * k.getKolicina(),
-                                    jelo.getUgljikohidrati() * k.getKolicina(),
-                                    jelo.getMasti() * k.getKolicina()
+                                    nutritivno.getKalorije().multiply(kolicina),
+                                    nutritivno.getProteini().multiply(kolicina),
+                                    nutritivno.getUgljikohidrati().multiply(kolicina),
+                                    nutritivno.getMasti().multiply(kolicina)
                             );
                         })
                         .toList();
 
-        int kalorije = stavke.stream()
-                        .mapToInt(StavkaObrokaDTO::getKalorije)
-                        .sum();
+        BigDecimal kalorije = stavke.stream()
+                        .map(StavkaObrokaDTO::getKalorije)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        int proteini = stavke.stream()
-                        .mapToInt(StavkaObrokaDTO::getProteini)
-                        .sum();
+        BigDecimal proteini = stavke.stream()
+                        .map(StavkaObrokaDTO::getProteini)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        int ugljikohidrati = stavke.stream()
-                        .mapToInt(StavkaObrokaDTO::getUgljikohidrati)
-                        .sum();
+        BigDecimal ugljikohidrati = stavke.stream()
+                        .map(StavkaObrokaDTO::getUgljikohidrati)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        int masti = stavke.stream()
-                        .mapToInt(StavkaObrokaDTO::getMasti)
-                        .sum();
+        BigDecimal masti = stavke.stream()
+                        .map(StavkaObrokaDTO::getMasti)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         Map<String, List<StavkaObrokaDTO>> obroci = stavke.stream()
                         .collect(Collectors.groupingBy(StavkaObrokaDTO::getTipObroka)
@@ -160,40 +172,41 @@ public class KonzumacijaService {
 
         List<DnevniPregledDTO> dani = new ArrayList<>();
 
-        int ukupnoKalorije = 0;
-        int ukupnoProteini = 0;
-        int ukupnoUgljikohidrati = 0;
-        int ukupnoMasti = 0;
+        BigDecimal ukupnoKalorije = BigDecimal.ZERO;
+        BigDecimal ukupnoProteini = BigDecimal.ZERO;
+        BigDecimal ukupnoUgljikohidrati = BigDecimal.ZERO;
+        BigDecimal ukupnoMasti = BigDecimal.ZERO;
 
         for (LocalDate datum = datumOd; !datum.isAfter(datumDo); datum = datum.plusDays(1)) {
 
-            int kalorijeDan = 0;
-            int proteiniDan = 0;
-            int ugljikohidratiDan = 0;
-            int mastiDan = 0;
+            BigDecimal kalorijeDan = BigDecimal.ZERO;
+            BigDecimal proteiniDan = BigDecimal.ZERO;
+            BigDecimal ugljikohidratiDan = BigDecimal.ZERO;
+            BigDecimal mastiDan = BigDecimal.ZERO;
 
             for (Konzumacija k : konzumacije) {
 
                 if (k.getDatum().equals(datum)) {
 
-                    Jelo jelo = jeloRepository.findById(k.getIdJelo()).orElseThrow();
+                    JeloNutritivno jelo = jeloNutritivnoRepository.findById(k.getIdJelo()).orElseThrow();
+                    BigDecimal kolicina = BigDecimal.valueOf(k.getKolicina());
 
-                    kalorijeDan += jelo.getKalorije() * k.getKolicina();
-                    proteiniDan += jelo.getProteini() * k.getKolicina();
-                    ugljikohidratiDan += jelo.getUgljikohidrati() * k.getKolicina();
-                    mastiDan += jelo.getMasti() * k.getKolicina();
+                    kalorijeDan = kalorijeDan.add(jelo.getKalorije().multiply(kolicina));
+                    proteiniDan = proteiniDan.add(jelo.getProteini().multiply(kolicina));
+                    ugljikohidratiDan = ugljikohidratiDan.add(jelo.getUgljikohidrati().multiply(kolicina));
+                    mastiDan = mastiDan.add(jelo.getMasti().multiply(kolicina));
                 }
             }
 
-            ukupnoKalorije += kalorijeDan;
-            ukupnoProteini += proteiniDan;
-            ukupnoUgljikohidrati += ugljikohidratiDan;
-            ukupnoMasti += mastiDan;
+            ukupnoKalorije = ukupnoKalorije.add(kalorijeDan);
+            ukupnoProteini = ukupnoProteini.add(proteiniDan);
+            ukupnoUgljikohidrati = ukupnoUgljikohidrati.add(ugljikohidratiDan);
+            ukupnoMasti = ukupnoMasti.add(mastiDan);
 
             dani.add(new DnevniPregledDTO(datum, kalorijeDan, proteiniDan, ugljikohidratiDan, mastiDan));
         }
 
-        double prosjekKalorija = ukupnoKalorije / 7.0;
+        double prosjekKalorija = ukupnoKalorije.doubleValue() / 7.0;
 
         return new TjedniPregledDTO(
                 datumOd,

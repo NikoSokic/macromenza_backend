@@ -1,21 +1,23 @@
 package com.macromenza.macromenza.dto;
 
+import java.math.BigDecimal;
+
 import java.time.LocalDate;
 
 public class DnevniPregledDTO {
 
     private LocalDate datum;
-    private Integer kalorije;
-    private Integer proteini;
-    private Integer ugljikohidrati;
-    private Integer masti;
+    private BigDecimal kalorije;
+    private BigDecimal proteini;
+    private BigDecimal ugljikohidrati;
+    private BigDecimal masti;
 
     public DnevniPregledDTO(
             LocalDate datum,
-            Integer kalorije,
-            Integer proteini,
-            Integer ugljikohidrati,
-            Integer masti
+            BigDecimal kalorije,
+            BigDecimal proteini,
+            BigDecimal ugljikohidrati,
+            BigDecimal masti
     ) {
         this.datum = datum;
         this.kalorije = kalorije;
@@ -28,19 +30,19 @@ public class DnevniPregledDTO {
         return datum;
     }
 
-    public Integer getKalorije() {
+    public BigDecimal getKalorije() {
         return kalorije;
     }
 
-    public Integer getProteini() {
+    public BigDecimal getProteini() {
         return proteini;
     }
 
-    public Integer getUgljikohidrati() {
+    public BigDecimal getUgljikohidrati() {
         return ugljikohidrati;
     }
 
-    public Integer getMasti() {
+    public BigDecimal getMasti() {
         return masti;
     }
 }

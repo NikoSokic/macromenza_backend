@@ -1,51 +1,53 @@
 package com.macromenza.macromenza.dto;
 
+import java.math.BigDecimal;
+
 public class NutritivneVrijednostiDTO {
 
-    private Integer kalorije;
-    private Integer proteini;
-    private Integer ugljikohidrati;
-    private Integer masti;
+    private BigDecimal kalorije;
+    private BigDecimal proteini;
+    private BigDecimal ugljikohidrati;
+    private BigDecimal masti;
 
     public NutritivneVrijednostiDTO() {
     }
 
-    public NutritivneVrijednostiDTO(Integer kalorije, Integer proteini, Integer ugljikohidrati, Integer masti) {
+    public NutritivneVrijednostiDTO(BigDecimal kalorije, BigDecimal proteini, BigDecimal ugljikohidrati, BigDecimal masti) {
         this.kalorije = kalorije;
         this.proteini = proteini;
         this.ugljikohidrati = ugljikohidrati;
         this.masti = masti;
     }
 
-    public Integer getKalorije() {
+    public BigDecimal getKalorije() {
         return kalorije;
     }
 
-    public void setKalorije(Integer kalorije) {
+    public void setKalorije(BigDecimal kalorije) {
         this.kalorije = kalorije;
     }
 
-    public Integer getProteini() {
+    public BigDecimal getProteini() {
         return proteini;
     }
 
-    public void setProteini(Integer proteini) {
+    public void setProteini(BigDecimal proteini) {
         this.proteini = proteini;
     }
 
-    public Integer getUgljikohidrati() {
+    public BigDecimal getUgljikohidrati() {
         return ugljikohidrati;
     }
 
-    public void setUgljikohidrati(Integer ugljikohidrati) {
+    public void setUgljikohidrati(BigDecimal ugljikohidrati) {
         this.ugljikohidrati = ugljikohidrati;
     }
 
-    public Integer getMasti() {
+    public BigDecimal getMasti() {
         return masti;
     }
 
-    public void setMasti(Integer masti) {
+    public void setMasti(BigDecimal masti) {
         this.masti = masti;
     }
 }

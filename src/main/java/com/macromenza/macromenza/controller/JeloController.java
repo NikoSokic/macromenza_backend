@@ -1,9 +1,12 @@
 package com.macromenza.macromenza.controller;
 
+import com.macromenza.macromenza.dto.JeloDTO;
 import com.macromenza.macromenza.model.Jelo;
 import com.macromenza.macromenza.repository.JeloRepository;
+import com.macromenza.macromenza.services.JeloService;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -11,25 +14,23 @@ import java.util.List;
 public class JeloController {
 
     private final JeloRepository jeloRepository;
+    private final JeloService jeloService;
 
-    public JeloController(JeloRepository jeloRepository) {
+    public JeloController(JeloRepository jeloRepository, JeloService jeloService) {
         this.jeloRepository = jeloRepository;
+        this.jeloService = jeloService;
     }
 
     @GetMapping
-    public List<Jelo> getSvaJela(
+    public List<JeloDTO> getSvaJela(
             @RequestParam(required = false) String search
     ) {
-        if (search != null && !search.isBlank()) {
-            return jeloRepository.findByNazivContainingIgnoreCase(search);
-        }
-
-        return jeloRepository.findAll();
+        return jeloService.dohvatiJela(search);
     }
 
     @GetMapping("/{id}")
-    public Jelo getJeloPoId(@PathVariable Long id) {
-        return jeloRepository.findById(id).orElse(null);
+    public JeloDTO getJeloPoId(@PathVariable Long id) {
+        return jeloService.dohvatiJelo(id).orElse(null);
     }
 
     @PostMapping
@@ -61,32 +62,27 @@ public class JeloController {
     }
 
     @GetMapping("/pretraga")
-    public List<Jelo> pretraziJela(@RequestParam String naziv) {
-        return jeloRepository.findByNazivContainingIgnoreCase(naziv);
+    public List<JeloDTO> pretraziJela(@RequestParam String naziv) {
+        return jeloService.dohvatiJela(naziv);
     }
 
     @GetMapping("/filter")
-    public List<Jelo> filtrirajJela(
-            @RequestParam(required = false) Integer minKalorije,
-            @RequestParam(required = false) Integer maxKalorije,
-            @RequestParam(required = false) Integer minProteini,
-            @RequestParam(required = false) Integer maxProteini,
-            @RequestParam(required = false) Integer minUgljikohidrati,
-            @RequestParam(required = false) Integer maxUgljikohidrati,
-            @RequestParam(required = false) Integer minMasti,
-            @RequestParam(required = false) Integer maxMasti
+    public List<JeloDTO> filtrirajJela(
+            @RequestParam(required = false) BigDecimal minKalorije,
+            @RequestParam(required = false) BigDecimal maxKalorije,
+            @RequestParam(required = false) BigDecimal minProteini,
+            @RequestParam(required = false) BigDecimal maxProteini,
+            @RequestParam(required = false) BigDecimal minUgljikohidrati,
+            @RequestParam(required = false) BigDecimal maxUgljikohidrati,
+            @RequestParam(required = false) BigDecimal minMasti,
+            @RequestParam(required = false) BigDecimal maxMasti
     ) {
-        return jeloRepository.findAll()
-                .stream()
-                .filter(jelo -> minKalorije == null || jelo.getKalorije() >= minKalorije)
-                .filter(jelo -> maxKalorije == null || jelo.getKalorije() <= maxKalorije)
-                .filter(jelo -> minProteini == null || jelo.getProteini() >= minProteini)
-                .filter(jelo -> maxProteini == null || jelo.getProteini() <= maxProteini)
-                .filter(jelo -> minUgljikohidrati == null || jelo.getUgljikohidrati() >= minUgljikohidrati)
-                .filter(jelo -> maxUgljikohidrati == null || jelo.getUgljikohidrati() <= maxUgljikohidrati)
-                .filter(jelo -> minMasti == null || jelo.getMasti() >= minMasti)
-                .filter(jelo -> maxMasti == null || jelo.getMasti() <= maxMasti)
-                .toList();
+        return jeloService.filtrirajJela(
+                minKalorije, maxKalorije,
+                minProteini, maxProteini,
+                minUgljikohidrati, maxUgljikohidrati,
+                minMasti, maxMasti
+        );
     }
 
 

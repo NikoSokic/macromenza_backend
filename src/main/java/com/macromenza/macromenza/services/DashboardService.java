@@ -7,6 +7,8 @@ import com.macromenza.macromenza.model.Preporuka;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 
 
 @Service
@@ -31,10 +33,10 @@ public class DashboardService {
 
         NutritivneVrijednostiDTO preporuka =
                 new NutritivneVrijednostiDTO(
-                        preporukaBaza.getKalorije(),
-                        preporukaBaza.getProteini(),
-                        preporukaBaza.getUgljikohidrati(),
-                        preporukaBaza.getMasti()
+                        BigDecimal.valueOf(preporukaBaza.getKalorije()),
+                        BigDecimal.valueOf(preporukaBaza.getProteini()),
+                        BigDecimal.valueOf(preporukaBaza.getUgljikohidrati()),
+                        BigDecimal.valueOf(preporukaBaza.getMasti())
                 );
 
         NutritivneVrijednostiDTO pojedeno =
@@ -47,10 +49,10 @@ public class DashboardService {
 
         NutritivneVrijednostiDTO preostalo =
                 new NutritivneVrijednostiDTO(
-                        preporuka.getKalorije() - pojedeno.getKalorije(),
-                        preporuka.getProteini() - pojedeno.getProteini(),
-                        preporuka.getUgljikohidrati() - pojedeno.getUgljikohidrati(),
-                        preporuka.getMasti() - pojedeno.getMasti()
+                        preporuka.getKalorije().subtract(pojedeno.getKalorije()),
+                        preporuka.getProteini().subtract(pojedeno.getProteini()),
+                        preporuka.getUgljikohidrati().subtract(pojedeno.getUgljikohidrati()),
+                        preporuka.getMasti().subtract(pojedeno.getMasti())
                 );
 
         return new DashboardDTO(preporuka, pojedeno, preostalo);

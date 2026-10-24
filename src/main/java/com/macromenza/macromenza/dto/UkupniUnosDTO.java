@@ -1,43 +1,45 @@
 package com.macromenza.macromenza.dto;
 
+import java.math.BigDecimal;
+
 public class UkupniUnosDTO {
 
-    private Integer kalorije;
-    private Integer proteini;
-    private Integer ugljikohidrati;
-    private Integer masti;
+    private BigDecimal kalorije;
+    private BigDecimal proteini;
+    private BigDecimal ugljikohidrati;
+    private BigDecimal masti;
 
     public UkupniUnosDTO() {}
 
-    public Integer getKalorije() {
+    public BigDecimal getKalorije() {
         return kalorije;
     }
 
-    public void setKalorije(Integer kalorije) {
+    public void setKalorije(BigDecimal kalorije) {
         this.kalorije = kalorije;
     }
 
-    public Integer getProteini() {
+    public BigDecimal getProteini() {
         return proteini;
     }
 
-    public void setProteini(Integer proteini) {
+    public void setProteini(BigDecimal proteini) {
         this.proteini = proteini;
     }
 
-    public Integer getUgljikohidrati() {
+    public BigDecimal getUgljikohidrati() {
         return ugljikohidrati;
     }
 
-    public void setUgljikohidrati(Integer ugljikohidrati) {
+    public void setUgljikohidrati(BigDecimal ugljikohidrati) {
         this.ugljikohidrati = ugljikohidrati;
     }
 
-    public Integer getMasti() {
+    public BigDecimal getMasti() {
         return masti;
     }
 
-    public void setMasti(Integer masti) {
+    public void setMasti(BigDecimal masti) {
         this.masti = masti;
     }
 }

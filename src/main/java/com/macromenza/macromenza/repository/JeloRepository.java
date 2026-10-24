@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface JeloRepository extends JpaRepository<Jelo, Long> {
-    List<Jelo> findByNazivContainingIgnoreCase(String naziv);
+    List<Jelo> findByAktivnoTrueOrderByNaziv();
 
+    List<Jelo> findByAktivnoTrueAndNazivContainingIgnoreCaseOrderByNaziv(String naziv);
 }
