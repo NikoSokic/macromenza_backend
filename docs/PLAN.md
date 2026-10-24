@@ -7,7 +7,7 @@ Jedan korak = jedna funkcija, kompletno backend + frontend. Status: ⬜ nije zap
 | 1 | Lokalno pokretanje (ispravak `postgres}` u URL-u, `BASE_URL` iz `local.properties`), pregled baze u `docs/STANJE_BAZE.md` | ✅ |
 | 2 | Tablica `namirnica` (iz `namirnice.csv`) | ✅ |
 | 3 | `jelo_sastojak`, uvoz 311 jela, SQL view s izračunom, decimalne vrijednosti, zamjena starih jela | ✅ |
-| 4 | Meniji: `meni`, `meni_stavka` (84) + endpoint | ⬜ |
+| 4 | Meniji: `meni`, `meni_stavka` (84) + endpoint | ✅ |
 | 5 | Obrok kao cjelina (`obrok`: datum, vrijeme, tip, izvor), spremanje u jednom pozivu, odabir datuma i vremena, porcije po 0,5 | ⬜ |
 | 6 | Pretraga po kategorijama i "Često jedeš" (filter po makronutrijentima ostaje) | ⬜ |
 | 7 | Detalj jela: sastojci, gramaža, napomena | ⬜ |
