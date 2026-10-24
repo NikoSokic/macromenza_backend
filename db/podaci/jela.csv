@@ -1,0 +1,312 @@
+id,naziv,kategorija,masa_sastojaka_g,cijena_eur,napomena,kcal_ocekivano
+0,Juha od graška,Juhe,54,0.39,,106
+1,Juha od kosti,Juhe,96,0.39,,78
+2,Juha od krumpira,Juhe,125,0.39,,172
+3,Juha od povrća,Juhe,103,0.39,,133
+4,Juha od graha-krem,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost.,60
+5,Juha od riba,Juhe,301,0.39,,226
+6,Juha bistra,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost (200 ml).,60
+7,Juha od brokule,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost (200 ml).,60
+8,Juha od cvjetače,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost (200 ml).,60
+9,Juha od gljiva,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost (200 ml).,60
+10,Juha proljetna,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost (200 ml).,60
+11,Juha od rajčice,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost (200 ml).,60
+12,Juha od junećeg mesa,Juhe,157,0.39,,254
+13,Juha od šparoga,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost (200 ml).,60
+14,Juha od griza,Juhe,21,0.39,,84
+15,Juha bečka,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost (200 ml).,60
+16,Juha francuska,Juhe,200,0.39,Gotova juha iz vrećice; okvirna vrijednost (200 ml).,60
+17,Kotlet na roštilju,Glavna jela,163,1.62,,329
+18,Kotlet u povrću,Glavna jela,298,1.84,,408
+19,Paprikaš svinjski,Glavna jela,207,1.51,,313
+20,Pečena svinjetina,Glavna jela,154,1.39,,282
+21,Pohana svinjetina,Glavna jela,184,1.66,,434
+22,Svinjski rižoto,Glavna jela,249,1.67,,484
+23,Juneći gulaš,Glavna jela,210,2.18,,307
+24,Junetina kao divljač,Glavna jela,208,2.04,,330
+25,Junetina s graškom,Glavna jela,268,2.15,,365
+26,Junetina s krast. i vrhnjem,Glavna jela,227,2.1,,359
+27,Juneći odrezak,Glavna jela,260,2.31,,372
+28,Kuhana junetina,Glavna jela,142,1.9,,182
+29,Punjena junetina s jajima,Glavna jela,202,2.08,,355
+30,Špikana junetina,Glavna jela,250,2.08,,359
+31,Kosani odrezak,Glavna jela,170,1.51,,431
+32,Kosana štruca,Glavna jela,166,1.51,,418
+33,Mesne okruglice u umaku od rajčice,Glavna jela,186,1.63,,434
+34,Musaka,Glavna jela,595,1.94,,726
+35,Pljeskavica,Glavna jela,264,2.26,,568
+36,Punjena paprika,Glavna jela,308,2.19,,512
+37,Sarma,Glavna jela,412,1.79,,452
+38,Špageti »Bolonjez«,Glavna jela,277,1.68,,729
+39,Tjestenina s mesom,Glavna jela,273,1.68,,751
+40,Pečena piletina,Glavna jela,262,1.49,,488
+41,Pileći paprikaš,Glavna jela,311,1.54,,531
+42,Pileći rižoto,Glavna jela,306,1.44,,695
+43,Piletina na primoštenski,Glavna jela,562,2.07,,736
+44,Lignje na buzaru,Glavna jela,265,2.05,,333
+45,Odrezak od tune (pohani),Glavna jela,239,2.02,,520
+46,Odrezak od tune,Glavna jela,167,2.02,,298
+47,Panirani štapići od liganja,Glavna jela,215,2.05,,573
+48,Pohani oslić bez glave,Glavna jela,274,1.94,,451
+49,Pohani oslić file,Glavna jela,274,1.94,,707
+50,Pohani riblji štapići,Glavna jela,217,1.99,,573
+51,Pržene lignje,Glavna jela,237,2.05,,389
+52,Pržene srdele,Glavna jela,217,0.99,,448
+53,Rižoto od liganja,Glavna jela,267,1.59,,507
+54,Tjestenina s tunom i šampinjonima,Glavna jela,293,2.02,,591
+55,Pileće hrenovke,Glavna jela,150,1.4,,345
+56,Jetra roštilj,Glavna jela,194,1.63,,332
+57,Suha rebra,Glavna jela,200,1.37,,560
+58,Tjestenina »Milanes«,Glavna jela,288,1.75,,692
+59,Rižoto sir i šunka,Glavna jela,207,1.51,,503
+60,Kotlet Samoborski,Glavna jela,184,1.76,,394
+61,Paprikaš s graškom,Glavna jela,277,1.59,,432
+62,Paprikaš s mahunama,Glavna jela,277,1.59,,397
+63,Gulaš s mahunama,Glavna jela,292,2.32,,373
+64,Gulaš s vinom,Glavna jela,434,2.32,,525
+65,Junetina pirjana u vinu,Glavna jela,216,2.11,,367
+66,Lazanje,Glavna jela,360,1.94,,780
+67,Lignje na salatu s krumpirom,Glavna jela,454,2.05,,489
+68,Oslić prženi BG,Glavna jela,218,1.94,,277
+69,Srdela panirana gotova,Glavna jela,205,1.11,,551
+70,Kobasice kuhane kranjske,Glavna jela,160,1.39,,480
+71,Pečenice,Glavna jela,210,1.39,,688
+72,Pileći file na žaru,Glavna jela,165,1.86,,253
+73,Lazanje od povrća,Vegetarijanska jela,557,1.99,"U normativu stoji 67 g ulja po porciji, pa je vrijednost vjerojatno previsoka.",1350
+74,Lazanje od soje,Vegetarijanska jela,579,1.99,"U normativu stoji 67 g ulja po porciji, pa je vrijednost vjerojatno previsoka.",1572
+75,Musaka od šampinjona,Vegetarijanska jela,563,1.04,,422
+76,Odrezak od cvjetače,Vegetarijanska jela,299,0.73,,224
+77,Odrezak od krumpira,Vegetarijanska jela,299,0.4,,354
+78,Pohana cvjetača,Vegetarijanska jela,439,1.17,,443
+79,Pohane tikvice,Vegetarijanska jela,364,1.61,,261
+80,Okruglice od soje,Vegetarijanska jela,138,0.52,,400
+81,Kuhana jaja (2 kom),Vegetarijanska jela,110,0.53,,157
+82,Kuhano povrće s bešamelom,Vegetarijanska jela,275,0.52,,192
+83,Musaka od soja ljuspica,Vegetarijanska jela,174,0.6,,385
+84,Odrezak od blitve,Vegetarijanska jela,179,0.62,,186
+85,Odrezak od kelja,Vegetarijanska jela,179,0.47,,197
+86,Odrezak od soje,Vegetarijanska jela,115,0.55,,371
+87,Odrezak od tikvica,Vegetarijanska jela,179,0.71,,184
+88,Pirjani šampinjoni,Vegetarijanska jela,230,0.54,,178
+89,Pohana brokula,Vegetarijanska jela,439,1.45,,474
+90,Pohani celer,Vegetarijanska jela,364,1.53,,336
+91,Pohani patliđani,Vegetarijanska jela,369,1.82,,354
+92,Pohani sir,Vegetarijanska jela,189,1.35,,711
+93,Pohani soja medaljoni,Vegetarijanska jela,150,0.66,,548
+94,Pohani šampinjoni,Vegetarijanska jela,269,0.66,,395
+95,Ražnjići od soja medaljona,Vegetarijanska jela,93,0.6,,371
+96,Soja steak pohani,Vegetarijanska jela,155,1.41,,557
+97,Soja steak prženi,Vegetarijanska jela,93,1.26,,371
+98,Šampinjoni zapečeni sa sirom,Vegetarijanska jela,279,0.89,,695
+99,Zapečeno tijesto sa sirom,Vegetarijanska jela,242,0.9,,703
+100,Tortellini sa sirom i umakom od dvije vrste sira,Vegetarijanska jela,307,1.99,,687
+101,Tortellini sa sirom i umakom od rajčice,Vegetarijanska jela,204,1.45,,615
+102,Tortellini sa sirom i umakom od svježeg sira,Vegetarijanska jela,422,1.99,,783
+103,Tortellini sa sirom i umakom od šampinjona,Vegetarijanska jela,252,1.79,,589
+104,Tortellini sa špinatom i umakom od dvije vrste sira,Vegetarijanska jela,307,1.99,,672
+105,Tortellini sa špinatom i umakom od rajčice,Vegetarijanska jela,204,1.45,,600
+106,Tortellini sa špinatom i umakom od svježeg sira,Vegetarijanska jela,422,1.99,,768
+107,Tortellini sa špinatom i umakom od šampinjona,Vegetarijanska jela,252,1.79,,574
+108,Blitva na lešo,Prilozi,362,0.74,,242
+109,Brokula na lešo,Prilozi,362,0.74,,272
+110,Cvjetača s mrvicama,Prilozi,287,0.74,,274
+111,Đuveč,Prilozi,238,0.55,,364
+112,Grašak na margarinu,Prilozi,284,0.6,,266
+113,Grašak s mrkvom,Prilozi,259,0.55,,218
+114,Grašak u umaku,Prilozi,173,0.55,,221
+115,Gratinirana tjestenina,Prilozi,229,0.58,,631
+116,Kelj na lešo,Prilozi,362,0.55,,258
+117,Kelj pupčar (prokulica) na lešo,Prilozi,262,0.55,,196
+118,Kroketi,Prilozi,115,0.8,,293
+119,Krpice sa zeljem,Prilozi,280,0.55,,444
+120,Krumpir pekarski,Prilozi,343,0.6,,331
+121,Kuhana cvjetača,Prilozi,263,0.64,,135
+122,Kuhana mrkva,Prilozi,262,0.55,,174
+123,Kukuruz,Prilozi,202,0.55,,172
+124,Kupus kiseli pirjani,Prilozi,241,0.55,,113
+125,Kupus u rajčici,Prilozi,240,0.55,,185
+126,Mahune s mrvicama,Prilozi,272,0.55,,205
+127,Mahune u umaku,Prilozi,184,0.55,,184
+128,Mlinci,Prilozi,107,0.51,,442
+129,Miješano povrće s krumpirom,Prilozi,315,0.55,,313
+130,Meksička mješavina (smrznuta),Prilozi,208,0.55,,183
+131,Okruglice od kruha,Prilozi,180,0.55,,453
+132,Pečeni krumpir,Prilozi,312,0.6,,319
+133,Pire krumpir,Prilozi,322,0.51,,302
+134,Pirjani ječam,Prilozi,96,0.55,,373
+135,Pohani patliđani (prilozi),Prilozi,264,1.11,,321
+136,Pohane tikvice (prilozi),Prilozi,264,0.96,,305
+137,Pomfrit,Prilozi,267,0.6,,508
+138,Restani krumpir,Prilozi,327,0.51,,325
+139,Rezanci s brokulom,Prilozi,246,1.06,,481
+140,Rizi-bizi,Prilozi,181,0.55,,419
+141,Riža kuhana,Prilozi,78,0.51,,288
+142,Riža pirjana,Prilozi,97,0.51,,378
+143,Rižoto od šampinjona,Prilozi,148,0.55,,278
+144,Salata grah-prilog,Prilozi,137,0.55,,429
+145,Savijača s povrćem,Prilozi,214,0.77,,673
+146,Slani krumpir,Prilozi,309,0.51,,284
+147,Špinat na mlijeku,Prilozi,542,0.55,,397
+148,Tjestenina zapečena,Prilozi,194,0.52,,558
+149,Tjestenina,Prilozi,112,0.51,,459
+150,Valjušci rađeni,Prilozi,269,0.55,,544
+151,Njoki,Prilozi,220,0.55,,472
+152,Zapečena cvjetača,Prilozi,349,0.84,,308
+153,Zapečeni grah,Prilozi,246,0.99,,589
+154,Zeleni rižoto,Prilozi,146,0.86,,484
+155,Žganci,Prilozi,87,0.51,,337
+156,Krumpir s tijestom,Prilozi,197,0.51,,431
+157,Grašak u umaku s restanim krumpirom,Prilozi,312,0.55,,344
+158,"Grašak, mrkva, krumpir",Prilozi,335,0.55,,337
+159,"Kukuruz, mrkva, grašak",Prilozi,219,0.55,,203
+160,"Salata od krumpira, prilog",Prilozi,237,0.51,,250
+161,Riža s rajčicom,Prilozi,106,0.55,,386
+162,Sataraš,Prilozi,139,0.55,,168
+163,Šalša,Prilozi,276,0.55,,152
+164,Špinat na mlijeku s krumpirom,Prilozi,369,0.55,,369
+165,Kupus u rajčici s krumpirom,Prilozi,351,0.55,,316
+166,Fino varivo,Variva,267,0.63,,302
+167,Grah varivo,Variva,139,0.63,,472
+168,Grah varivo s kiselim kupusom,Variva,179,0.63,,417
+169,Grah varivo s kiselom repom,Variva,179,0.63,,417
+170,Grah varivo s tjesteninom,Variva,141,0.63,,484
+171,Varivo od cvjetače,Variva,357,0.66,,294
+172,Varivo od graška,Variva,323,0.66,,361
+173,Varivo od kelja,Variva,358,0.66,,318
+174,Varivo od mahuna,Variva,318,0.66,,280
+175,Varivo od poriluka,Variva,358,0.8,,380
+176,Varivo ričet,Variva,132,0.63,,477
+177,Varivo od korabice,Variva,359,0.66,,299
+178,Varivo od slanutka,Variva,139,0.63,,500
+179,Salata od svj. cikle,Salate,187,0.26,,215
+180,Salata od graha,Salate,90,0.32,,294
+181,Salata od svj. kupusa,Salate,162,0.29,,125
+182,Salata od kupusa – svj. crvenog,Salate,162,0.29,,125
+183,Salata od kis. kupusa,Salate,130,0.26,,111
+184,Salata od kis. cikle,Salate,102,0.38,,32
+185,Salata od kis. krastavaca,Salate,94,0.38,,11
+186,Salata od kis. paprike-filet,Salate,102,0.38,,26
+187,Salata miješana kisela,Salate,102,0.38,,31
+188,Salata od svj. krastavaca,Salate,172,0.37,,113
+189,Salata miješana sezonska,Salate,182,0.57,,120
+190,Salata od mrkvice,Salate,160,0.31,,72
+191,Salata od rajčice,Salate,192,0.57,,125
+192,Zelena salata,Salate,122,0.4,,105
+193,Salata krumpir,Salate,130,0.26,,171
+194,Salata mahune,Salate,135,0.27,,126
+195,Salata miješana,Salate,131,0.38,,262
+196,Puding čokolada,Deserti,125,0.31,,138
+197,Puding vanilija,Deserti,125,0.31,,138
+198,Kompot breskva,Deserti,200,0.37,,140
+199,Kompot višnja,Deserti,200,0.53,,140
+200,Voće – jabuka,Voće,180,0.36,,94
+201,Voće – naranča,Voće,180,0.36,,85
+202,Voće – banana,Voće,180,0.36,,160
+203,Voće – mandarina,Voće,180,0.36,,95
+204,Voće – lubenica,Voće,180,0.36,,54
+205,"Kruh polubijeli (0,800 kg)",Kruh i pecivo,50,0.03,,130
+206,Pecivo,Kruh i pecivo,100,0.16,,280
+207,Meni kolač,Deserti,100,0.53,,380
+208,Probiotik,Mliječni proizvodi,180,0.33,,117
+209,Jogurt,Mliječni proizvodi,190,0.29,,114
+210,Vrhnje kiselo,Mliječni proizvodi,190,0.4,,256
+211,Desertni jogurt,Mliječni proizvodi,165,0.38,,182
+212,Voćni jogurt,Mliječni proizvodi,190,0.38,,180
+213,Čaj,Napitci,10,0.15,,21
+214,Kakao,Napitci,167,0.27,,122
+215,Bijela kava,Napitci,169,0.21,,132
+216,Mlijeko,Napitci,200,0.27,,122
+217,Bečki odrezak,Jela po narudžbi,224,2.15,,528
+218,Kotlet na roštilju (2 kom),Jela po narudžbi,213,2.27,,409
+219,Naravni odrezak,Jela po narudžbi,172,2.15,,329
+220,Odrezak Ljubljanski,Jela po narudžbi,244,2.15,,603
+221,Pariški odrezak,Jela po narudžbi,208,1.7,,468
+222,Ražnjići,Jela po narudžbi,162,2.05,,292
+223,Zagrebački odrezak,Jela po narudžbi,264,2.26,,627
+224,Dalmatinska pašticada,Jela po narudžbi,249,2.23,,380
+225,Juneća pržolica sa šampinjonima,Jela po narudžbi,223,2.1,,327
+226,Juneći ramstek na roštilju,Jela po narudžbi,179,2.87,,358
+227,Sote »Stroganov«,Jela po narudžbi,238,2.03,,315
+228,Salata od junećeg mesa,Jela po narudžbi,228,2.18,,310
+229,Ćevapi,Jela po narudžbi,234,2.04,,549
+230,Hrenovke,Jela po narudžbi,150,1.3,,420
+231,Pljeskavica sa sirom,Jela po narudžbi,279,2.5,,620
+232,Panirani pileći file,Jela po narudžbi,172,1.64,,522
+233,Punjeni panirani pileći file – Cordon Blue,Jela po narudžbi,172,1.75,,537
+234,Pureći bečki,Jela po narudžbi,170,2.32,,507
+235,Lignje na žaru ili pržene,Jela po narudžbi,212,2.05,,272
+236,Oslić medaljoni pan. smrz.,Jela po narudžbi,220,1.96,,577
+237,Pastrva na žaru,Jela po narudžbi,222,2.15,,340
+238,Škarpina filet na roštilju,Jela po narudžbi,218,2.07,,284
+239,Čobanac,Jela po narudžbi,218,2.59,,304
+240,Svinjski odrezak u umaku od šampinjona,Jela po narudžbi,221,2.45,,419
+241,Svinjski odrezak u vrhnju,Jela po narudžbi,372,1.79,,582
+242,Juneći odrezak na lovački,Jela po narudžbi,232,2.36,,372
+243,Kotlet sa šampinjonima,Jela po narudžbi,202,1.82,,260
+244,Osječki odrezak,Jela po narudžbi,442,2.69,,813
+245,Šokački odrezak,Jela po narudžbi,257,2.32,,594
+246,Morski pas,Jela po narudžbi,277,2.26,,507
+247,Pizza,Jela po narudžbi,300,1.59,,810
+248,Cornflakes,Brza jela i doručak,40,0.42,,143
+249,Griz na mlijeku,Brza jela i doručak,253,0.43,,220
+250,Hot-dog,Brza jela i doručak,160,1.06,,427
+251,Majburger,Brza jela i doručak,250,1.44,,608
+252,Riža na mlijeku,Brza jela i doručak,299,0.47,,328
+253,Sir s vrhnjem,Brza jela i doručak,150,0.74,,158
+254,Štrukle zapečene,Brza jela i doručak,112,0.7,,276
+255,Štrukle kuhane,Brza jela i doručak,121,0.7,,348
+256,Maneštra od povrća,Brza jela i doručak,306,1,,210
+257,Salata od tune s tjesteninom,Brza jela i doručak,232,2.12,,495
+258,Salata s piletinom i tjesteninom,Brza jela i doručak,305,2.12,,626
+259,Piroška sa sirom,Brza jela i doručak,100,0.66,,320
+260,Burek sa sirom,Brza jela i doručak,250,1.26,,750
+261,Francuska salata,Brza jela i doručak,254,0.91,,423
+262,Francuski krumpir,Brza jela i doručak,457,1.45,,584
+263,Kroasan,Brza jela i doručak,80,0.66,,325
+264,Pizza mala,Brza jela i doručak,150,1.06,,405
+265,Omlet,Brza jela i doručak,131,1.33,,334
+266,Zobene pahuljice,Brza jela i doručak,40,0.42,,152
+267,Ajvar,Dodaci,30,0.18,,27
+268,Crveni luk,Dodaci,50,0.15,,20
+269,Hren,Dodaci,30,0.21,,14
+270,Ketchup,Dodaci,18,0.27,,20
+271,Majoneza,Dodaci,18,0.3,,122
+272,Masline,Dodaci,30,0.16,,34
+273,Senf,Dodaci,17,0.27,,11
+274,Parmezan,Dodaci,30,0.66,,129
+275,Umak od hrena,Umaci,127,0.36,,237
+276,Umak od rajčice,Umaci,42,0.26,,99
+277,Umak svijetli,Umaci,114,0.66,,75
+278,Umak od povrća,Umaci,116,0.66,,118
+279,Umak tartar,Umaci,120,0.53,,504
+280,Sendvič miješani,Sendviči,155,0.86,,423
+281,Sendvič vege,Sendviči,215,0.93,,301
+282,Sendvič od sira,Sendviči,155,0.8,,494
+283,Sendvič od šunke,Sendviči,155,0.8,,376
+284,Sendvič od kulena i sira,Sendviči,155,0.93,,522
+285,Sendvič od tune,Sendviči,145,0.93,,362
+286,Sir topljeni,Namazi,20,0.17,,60
+287,Maslac,Namazi,20,0.17,,143
+288,Marmelada,Namazi,20,0.15,,50
+289,Med,Namazi,20,0.31,,61
+290,Pašteta,Namazi,50,0.51,,145
+291,Mliječni namaz,Namazi,60,0.4,,138
+292,Čokoladni namaz,Namazi,25,0.35,,135
+293,Sardina u ulju,Namazi,110,0.93,,231
+294,Sardina s povrćem,Namazi,110,1.06,,165
+295,Mlijeko trajno,Napitci,206,0.38,,126
+296,Mlijeko čokoladno,Napitci,206,0.45,,134
+297,Sladoled kugla velika (razni okusi),Deserti,70,0.53,,140
+298,Sladoled štapić (razni okusi),Deserti,60,0.93,,162
+299,Sok bistri nektar – borovnica,Sokovi i voda,205,0.53,,102
+300,Sok bistri nektar – coctail,Sokovi i voda,205,0.53,,102
+301,Sok bistri nektar – jabuka,Sokovi i voda,205,0.53,,102
+302,Sok bistri nektar – multivitamin,Sokovi i voda,205,0.53,,102
+303,Sok bistri nektar – višnja,Sokovi i voda,205,0.53,,102
+304,Sok gusti nektar – breskva,Sokovi i voda,205,0.53,,113
+305,Sok gusti nektar – jagoda,Sokovi i voda,205,0.53,,113
+306,Sok gusti nektar – kruška,Sokovi i voda,205,0.53,,113
+307,Sok gusti nektar – marelica,Sokovi i voda,205,0.53,,113
+308,Sok od naranče,Sokovi i voda,205,0.53,,92
+309,Voda,Sokovi i voda,500,0.6,,0
+310,Kolač,Deserti,100,0.66,,380

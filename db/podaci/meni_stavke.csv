@@ -1,0 +1,459 @@
+meni_id,redoslijed,oznaka,jelo_id,kolicina_porcija,alternativa
+R1,1,Juha od gljiva,9,1,False
+R1,2,Pohana svinjetina,21,1,False
+R1,3,Varivo od kelja,173,1,False
+R1,4,Salata od kis. paprike,186,1,False
+R1,5,Voće,200,1,False
+R1,6,Kruh (3 šnite)/pecivo,205,3,False
+R2,1,Juha od krumpira,2,1,False
+R2,2,Pečena svinjetina,20,1,False
+R2,3,Grah varivo s tjesteninom,170,1,False
+R2,4,Salata od svj. kupusa,181,1,False
+R2,5,Voće,200,1,False
+R2,6,Kruh (3 šnite)/pecivo,205,3,False
+R3,1,Juha od rajčice,11,1,False
+R3,2,Kotlet na roštilju,17,1,False
+R3,3,Grašak na margarinu,112,1,False
+R3,4,Zelena salata,192,1,False
+R3,5,Puding,196,1,False
+R3,6,Kruh (3 šnite)/pecivo,205,3,False
+R4,1,Juha od brokule,7,1,False
+R4,2,Pečena piletina,40,1,False
+R4,3,Rižoto od šampinjona,143,1,False
+R4,4,Salata miješ. s krastavcima,189,1,False
+R4,5,Kompot-breskva,198,1,False
+R4,6,Kruh (3 šnite)/pecivo,205,3,False
+R5,1,Juha od povrća,3,1,False
+R5,2,Punjena paprika,36,1,False
+R5,3,Restani krumpir,138,1,False
+R5,4,Salata od kis. krastavaca,185,1,False
+R5,5,Voće,200,1,False
+R5,6,Kruh (3 šnite)/pecivo,205,3,False
+R6,1,Juha od kosti,1,1,False
+R6,2,Kotlet u povrću,18,1,False
+R6,3,Okruglice od kruha,131,1,False
+R6,4,Salata od rajčice,191,1,False
+R6,5,Banana rolada,207,1,False
+R6,6,Kruh (3 šnite)/pecivo,205,3,False
+R7,1,Juha proljetna,10,1,False
+R7,2,Špikana junetina,30,1,False
+R7,3,Valjušci,150,1,False
+R7,4,Salata od rajčice,191,1,False
+R7,5,Pita od jabuka,207,1,False
+R7,6,Kruh (3 šnite)/pecivo,205,3,False
+R8,1,Juha juneća,12,1,False
+R8,2,Kuhana junetina,28,1,False
+R8,3,Krumpir pekarski,120,1,False
+R8,4,Salata miješ. s krastavcima,189,1,False
+R8,5,Kompot-višnja,199,1,False
+R8,6,Kruh (3 šnite)/pecivo,205,3,False
+R9,1,Juha bistra,6,1,False
+R9,2,Juneći odrezak,27,1,False
+R9,3,Riža kuhana,141,1,False
+R9,4,Salata od svj. krastavaca,188,1,False
+R9,5,Puding,196,1,False
+R9,6,Kruh (3 šnite)/pecivo,205,3,False
+R10,1,Juha od graška,0,1,False
+R10,2,Pileći paprikaš,41,1,False
+R10,3,Tjestenina,149,1,False
+R10,4,Salata od svj. kupusa,181,1,False
+R10,5,Ananas kocka,207,1,False
+R10,6,Kruh (3 šnite)/pecivo,205,3,False
+R11,1,Juha od cvjetače,8,1,False
+R11,2,Junetina s graškom,25,1,False
+R11,3,Pire krumpir,133,1,False
+R11,4,Salata miješana,195,1,False
+R11,5,Voće,200,1,False
+R11,6,Kruh (3 šnite)/pecivo,205,3,False
+R12,1,Juha ragu pileća,12,1,True
+R12,2,Pečena piletina,40,1,False
+R12,3,Mlinci,128,1,False
+R12,4,Salata od mrkvice,190,1,False
+R12,5,Kokos kocka,207,1,False
+R12,6,Kruh (3 šnite)/pecivo,205,3,False
+R13,1,Juha bečka,15,1,False
+R13,2,Pileći rižoto,42,1,False
+R13,3,Salata miješ. s krastavcima,189,1,False
+R13,4,Puding,196,1,False
+R13,5,Kruh (3 šnite)/pecivo,205,3,False
+R14,1,Juha od šparoga,13,1,False
+R14,2,Pečeni pureći zabatak,40,1,True
+R14,3,Mahune s mrvicama,126,1,False
+R14,4,Salata od rajčice,191,1,False
+R14,5,Brioš kocke,207,1,False
+R14,6,Kruh (3 šnite)/pecivo,205,3,False
+R15,1,Juha francuska,16,1,False
+R15,2,Pileći file na žaru,72,1,False
+R15,3,Mexička mješavina,130,1,False
+R15,4,Salata od graha,180,1,False
+R15,5,Voće,200,1,False
+R15,6,Kruh (3 šnite)/pecivo,205,3,False
+R16,1,Krem juha od purećeg mesa,12,1,True
+R16,2,Kosani odrezak,31,1,False
+R16,3,Zapečeni grah,153,1,False
+R16,4,Salata od kis. cikle,184,1,False
+R16,5,Puding,196,1,False
+R16,6,Kruh (3 šnite)/pecivo,205,3,False
+R17,1,Juha od graha-krem,4,1,False
+R17,2,Punjena paprika,36,1,False
+R17,3,Pire krumpir,133,1,False
+R17,4,Salata od svj. kupusa,181,1,False
+R17,5,Čokoladna rolada,207,1,False
+R17,6,Kruh (3 šnite)/pecivo,205,3,False
+R18,1,Juha zagorska,2,1,True
+R18,2,Tjestenina s mesom,39,1,False
+R18,3,Salata miješana,195,1,False
+R18,4,Kompot-breskva,198,1,False
+R18,5,Kruh (3 šnite)/pecivo,205,3,False
+R19,1,Juha bistra,6,1,False
+R19,2,Mesne okruglice u umaku od rajčice,33,1,False
+R19,3,Tjestenina,149,1,False
+R19,4,Salata od svj. cikle,179,1,False
+R19,5,Išleri,207,1,False
+R19,6,Kruh (3 šnite)/pecivo,205,3,False
+R20,1,Juha od gljiva,9,1,False
+R20,2,Sarma,37,1,False
+R20,3,Restani krumpir,138,1,False
+R20,4,Zelena salata,192,1,False
+R20,5,Krafna,207,1,False
+R20,6,Kruh (3 šnite)/pecivo,205,3,False
+R21,1,Juha od riba,5,1,False
+R21,2,Pohani oslić interliht,49,1,False
+R21,3,Pohani patliđani,91,1,False
+R21,4,Salata miješana,195,1,False
+R21,5,Voće,200,1,False
+R21,6,Kruh (3 šnite)/pecivo,205,3,False
+R22,1,Juha od krumpira,2,1,False
+R22,2,Pohani oslić bez glave,48,1,False
+R22,3,Grašak s mrkvom,113,1,False
+R22,4,Salata od kis. kupusa,183,1,False
+R22,5,Puding,196,1,False
+R22,6,Kruh (3 šnite)/pecivo,205,3,False
+R23,1,Juha od povrća,3,1,False
+R23,2,Rižoto od liganja,53,1,False
+R23,3,Salata od svj. krastavaca,188,1,False
+R23,4,Kremšnita,207,1,False
+R23,5,Kruh (3 šnite)/pecivo,205,3,False
+R24,1,Juha od graška,0,1,False
+R24,2,Pohani oslić panirani,49,1,False
+R24,3,Kuhana cvjetača,121,1,False
+R24,4,Zelena salata,192,1,False
+R24,5,Savijača od jabuka,207,1,False
+R24,6,Kruh (3 šnite)/pecivo,205,3,False
+R25,1,Juha od cvjetače,8,1,False
+R25,2,Panirani štapići od liganja,47,1,False
+R25,3,Kelj pupčar,117,1,False
+R25,4,Salata miješana,195,1,False
+R25,5,Kompot-višnja,199,1,False
+R25,6,Kruh (3 šnite)/pecivo,205,3,False
+R26,1,Juha od šparoga,13,1,False
+R26,2,Suha rebra,57,1,False
+R26,3,Varivo od graha s kis. repom,169,1,False
+R26,4,Salata od svj. kupusa crvenog,182,1,False
+R26,5,Voće,200,1,False
+R26,6,Kruh (3 šnite)/pecivo,205,3,False
+R27,1,Juha od griza,14,1,False
+R27,2,Jetra roštilj,56,1,False
+R27,3,Pečeni krumpir,132,1,False
+R27,4,Salata od svj. kupusa,181,1,False
+R27,5,Puding,196,1,False
+R27,6,Kruh (3 šnite)/pecivo,205,3,False
+R28,1,Juha od brokule,7,1,False
+R28,2,Pržene lignje,51,1,False
+R28,3,Pomfrit,137,1,False
+R28,4,Salata od kis. cikle,184,1,False
+R28,5,Orah rolada,207,1,False
+R28,6,Kruh (3 šnite)/pecivo,205,3,False
+R29,1,Juha proljetna,10,1,False
+R29,2,Piletina na primoštenski,43,1,False
+R29,3,Salata kisela paprika,186,1,False
+R29,4,Voće,200,1,False
+R29,5,Kruh (3 šnite)/pecivo,205,3,False
+R30,1,Juha od graha-krem,4,1,False
+R30,2,Pučka kobasica pureća,70,1,True
+R30,3,Kupus kis. pirjani,124,1,False
+R30,4,Salata miješ. s krastavaca,189,1,False
+R30,5,Lješnjak rolada,207,1,False
+R30,6,Kruh (3 šnite)/pecivo,205,3,False
+R31,1,Juha od povrća,3,1,False
+R31,2,Pečenice,71,1,False
+R31,3,Varivo grah,167,1,False
+R31,4,Salata od svj. kupusa,181,1,False
+R31,5,Voće,200,1,False
+R31,6,Kruh (3 šnite)/pecivo,205,3,False
+vR1,1,Juha od rajčice,11,1,False
+vR1,2,Odrezak od tikvica,87,1,False
+vR1,3,Cvjetača s mrvicama,110,1,False
+vR1,4,Salata od graha,180,1,False
+vR1,5,Orehnjača,207,1,False
+vR1,6,Kruh (3 šnite)/pecivo,205,3,False
+vR2,1,Juha od griza,14,1,False
+vR2,2,Pohani soja medaljoni,93,1,False
+vR2,3,Kupus u rajčici,125,1,False
+vR2,4,Salata od svj. cikle,179,1,False
+vR2,5,Voće,200,1,False
+vR2,6,Kruh (3 šnite)/pecivo,205,3,False
+vR3,1,Juha od brokule,7,1,False
+vR3,2,Pohani sir,92,1,False
+vR3,3,Krpice sa zeljem,119,1,False
+vR3,4,Salata od svj. cikle,179,1,False
+vR3,5,Jogurt voćni,212,1,False
+vR3,6,Kruh (3 šnite)/pecivo,205,3,False
+vR4,1,Juha od krumpira,2,1,False
+vR4,2,Odrezak od kelja,85,1,False
+vR4,3,Grah varivo s kis. kupusom,168,1,False
+vR4,4,Salata miješana,195,1,False
+vR4,5,Makovnjača,207,1,False
+vR4,6,Kruh (3 šnite)/pecivo,205,3,False
+vR5,1,Juha od gljiva,9,1,False
+vR5,2,Tortellini sa sirom i umakom od rajčice,101,1,False
+vR5,3,Salata od svj. kupusa,181,1,False
+vR5,4,Puding,196,1,False
+vR5,5,Kruh (3 šnite)/pecivo,205,3,False
+vR6,1,Juha od brokule got.,7,1,False
+vR6,2,Tortellini sa špinatom i umakom od rajčice,105,1,False
+vR6,3,Salata od svj. kupusa,181,1,False
+vR6,4,Jabuka,200,1,False
+vR6,5,Kruh (3 šnite)/pecivo,205,3,False
+vR7,1,Juha od povrća,3,1,False
+vR7,2,Tortellini sa sirom i umakom od šampinjona,103,1,False
+vR7,3,Salata od svj. kupusa,181,1,False
+vR7,4,Jabuka,200,1,False
+vR7,5,Kruh (3 šnite)/pecivo,205,3,False
+vR8,1,Juha od graška - krem,0,1,False
+vR8,2,Pohana brokula,89,1,False
+vR8,3,Pirjani ječam,134,1,False
+vR8,4,Salata miješana,195,1,False
+vR8,5,Pita od jabuka,207,1,False
+vR8,6,Kruh (3 šnite)/pecivo,205,3,False
+vR9,1,Juha proljetna,10,1,False
+vR9,2,Ražnjići od soja medaljona,95,1,False
+vR9,3,Kuhana mrkva,122,1,False
+vR9,4,Salata od svj. cikle,179,1,False
+vR9,5,Puding,196,1,False
+vR9,6,Kruh (3 šnite)/pecivo,205,3,False
+vR10,1,Juha od šparoga,13,1,False
+vR10,2,Soja steak pohani,96,1,False
+vR10,3,Grah varivo,167,1,False
+vR10,4,Salata od svj. kupusa crvenog,182,1,False
+vR10,5,Voće,200,1,False
+vR10,6,Kruh (3 šnite)/pecivo,205,3,False
+V1,1,Paprikaš svinjski,19,1,False
+V1,2,Slani krumpir,146,1,False
+V1,3,Zelena salata,192,1,False
+V1,4,Kruh (3 šnite)/pecivo,205,3,False
+V1,5,Jogurt,209,1,False
+V2,1,Svinjski rižoto,22,1,False
+V2,2,Salata od svj. krastavaca,188,1,False
+V2,3,Kompot-višnja,199,1,False
+V2,4,Kruh (3 šnite)/pecivo,205,3,False
+V2,5,Kakao,214,1,False
+V3,1,Kotlet u povrću,18,1,False
+V3,2,Tjestenina,149,1,False
+V3,3,Salata miješana,195,1,False
+V3,4,Kruh (3 šnite)/pecivo,205,3,False
+V3,5,Čaj,213,1,False
+V4,1,Pileći paprikaš,41,1,False
+V4,2,Đuveč,111,1,False
+V4,3,Salata od rajčice,191,1,False
+V4,4,Kruh (3 šnite)/pecivo,205,3,False
+V4,5,Desertni jogurt,211,1,False
+V5,1,Junetina s graškom,25,1,False
+V5,2,Riža pirjana,142,1,False
+V5,3,Salata od kis. kupusa,183,1,False
+V5,4,Pita od sira,207,1,False
+V5,5,Kruh (3 šnite)/pecivo,205,3,False
+V5,6,Bijela kava,215,1,False
+V6,1,Pohana svinjetina,21,1,False
+V6,2,Blitva na lešo,108,1,False
+V6,3,Salata od kis. cikle,184,1,False
+V6,4,Kompot-breskva,198,1,False
+V6,5,Kruh (3 šnite)/pecivo,205,3,False
+V6,6,Čaj,213,1,False
+V7,1,Junetina kao divljač,24,1,False
+V7,2,Slani krumpir,146,1,False
+V7,3,Salata od kis. cikle,184,1,False
+V7,4,Kruh (3 šnite)/pecivo,205,3,False
+V7,5,Mlijeko,216,1,False
+V8,1,Junetina s krast. i vrhnjem,26,1,False
+V8,2,Žganci,155,1,False
+V8,3,Zelena salata,192,1,False
+V8,4,Kruh (3 šnite)/pecivo,205,3,False
+V8,5,Jogurt,209,1,False
+V9,1,Juneći gulaš,23,1,False
+V9,2,Tjestenina zapečena,148,1,False
+V9,3,Salata od kis. kupusa,183,1,False
+V9,4,Kruh (3 šnite)/pecivo,205,3,False
+V9,5,Kakao,214,1,False
+V10,1,Juneći gulaš,23,1,False
+V10,2,Pire krumpir,133,1,False
+V10,3,Salata od svj. cikle,179,1,False
+V10,4,Punč kocka,207,1,False
+V10,5,Kruh (3 šnite)/pecivo,205,3,False
+V10,6,Bijela kava,215,1,False
+V11,1,Punjena junetina s jajima,29,1,False
+V11,2,Rizi-bizi,140,1,False
+V11,3,Salata od svj. krastavaca,188,1,False
+V11,4,Puding,196,1,False
+V11,5,Kruh (3 šnite)/pecivo,205,3,False
+V11,6,Acidofil,208,1,False
+V12,1,Pureći paprikaš,41,1,True
+V12,2,Pomfrit,137,1,False
+V12,3,Francuska salata,261,1,False
+V12,4,Kruh (3 šnite)/pecivo,205,3,False
+V12,5,Čaj,213,1,False
+V13,1,Pileće hrenovke,55,1,False
+V13,2,Varivo od mahuna,174,1,False
+V13,3,Salata miješana,195,1,False
+V13,4,Kruh (3 šnite)/pecivo,205,3,False
+V13,5,Čaj,213,1,False
+V14,1,Kosani odrezak,31,1,False
+V14,2,Varivo od graška,172,1,False
+V14,3,Salata od kis. paprike,186,1,False
+V14,4,Kruh (3 šnite)/pecivo,205,3,False
+V14,5,Kakao,214,1,False
+V15,1,Pureći paprikaš,41,1,True
+V15,2,Slani krumpir,146,1,False
+V15,3,Salata od svj. cikle,179,1,False
+V15,4,Kruh (3 šnite)/pecivo,205,3,False
+V15,5,Jogurt,209,1,False
+V16,1,Špageti »bolonjez«,38,1,False
+V16,2,Salata od svj. kupusa crvenog,182,1,False
+V16,3,Šaum role,207,1,False
+V16,4,Kruh (3 šnite)/pecivo,205,3,False
+V16,5,Bijela kava,215,1,False
+V17,1,Kosana štruca,32,1,False
+V17,2,Kelj na lešo,116,1,False
+V17,3,Salata od kis. cikle,184,1,False
+V17,4,Kruh (3 šnite)/pecivo,205,3,False
+V17,5,Mlijeko,216,1,False
+V18,1,Musaka,34,1,False
+V18,2,Salata miješ. s krastavcima,189,1,False
+V18,3,Voće,200,1,False
+V18,4,Kruh (3 šnite)/pecivo,205,3,False
+V18,5,Čaj,213,1,False
+V19,1,Tjestenina s mesom,39,1,False
+V19,2,Salata od svj. kupusa,181,1,False
+V19,3,Savijača od sira,207,1,False
+V19,4,Kruh (3 šnite)/pecivo,205,3,False
+V19,5,Kakao,214,1,False
+V20,1,Pljeskavica,35,1,False
+V20,2,Zapečena cvjetača,152,1,False
+V20,3,Salata od mrkvice,190,1,False
+V20,4,Ajvar,267,1,False
+V20,5,Kruh (3 šnite)/pecivo,205,3,False
+V20,6,Vrhnje,210,1,False
+V21,1,Pržene srdele,52,1,False
+V21,2,Pohane tikvice,79,1,False
+V21,3,Salata od mrkvice,190,1,False
+V21,4,Kruh (3 šnite)/pecivo,205,3,False
+V21,5,Bijela kava,215,1,False
+V22,1,Lignje na buzaru,44,1,False
+V22,2,Žganci,155,1,False
+V22,3,Salata od svj. cikle,179,1,False
+V22,4,Kruh (3 šnite)/pecivo,205,3,False
+V22,5,Desertni jogurt,211,1,False
+V23,1,Rižoto od liganja,53,1,False
+V23,2,Zelena salata,192,1,False
+V23,3,Zagrebačka kremšnita,207,1,False
+V23,4,Kruh (3 šnite)/pecivo,205,3,False
+V23,5,Čaj,213,1,False
+V24,1,Tjestenina s tunom i šampinj.,54,1,False
+V24,2,Salata od mrkvice,190,1,False
+V24,3,Puding,196,1,False
+V24,4,Kruh (3 šnite)/pecivo,205,3,False
+V24,5,Čaj,213,1,False
+V25,1,Odrezak od tune-pohani,45,1,False
+V25,2,Miješano povrće s krumpirom,129,1,False
+V25,3,Salata od svj. kupusa,181,1,False
+V25,4,Kruh (3 šnite)/pecivo,205,3,False
+V25,5,Kakao,214,1,False
+V26,1,Odrezak od tune,46,1,False
+V26,2,Salata grah-prilog,144,1,False
+V26,3,Salata od rajčice,191,1,False
+V26,4,Kruh (3 šnite)/pecivo,205,3,False
+V26,5,Mlijeko,216,1,False
+V27,1,Pečena piletina,40,1,False
+V27,2,Gratinirana tjestenina,115,1,False
+V27,3,Salata od svj. kupusa,181,1,False
+V27,4,Puding,196,1,False
+V27,5,Kruh (3 šnite)/pecivo,205,3,False
+V27,6,Jogurt,209,1,False
+V28,1,Tjestenina »Milanes«,58,1,False
+V28,2,Salata od kis. krastavaca,185,1,False
+V28,3,Puding,196,1,False
+V28,4,Kruh (3 šnite)/pecivo,205,3,False
+V28,5,Čaj,213,1,False
+V29,1,Pileći paprikaš,41,1,False
+V29,2,Valjušci,150,1,False
+V29,3,Salata od kis. cikle,184,1,False
+V29,4,Kruh (3 šnite)/pecivo,205,3,False
+V29,5,Kakao,214,1,False
+V30,1,Rižoto sir i šunka,59,1,False
+V30,2,Zelena salata,192,1,False
+V30,3,Kompot-breskva,198,1,False
+V30,4,Kruh (3 šnite)/pecivo,205,3,False
+V30,5,Bijela kava,215,1,False
+V31,1,Kobasice kuhane kranjske,70,1,False
+V31,2,Krumpir pečeni,132,1,False
+V31,3,Salata od svj. kupusa,181,1,False
+V31,4,Kruh (3 šnite)/pecivo,205,3,False
+V31,5,Čaj,213,1,False
+vV1,1,Odrezak od soje,86,1,False
+vV1,2,Brokula na lešo,109,1,False
+vV1,3,Grašak u umaku,114,1,False
+vV1,4,Zelena salata,192,1,False
+vV1,5,Kruh (3 šnite)/pecivo,205,3,False
+vV1,6,Acidofil,208,1,False
+vV2,1,Kuhana jaja,81,1,False
+vV2,2,Rezanci s brokulom,139,1,False
+vV2,3,Salata od rajčice,191,1,False
+vV2,4,Kruh (3 šnite)/pecivo,205,3,False
+vV2,5,Desertni jogurt,211,1,False
+vV3,1,Kuhano povrće s bešamelom,82,1,False
+vV3,2,Kroketi,118,1,False
+vV3,3,Salata od svj. kupusa,181,1,False
+vV3,4,Kruh (3 šnite)/pecivo,205,3,False
+vV3,5,Kakao,214,1,False
+vV4,1,Zapečeno tijesto sa sirom,99,1,False
+vV4,2,Špinat na mlijeku,147,1,False
+vV4,3,Salata od svj. kupusa,181,1,False
+vV4,4,Kruh (3 šnite)/pecivo,205,3,False
+vV4,5,Čaj,213,1,False
+vV5,1,Pirjani šampinjoni,88,1,False
+vV5,2,Riža kuhana,141,1,False
+vV5,3,Salata od svj. kupusa,181,1,False
+vV5,4,Kruh (3 šnite)/pecivo,205,3,False
+vV5,5,Jogurt,209,1,False
+vV6,1,Pohani celer,90,1,False
+vV6,2,Varivo ričet,176,1,False
+vV6,3,Salata od svj. krastavaca,188,1,False
+vV6,4,Kruh (3 šnite)/pecivo,205,3,False
+vV6,5,Bijela kava,215,1,False
+vV7,1,Šampinjoni zapeč. sa sirom,98,1,False
+vV7,2,Mahune u umaku,127,1,False
+vV7,3,Voće,200,1,False
+vV7,4,Kruh (3 šnite)/pecivo,205,3,False
+vV7,5,Čaj,213,1,False
+vV8,1,Musaka od soja ljuspica,83,1,False
+vV8,2,Savijača s povrćem,145,1,False
+vV8,3,Zelena salata,192,1,False
+vV8,4,Puding,196,1,False
+vV8,5,Kruh (3 šnite)/pecivo,205,3,False
+vV8,6,Vrhnje,210,1,False
+vV9,1,Pohani šampinjoni,94,1,False
+vV9,2,Kukuruz,123,1,False
+vV9,3,Salata od svj. krastavaca,188,1,False
+vV9,4,Kruh (3 šnite)/pecivo,205,3,False
+vV9,5,Bijela kava,215,1,False
+vV10,1,Tortellini sa špinatom i umakom od svj. sira,106,1,False
+vV10,2,Zelena salata,192,1,False
+vV10,3,Kruh (3 šnite)/pecivo,205,3,False
+vV10,4,Čaj,213,1,False
+vV11,1,Tortellini sa sirom i umakom od 2 vrste sira,100,1,False
+vV11,2,Salata od svj. kupusa,181,1,False
+vV11,3,Kruh (3 šnite)/pecivo,205,3,False
+vV11,4,Bijela kava,215,1,False
+vV12,1,Tortellini sa sirom i umakom od rajčice,101,1,False
+vV12,2,Salata od mrkvice,190,1,False
+vV12,3,Kruh (3 šnite)/pecivo,205,3,False
