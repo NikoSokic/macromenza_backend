@@ -1,20 +1,25 @@
 package com.macromenza.macromenza.services;
 
+import com.macromenza.macromenza.dto.ObrokDTO;
+import com.macromenza.macromenza.dto.ObrokRequest;
 import com.macromenza.macromenza.dto.PovijestDanaDTO;
 import com.macromenza.macromenza.dto.StavkaObrokaDTO;
 import com.macromenza.macromenza.dto.UkupniUnosDTO;
 import com.macromenza.macromenza.model.Konzumacija;
 import com.macromenza.macromenza.model.Jelo;
 import com.macromenza.macromenza.model.JeloNutritivno;
+import com.macromenza.macromenza.model.Obrok;
 import com.macromenza.macromenza.repository.KonzumacijaRepository;
 import com.macromenza.macromenza.repository.JeloNutritivnoRepository;
 import com.macromenza.macromenza.repository.JeloRepository;
+import com.macromenza.macromenza.repository.ObrokRepository;
 import com.macromenza.macromenza.dto.DnevniPregledDTO;
 import com.macromenza.macromenza.dto.TjedniPregledDTO;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,17 +31,25 @@ public class KonzumacijaService {
     private final KonzumacijaRepository konzumacijaRepository;
     private final JeloRepository jeloRepository;
     private final JeloNutritivnoRepository jeloNutritivnoRepository;
+    private final ObrokRepository obrokRepository;
+    private final ObrokService obrokService;
 
     public KonzumacijaService(
             KonzumacijaRepository konzumacijaRepository,
             JeloRepository jeloRepository,
-            JeloNutritivnoRepository jeloNutritivnoRepository
+            JeloNutritivnoRepository jeloNutritivnoRepository,
+            ObrokRepository obrokRepository,
+            ObrokService obrokService
     ) {
         this.konzumacijaRepository = konzumacijaRepository;
         this.jeloRepository = jeloRepository;
         this.jeloNutritivnoRepository = jeloNutritivnoRepository;
+        this.obrokRepository = obrokRepository;
+        this.obrokService = obrokService;
     }
 
+    /** Zastarjelo: stvara obrok s jednom stavkom. Novi unos ide preko POST /api/obroci. */
+    @Deprecated
     public Konzumacija dodajKonzumaciju(Konzumacija konzumacija) {
 
         if (konzumacija.getIdKorisnik() == null) {
@@ -47,7 +60,7 @@ public class KonzumacijaService {
             throw new RuntimeException("Jelo je obavezno");
         }
 
-        if (konzumacija.getKolicina() == null || konzumacija.getKolicina() <= 0) {
+        if (konzumacija.getKolicina() == null || konzumacija.getKolicina().signum() <= 0) {
             throw new RuntimeException("Kolicina mora biti veca od 0");
         }
 
@@ -55,16 +68,27 @@ public class KonzumacijaService {
             throw new RuntimeException("Tip obroka je obavezan");
         }
 
-        Jelo jelo = jeloRepository.findById(konzumacija.getIdJelo()).orElseThrow(() -> new RuntimeException("Jelo ne postoji"));
+        ObrokRequest request = new ObrokRequest();
+        request.setIdKorisnik(konzumacija.getIdKorisnik());
+        request.setDatum(konzumacija.getDatum() != null ? konzumacija.getDatum() : LocalDate.now(ObrokService.ZAGREB));
+        request.setVrijeme(LocalTime.now(ObrokService.ZAGREB));
+        request.setTipObroka(konzumacija.getTip_obroka().toUpperCase());
+        request.setIzvor("RUCNO");
+        request.setStavke(List.of(new ObrokRequest.Stavka(konzumacija.getIdJelo(), konzumacija.getKolicina())));
 
-        konzumacija.setDatum(LocalDate.now());
+        ObrokDTO obrok;
+        try {
+            obrok = obrokService.spremiObrok(request);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e.getMessage());
+        }
 
-        return konzumacijaRepository.save(konzumacija);
+        return konzumacijaRepository.findByIdObrokOrderByIdAsc(obrok.getId()).get(0);
     }
 
     public UkupniUnosDTO izracunajDnevniUnos(Long idKorisnik) {
 
-        List<Konzumacija> konzumacije = konzumacijaRepository.findByIdKorisnikAndDatum(idKorisnik, LocalDate.now());
+        List<Konzumacija> konzumacije = konzumacijaRepository.findZaDan(idKorisnik, LocalDate.now());
 
         UkupniUnosDTO rezultat = new UkupniUnosDTO();
 
@@ -76,7 +100,7 @@ public class KonzumacijaService {
         for (Konzumacija k : konzumacije) {
 
             JeloNutritivno jelo = jeloNutritivnoRepository.findById(k.getIdJelo()).orElseThrow();
-            BigDecimal kolicina = BigDecimal.valueOf(k.getKolicina());
+            BigDecimal kolicina = k.getKolicina();
 
             kalorije = kalorije.add(jelo.getKalorije().multiply(kolicina));
             proteini = proteini.add(jelo.getProteini().multiply(kolicina));
@@ -94,12 +118,7 @@ public class KonzumacijaService {
 
     public List<LocalDate> dohvatiPovijestDana(Long idKorisnik) {
 
-        return konzumacijaRepository
-                .findByIdKorisnikOrderByDatumDesc(idKorisnik)
-                .stream()
-                .map(Konzumacija::getDatum)
-                .distinct()
-                .toList();
+        return obrokRepository.findDatumiZaKorisnika(idKorisnik);
     }
 
     public PovijestDanaDTO dohvatiPovijestZaDan(
@@ -107,7 +126,7 @@ public class KonzumacijaService {
             LocalDate datum
     ) {
 
-        List<Konzumacija> lista = konzumacijaRepository.findByIdKorisnikAndDatum(idKorisnik, datum);
+        List<Konzumacija> lista = konzumacijaRepository.findZaDan(idKorisnik, datum);
 
         List<StavkaObrokaDTO> stavke =
                 lista.stream()
@@ -120,7 +139,7 @@ public class KonzumacijaService {
                             JeloNutritivno nutritivno = jeloNutritivnoRepository
                                     .findById(k.getIdJelo())
                                     .orElseThrow();
-                            BigDecimal kolicina = BigDecimal.valueOf(k.getKolicina());
+                            BigDecimal kolicina = k.getKolicina();
 
                             return new StavkaObrokaDTO(
                                     jelo.getNaziv(),
@@ -168,7 +187,12 @@ public class KonzumacijaService {
         LocalDate datumDo = LocalDate.now();
         LocalDate datumOd = datumDo.minusDays(6);
 
-        List<Konzumacija> konzumacije = konzumacijaRepository.findByIdKorisnikAndDatumBetween(idKorisnik, datumOd, datumDo);
+        Map<Long, LocalDate> datumObroka = obrokRepository
+                .findByIdKorisnikAndDatumBetween(idKorisnik, datumOd, datumDo)
+                .stream()
+                .collect(Collectors.toMap(Obrok::getId, Obrok::getDatum));
+
+        List<Konzumacija> konzumacije = konzumacijaRepository.findByIdObrokIn(datumObroka.keySet());
 
         List<DnevniPregledDTO> dani = new ArrayList<>();
 
@@ -186,10 +210,10 @@ public class KonzumacijaService {
 
             for (Konzumacija k : konzumacije) {
 
-                if (k.getDatum().equals(datum)) {
+                if (datumObroka.get(k.getIdObrok()).equals(datum)) {
 
                     JeloNutritivno jelo = jeloNutritivnoRepository.findById(k.getIdJelo()).orElseThrow();
-                    BigDecimal kolicina = BigDecimal.valueOf(k.getKolicina());
+                    BigDecimal kolicina = k.getKolicina();
 
                     kalorijeDan = kalorijeDan.add(jelo.getKalorije().multiply(kolicina));
                     proteiniDan = proteiniDan.add(jelo.getProteini().multiply(kolicina));
@@ -231,7 +255,7 @@ public class KonzumacijaService {
             throw new RuntimeException("Jelo je obavezno");
         }
 
-        if (novaKonzumacija.getKolicina() == null || novaKonzumacija.getKolicina() <= 0) {
+        if (novaKonzumacija.getKolicina() == null || novaKonzumacija.getKolicina().signum() <= 0) {
             throw new RuntimeException("Kolicina mora biti veca od 0");
         }
 

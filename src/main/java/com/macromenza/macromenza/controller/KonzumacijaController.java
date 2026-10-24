@@ -41,6 +41,8 @@ public class KonzumacijaController {
         return konzumacijaRepository.findByIdKorisnik(idKorisnik);
     }
 
+    /** Zastarjelo: koristi POST /api/obroci. Interno stvara obrok s jednom stavkom. */
+    @Deprecated
     @PostMapping
     public Konzumacija dodajKonzumaciju(@RequestBody Konzumacija konzumacija) {
         return konzumacijaService.dodajKonzumaciju(konzumacija);

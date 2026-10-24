@@ -1,6 +1,7 @@
 package com.macromenza.macromenza.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -17,8 +18,11 @@ public class Konzumacija {
     @Column(name = "id_jelo")
     private Long idJelo;
 
+    @Column(name = "id_obrok")
+    private Long idObrok;
+
     private LocalDate datum;
-    private Integer kolicina;
+    private BigDecimal kolicina;
     private String tip_obroka;
 
     public Konzumacija() {
@@ -36,11 +40,15 @@ public class Konzumacija {
         return idJelo;
     }
 
+    public Long getIdObrok() {
+        return idObrok;
+    }
+
     public LocalDate getDatum() {
         return datum;
     }
 
-    public Integer getKolicina() {
+    public BigDecimal getKolicina() {
         return kolicina;
     }
 
@@ -56,11 +64,15 @@ public class Konzumacija {
         this.idJelo = idJelo;
     }
 
+    public void setIdObrok(Long idObrok) {
+        this.idObrok = idObrok;
+    }
+
     public void setDatum(LocalDate datum) {
         this.datum = datum;
     }
 
-    public void setKolicina(Integer kolicina) {
+    public void setKolicina(BigDecimal kolicina) {
         this.kolicina = kolicina;
     }
 

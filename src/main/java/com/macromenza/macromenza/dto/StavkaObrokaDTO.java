@@ -7,7 +7,7 @@ public class StavkaObrokaDTO {
     private String nazivJela;
     private String tipObroka;
 
-    private Integer kolicina;
+    private BigDecimal kolicina;
 
     private BigDecimal kalorije;
     private BigDecimal proteini;
@@ -17,7 +17,7 @@ public class StavkaObrokaDTO {
     public StavkaObrokaDTO(
             String nazivJela,
             String tipObroka,
-            Integer kolicina,
+            BigDecimal kolicina,
             BigDecimal kalorije,
             BigDecimal proteini,
             BigDecimal ugljikohidrati,
@@ -40,7 +40,7 @@ public class StavkaObrokaDTO {
         return tipObroka;
     }
 
-    public Integer getKolicina() {
+    public BigDecimal getKolicina() {
         return kolicina;
     }
 
