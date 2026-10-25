@@ -100,6 +100,12 @@ public class ObrokService {
         return mapiraj(List.of(obrok)).get(0);
     }
 
+    /** Briše obrok; njegove konzumacije briše baza (konzumacija.id_obrok ima ON DELETE CASCADE). */
+    @Transactional
+    public void obrisiObrok(Long id, Long idKorisnik) {
+        obrokRepository.delete(nadiObrok(id, idKorisnik));
+    }
+
     public List<ObrokDTO> dohvatiObroke(Long idKorisnik, LocalDate datum) {
         return mapiraj(obrokRepository.findByIdKorisnikAndDatumOrderByVrijemeAscIdAsc(idKorisnik, datum));
     }

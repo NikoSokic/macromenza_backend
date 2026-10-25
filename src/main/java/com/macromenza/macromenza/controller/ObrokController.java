@@ -47,6 +47,12 @@ public class ObrokController {
         return obrokService.azurirajObrok(id, idKorisnik, request);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> obrisiObrok(@PathVariable Long id, @RequestParam Long idKorisnik) {
+        obrokService.obrisiObrok(id, idKorisnik);
+        return ResponseEntity.noContent().build();
+    }
+
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<Map<String, String>> nijePronaden(NoSuchElementException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("poruka", e.getMessage()));

@@ -14,7 +14,7 @@ Jedan korak = jedna funkcija, kompletno backend + frontend. Status: ⬜ nije zap
 | 8 | Meniji u unosu obroka | ✅ |
 | 9 | Sažetak obroka pri dnu ekrana | ✅ |
 | 10 | Uređivanje obroka | ✅ |
-| 11 | Brisanje obroka s potvrdom | ⬜ |
+| 11 | Brisanje obroka s potvrdom | ✅ |
 | 12 | Početni ekran: prsten kalorija po obrocima i savjet dana | ⬜ |
 | 13 | Povijest: listanje tjedana, graf s linijom cilja, dani u cilju (±10 %), prosjek makronutrijenata | ⬜ |
 | 14 | Masa s decimalom, brzo mjerenje ±0,1 kg, graf mase | ⬜ |
