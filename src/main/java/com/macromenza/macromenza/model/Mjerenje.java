@@ -1,6 +1,7 @@
 package com.macromenza.macromenza.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -14,7 +15,8 @@ public class Mjerenje {
     @Column(name = "id_korisnik")
     private Long idKorisnik;
 
-    private Integer masa;
+    @Column(precision = 5, scale = 1)
+    private BigDecimal masa;
     private String razina_aktivnosti;
     private String tip_cilja;
     private LocalDate datum;
@@ -30,7 +32,7 @@ public class Mjerenje {
         return idKorisnik;
     }
 
-    public Integer getMasa() {
+    public BigDecimal getMasa() {
         return masa;
     }
 
@@ -50,7 +52,7 @@ public class Mjerenje {
         this.idKorisnik = idKorisnik;
     }
 
-    public void setMasa(Integer masa) {
+    public void setMasa(BigDecimal masa) {
         this.masa = masa;
     }
 

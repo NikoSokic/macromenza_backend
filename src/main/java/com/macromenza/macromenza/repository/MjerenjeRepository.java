@@ -5,12 +5,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public interface MjerenjeRepository extends JpaRepository<Mjerenje, Long> {
 
     List<Mjerenje> findByIdKorisnik(Long idKorisnik);
+
+    Optional<Mjerenje> findFirstByIdKorisnikAndDatumOrderByIdDesc(Long idKorisnik, LocalDate datum);
+
+    List<Mjerenje> findByIdKorisnikAndDatumBetweenOrderByDatumAscIdAsc(Long idKorisnik, LocalDate od, LocalDate doDatuma);
 
     Optional<Mjerenje> findTopByIdKorisnikOrderByDatumDesc(Long idKorisnik);
 

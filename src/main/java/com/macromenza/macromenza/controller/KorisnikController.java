@@ -10,6 +10,8 @@ import com.macromenza.macromenza.model.Mjerenje;
 import com.macromenza.macromenza.repository.ProfilPodaciRepository;
 import com.macromenza.macromenza.services.IzracunPreporukeService;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -162,7 +164,7 @@ public class KorisnikController {
 
         Mjerenje mjerenje = new Mjerenje();
         mjerenje.setIdKorisnik(spremljeniKorisnik.getId());
-        mjerenje.setMasa(request.getMasa().intValue());
+        mjerenje.setMasa(BigDecimal.valueOf(request.getMasa()).setScale(1, RoundingMode.HALF_UP));
         mjerenje.setRazina_aktivnosti(request.getRazinaAktivnosti());
         mjerenje.setTip_cilja(request.getTipCilja());
         mjerenje.setDatum(LocalDate.now());

@@ -40,7 +40,7 @@
                     .findByIdKorisnik(korisnikId)
                     .orElseThrow(() -> new RuntimeException("Korisnik nema profil podatke"));
 
-            double masa = mjerenje.getMasa();
+            double masa = mjerenje.getMasa().doubleValue();
             int visina = profil.getVisina();
             int dob = profil.getDob();
             String spol = profil.getSpol();
