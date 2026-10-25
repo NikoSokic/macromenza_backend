@@ -34,6 +34,68 @@ public interface ObrokRepository extends JpaRepository<Obrok, Long> {
             """)
     List<TipObrokaRed> findTotaliPoTipu(@Param("idKorisnik") Long idKorisnik, @Param("datum") LocalDate datum);
 
+    /**
+     * Sedam dana od [pocetak] (generate_series) s totalima i ciljem dana (zadnja preporuka s datumom <= dan); jedan
+     * upit. Stavke se zaokružuju na 2 decimale prije zbrajanja, kao u GET /api/obroci. Dan bez unosa ima null totale.
+     * [imaPrethodni]: postoji li obrok prije [pocetak] (isti u svakom redu).
+     */
+    @Query(value = """
+            WITH dani AS (
+                SELECT CAST(:pocetak AS date) + g.i AS datum
+                FROM generate_series(0, 6) AS g(i)
+            ),
+            totali AS (
+                SELECT o.datum,
+                       SUM(ROUND(n.kalorije * k.kolicina, 2))       AS kalorije,
+                       SUM(ROUND(n.proteini * k.kolicina, 2))       AS proteini,
+                       SUM(ROUND(n.ugljikohidrati * k.kolicina, 2)) AS ugljikohidrati,
+                       SUM(ROUND(n.masti * k.kolicina, 2))          AS masti
+                FROM obrok o
+                JOIN konzumacija k ON k.id_obrok = o.id
+                JOIN v_jelo_nutritivno n ON n.id_jelo = k.id_jelo
+                WHERE o.id_korisnik = :idKorisnik
+                  AND o.datum BETWEEN CAST(:pocetak AS date) AND CAST(:pocetak AS date) + 6
+                GROUP BY o.datum
+            )
+            SELECT d.datum           AS "datum",
+                   t.kalorije        AS "kalorije",
+                   t.proteini        AS "proteini",
+                   t.ugljikohidrati  AS "ugljikohidrati",
+                   t.masti           AS "masti",
+                   p.kalorije        AS "ciljKalorije",
+                   p.proteini        AS "ciljProteini",
+                   p.ugljikohidrati  AS "ciljUgljikohidrati",
+                   p.masti           AS "ciljMasti",
+                   EXISTS (
+                       SELECT 1 FROM obrok op
+                       WHERE op.id_korisnik = :idKorisnik AND op.datum < CAST(:pocetak AS date)
+                   )                 AS "imaPrethodni"
+            FROM dani d
+            LEFT JOIN totali t ON t.datum = d.datum
+            LEFT JOIN LATERAL (
+                SELECT pr.kalorije, pr.proteini, pr.ugljikohidrati, pr.masti
+                FROM preporuka pr
+                WHERE pr.id_korisnik = :idKorisnik AND pr.datum <= d.datum
+                ORDER BY pr.datum DESC, pr.id DESC
+                LIMIT 1
+            ) p ON true
+            ORDER BY d.datum
+            """, nativeQuery = true)
+    List<TjedanDanRed> findTjedan(@Param("idKorisnik") Long idKorisnik, @Param("pocetak") LocalDate pocetak);
+
+    interface TjedanDanRed {
+        LocalDate getDatum();
+        BigDecimal getKalorije();
+        BigDecimal getProteini();
+        BigDecimal getUgljikohidrati();
+        BigDecimal getMasti();
+        Integer getCiljKalorije();
+        Integer getCiljProteini();
+        Integer getCiljUgljikohidrati();
+        Integer getCiljMasti();
+        Boolean getImaPrethodni();
+    }
+
     interface TipObrokaRed {
         String getTipObroka();
         Long getBrojObroka();

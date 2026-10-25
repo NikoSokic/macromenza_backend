@@ -16,7 +16,7 @@ Jedan korak = jedna funkcija, kompletno backend + frontend. Status: ⬜ nije zap
 | 10 | Uređivanje obroka | ✅ |
 | 11 | Brisanje obroka s potvrdom | ✅ |
 | 12 | Početni ekran: prsten kalorija po obrocima i savjet dana | ✅ |
-| 13 | Povijest: listanje tjedana, graf s linijom cilja, dani u cilju (±10 %), prosjek makronutrijenata | ⬜ |
+| 13 | Povijest: listanje tjedana, graf s linijom cilja, dani u cilju (±10 %), prosjek makronutrijenata | ✅ |
 | 14 | Masa s decimalom, brzo mjerenje ±0,1 kg, graf mase | ⬜ |
 | 15 | Objašnjenje izračuna u onboardingu, ekran "Odakle su kalorije", brisanje svih podataka, primjer tjedna | ⬜ |
 | 16 | Backend: prepoznavanje obroka sa slike ili opisa (Gemini API, ključ u env varijabli; prije implementacije provjeri aktualni model i besplatne limite) | ⬜ |

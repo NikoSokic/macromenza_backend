@@ -58,6 +58,8 @@ public class KonzumacijaController {
         return konzumacijaService.izracunajDnevniUnos(idKorisnik);
     }
 
+    /** Zastarjelo: aplikacija ga ne koristi; Povijest lista tjedne preko GET /api/obroci/tjedan. */
+    @Deprecated
     @GetMapping("/povijest/dani/{idKorisnik}")
     public List<LocalDate> povijestDana(@PathVariable Long idKorisnik) {
         return konzumacijaService.dohvatiPovijestDana(idKorisnik);
@@ -68,6 +70,8 @@ public class KonzumacijaController {
         return konzumacijaService.dohvatiPovijestZaDan(idKorisnik, datum);
     }
 
+    /** Zastarjelo: koristi GET /api/obroci/tjedan (tjedan pon–ned, cilj po danu, jedan upit). */
+    @Deprecated
     @GetMapping("/tjedni-pregled/{idKorisnik}")
     public TjedniPregledDTO tjedniPregled(@PathVariable Long idKorisnik) {
         return konzumacijaService.dohvatiTjedniPregled(idKorisnik);

@@ -3,6 +3,7 @@ package com.macromenza.macromenza.controller;
 import com.macromenza.macromenza.dto.DanPregledDTO;
 import com.macromenza.macromenza.dto.ObrokDTO;
 import com.macromenza.macromenza.dto.ObrokRequest;
+import com.macromenza.macromenza.dto.TjedanDTO;
 import com.macromenza.macromenza.services.ObrokService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,15 @@ public class ObrokController {
             @RequestParam(required = false) LocalDate datum
     ) {
         return obrokService.dohvatiDanPregled(idKorisnik, datum);
+    }
+
+    /** Tjedan pon–ned za Povijest; [pocetak] je bilo koji datum tjedna (svodi se na ponedjeljak), zadano tekući tjedan. */
+    @GetMapping("/tjedan")
+    public TjedanDTO getTjedan(
+            @RequestParam Long idKorisnik,
+            @RequestParam(required = false) LocalDate pocetak
+    ) {
+        return obrokService.dohvatiTjedan(idKorisnik, pocetak);
     }
 
     @GetMapping("/{id}")

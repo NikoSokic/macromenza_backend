@@ -4,6 +4,7 @@ import com.macromenza.macromenza.dto.DanPregledDTO;
 import com.macromenza.macromenza.dto.NutritivneVrijednostiDTO;
 import com.macromenza.macromenza.dto.ObrokDTO;
 import com.macromenza.macromenza.dto.ObrokRequest;
+import com.macromenza.macromenza.dto.TjedanDTO;
 import com.macromenza.macromenza.model.Jelo;
 import com.macromenza.macromenza.model.Konzumacija;
 import com.macromenza.macromenza.model.Obrok;
@@ -12,6 +13,7 @@ import com.macromenza.macromenza.repository.KonzumacijaRepository;
 import com.macromenza.macromenza.repository.KonzumacijaRepository.StavkaObrokaRed;
 import com.macromenza.macromenza.repository.KorisnikRepository;
 import com.macromenza.macromenza.repository.ObrokRepository;
+import com.macromenza.macromenza.repository.ObrokRepository.TjedanDanRed;
 import com.macromenza.macromenza.repository.ObrokRepository.TipObrokaRed;
 import com.macromenza.macromenza.repository.PreporukaRepository;
 import org.springframework.stereotype.Service;
@@ -19,15 +21,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -42,6 +47,8 @@ public class ObrokService {
     private static final Set<String> IZVORI = Set.of("RUCNO", "MENI", "SLIKA", "OPIS");
     private static final BigDecimal NAJVISE_PORCIJA = new BigDecimal("99.5");
     private static final DateTimeFormatter FORMAT_VREMENA = DateTimeFormatter.ofPattern("HH:mm");
+    /** Dan je u cilju kad kalorije odstupaju od cilja najviše 10 %. */
+    private static final BigDecimal TOLERANCIJA_CILJA = new BigDecimal("0.10");
 
     private final ObrokRepository obrokRepository;
     private final KonzumacijaRepository konzumacijaRepository;
@@ -179,6 +186,104 @@ public class ObrokService {
         );
 
         return new DanPregledDTO(cilj, pojedeno, poTipu, savjet);
+    }
+
+    /**
+     * Tjedan pon–ned (Europe/Zagreb) koji sadrži [datum]; zadano je tekući tjedan. Dan je u cilju ako ima unos,
+     * ima cilj i odstupa od njega najviše 10 %. Dani bez unosa ne ulaze u prosjeke ni u dane u cilju.
+     */
+    public TjedanDTO dohvatiTjedan(Long idKorisnik, LocalDate datum) {
+
+        if (!korisnikRepository.existsById(idKorisnik)) {
+            throw new NoSuchElementException("Korisnik ne postoji.");
+        }
+
+        LocalDate tekuci = LocalDate.now(ZAGREB).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate pocetak = datum == null ? tekuci : datum.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+        if (pocetak.isAfter(tekuci)) {
+            throw new IllegalArgumentException("Tjedan ne može biti u budućnosti.");
+        }
+
+        List<TjedanDanRed> redovi = obrokRepository.findTjedan(idKorisnik, pocetak);
+
+        List<TjedanDTO.Dan> dani = new ArrayList<>();
+        List<TjedanDanRed> saUnosom = new ArrayList<>();
+        int daniUCilju = 0;
+
+        for (TjedanDanRed red : redovi) {
+            boolean imaUnos = red.getKalorije() != null;
+            BigDecimal kalorije = imaUnos ? zaokruzi(red.getKalorije()) : BigDecimal.ZERO.setScale(2);
+            BigDecimal cilj = red.getCiljKalorije() == null ? null : BigDecimal.valueOf(red.getCiljKalorije());
+
+            boolean uCilju = imaUnos && cilj != null && cilj.signum() > 0
+                    && kalorije.subtract(cilj).abs().compareTo(cilj.multiply(TOLERANCIJA_CILJA)) <= 0;
+
+            if (imaUnos) {
+                saUnosom.add(red);
+            }
+            if (uCilju) {
+                daniUCilju++;
+            }
+
+            dani.add(new TjedanDTO.Dan(
+                    red.getDatum(),
+                    kalorije,
+                    imaUnos ? zaokruzi(red.getProteini()) : BigDecimal.ZERO.setScale(2),
+                    imaUnos ? zaokruzi(red.getUgljikohidrati()) : BigDecimal.ZERO.setScale(2),
+                    imaUnos ? zaokruzi(red.getMasti()) : BigDecimal.ZERO.setScale(2),
+                    cilj,
+                    imaUnos,
+                    uCilju
+            ));
+        }
+
+        NutritivneVrijednostiDTO prosjek = saUnosom.isEmpty() ? null : new NutritivneVrijednostiDTO(
+                prosjek(saUnosom, TjedanDanRed::getKalorije),
+                prosjek(saUnosom, TjedanDanRed::getProteini),
+                prosjek(saUnosom, TjedanDanRed::getUgljikohidrati),
+                prosjek(saUnosom, TjedanDanRed::getMasti)
+        );
+
+        List<TjedanDanRed> saCiljem = saUnosom.stream().filter(r -> r.getCiljKalorije() != null).toList();
+
+        NutritivneVrijednostiDTO prosjekCilj = saCiljem.isEmpty() ? null : new NutritivneVrijednostiDTO(
+                prosjek(saCiljem, r -> uDecimalni(r.getCiljKalorije())),
+                prosjek(saCiljem, r -> uDecimalni(r.getCiljProteini())),
+                prosjek(saCiljem, r -> uDecimalni(r.getCiljUgljikohidrati())),
+                prosjek(saCiljem, r -> uDecimalni(r.getCiljMasti()))
+        );
+
+        boolean imaPrethodni = !redovi.isEmpty() && Boolean.TRUE.equals(redovi.get(0).getImaPrethodni());
+
+        return new TjedanDTO(
+                pocetak,
+                pocetak.plusDays(6),
+                dani,
+                saUnosom.size(),
+                daniUCilju,
+                prosjek,
+                prosjekCilj,
+                imaPrethodni,
+                pocetak.isBefore(tekuci)
+        );
+    }
+
+    /** Prosjek ne-null vrijednosti na 2 decimale; null kad nijedna vrijednost nije zadana. */
+    private BigDecimal prosjek(List<TjedanDanRed> redovi, Function<TjedanDanRed, BigDecimal> vrijednost) {
+        List<BigDecimal> vrijednosti = redovi.stream().map(vrijednost).filter(Objects::nonNull).toList();
+
+        if (vrijednosti.isEmpty()) {
+            return null;
+        }
+
+        return vrijednosti.stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .divide(BigDecimal.valueOf(vrijednosti.size()), 2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal uDecimalni(Integer vrijednost) {
+        return vrijednost == null ? null : BigDecimal.valueOf(vrijednost);
     }
 
     private BigDecimal zaokruzi(BigDecimal vrijednost) {

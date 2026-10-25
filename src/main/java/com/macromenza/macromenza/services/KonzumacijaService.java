@@ -116,6 +116,8 @@ public class KonzumacijaService {
         return rezultat;
     }
 
+    /** Zastarjelo: aplikacija ga ne koristi; Povijest lista tjedne preko ObrokService.dohvatiTjedan. */
+    @Deprecated
     public List<LocalDate> dohvatiPovijestDana(Long idKorisnik) {
 
         return obrokRepository.findDatumiZaKorisnika(idKorisnik);
@@ -182,6 +184,8 @@ public class KonzumacijaService {
                 obroci
         );
     }
+    /** Zastarjelo (N+1, zadnjih 7 dana): koristi ObrokService.dohvatiTjedan. */
+    @Deprecated
     public TjedniPregledDTO dohvatiTjedniPregled(Long idKorisnik) {
 
         LocalDate datumDo = LocalDate.now();
