@@ -20,7 +20,7 @@ Jedan korak = jedna funkcija, kompletno backend + frontend. Status: ⬜ nije zap
 | 14 | Masa s decimalom, brzo mjerenje ±0,1 kg, graf mase | ✅ |
 | 15 | Objašnjenje izračuna u onboardingu, ekran "Odakle su kalorije", brisanje svih podataka, primjer tjedna | ✅ |
 | 16 | Backend: prepoznavanje obroka sa slike ili opisa (Gemini API, ključ u env varijabli; prije implementacije provjeri aktualni model i besplatne limite) | ✅ |
-| 17 | Android: ekran "Slika ili opis" + dijeljenje screenshota u aplikaciju | ⬜ |
+| 17 | Android: ekran "Slika ili opis" + dijeljenje screenshota u aplikaciju | ✅ |
 | 18 | Nova lozinka baze, vjerodajnice u env varijable, `.gitignore` | ⬜ |
 | 19 | Supabase JWT autorizacija (korisnik iz tokena, zatvoriti `/korisnici`, ukloniti `lozinka_hash`) | ⬜ |
 | 20 | Ispravni HTTP statusi grešaka + odluka o hostingu | ⬜ |
