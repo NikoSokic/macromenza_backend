@@ -9,6 +9,7 @@ public class MeniDTO {
     private String sifra;
     private String tip;
     private Boolean vegetarijanski;
+    private Integer redniBroj;
     private BigDecimal kalorije;
     private BigDecimal proteini;
     private BigDecimal ugljikohidrati;
@@ -18,13 +19,14 @@ public class MeniDTO {
     public MeniDTO() {
     }
 
-    public MeniDTO(Long id, String sifra, String tip, Boolean vegetarijanski,
+    public MeniDTO(Long id, String sifra, String tip, Boolean vegetarijanski, Integer redniBroj,
                    BigDecimal kalorije, BigDecimal proteini, BigDecimal ugljikohidrati, BigDecimal masti,
                    List<MeniStavkaDTO> stavke) {
         this.id = id;
         this.sifra = sifra;
         this.tip = tip;
         this.vegetarijanski = vegetarijanski;
+        this.redniBroj = redniBroj;
         this.kalorije = kalorije;
         this.proteini = proteini;
         this.ugljikohidrati = ugljikohidrati;
@@ -62,6 +64,14 @@ public class MeniDTO {
 
     public void setVegetarijanski(Boolean vegetarijanski) {
         this.vegetarijanski = vegetarijanski;
+    }
+
+    public Integer getRedniBroj() {
+        return redniBroj;
+    }
+
+    public void setRedniBroj(Integer redniBroj) {
+        this.redniBroj = redniBroj;
     }
 
     public BigDecimal getKalorije() {

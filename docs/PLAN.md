@@ -11,7 +11,7 @@ Jedan korak = jedna funkcija, kompletno backend + frontend. Status: ⬜ nije zap
 | 5 | Obrok kao cjelina (`obrok`: datum, vrijeme, tip, izvor), spremanje u jednom pozivu, odabir datuma i vremena, porcije po 0,5 | ✅ |
 | 6 | Pretraga po kategorijama i "Često jedeš" (filter po makronutrijentima ostaje) | ✅ |
 | 7 | Detalj jela: sastojci, gramaža, napomena | ✅ |
-| 8 | Meniji u unosu obroka | ⬜ |
+| 8 | Meniji u unosu obroka | ✅ |
 | 9 | Sažetak obroka pri dnu ekrana | ⬜ |
 | 10 | Uređivanje obroka | ⬜ |
 | 11 | Brisanje obroka s potvrdom | ⬜ |

@@ -73,6 +73,7 @@ public class MeniService {
                 m.getSifra(),
                 m.getTipObroka(),
                 m.getVegetarijanski(),
+                m.getRedniBroj(),
                 n != null ? n.getKalorije() : null,
                 n != null ? n.getProteini() : null,
                 n != null ? n.getUgljikohidrati() : null,
