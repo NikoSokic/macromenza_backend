@@ -44,7 +44,7 @@ public class ObrokService {
 
     private static final List<String> REDOSLIJED_TIPOVA = List.of("DORUCAK", "RUCAK", "UZINA", "VECERA");
     private static final Set<String> TIPOVI = Set.copyOf(REDOSLIJED_TIPOVA);
-    private static final Set<String> IZVORI = Set.of("RUCNO", "MENI", "SLIKA", "OPIS");
+    private static final Set<String> IZVORI = Set.of("RUCNO", "MENI", "SLIKA", "OPIS", "PRIMJER");
     private static final BigDecimal NAJVISE_PORCIJA = new BigDecimal("99.5");
     private static final DateTimeFormatter FORMAT_VREMENA = DateTimeFormatter.ofPattern("HH:mm");
     /** Dan je u cilju kad kalorije odstupaju od cilja najviše 10 %. */
@@ -265,7 +265,8 @@ public class ObrokService {
                 prosjek,
                 prosjekCilj,
                 imaPrethodni,
-                pocetak.isBefore(tekuci)
+                pocetak.isBefore(tekuci),
+                !redovi.isEmpty() && Boolean.TRUE.equals(redovi.get(0).getImaPrimjer())
         );
     }
 
@@ -349,7 +350,7 @@ public class ObrokService {
         }
 
         if (!IZVORI.contains(izvor)) {
-            throw new IllegalArgumentException("Izvor mora biti RUCNO, MENI, SLIKA ili OPIS.");
+            throw new IllegalArgumentException("Izvor mora biti RUCNO, MENI, SLIKA, OPIS ili PRIMJER.");
         }
 
         List<ObrokRequest.Stavka> stavke = request.getStavke();

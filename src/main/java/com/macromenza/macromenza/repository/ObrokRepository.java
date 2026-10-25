@@ -2,6 +2,7 @@ package com.macromenza.macromenza.repository;
 
 import com.macromenza.macromenza.model.Obrok;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,6 +16,17 @@ public interface ObrokRepository extends JpaRepository<Obrok, Long> {
     Optional<Obrok> findByIdAndIdKorisnik(Long id, Long idKorisnik);
 
     List<Obrok> findByIdKorisnikAndDatumOrderByVrijemeAscIdAsc(Long idKorisnik, LocalDate datum);
+
+    boolean existsByIdKorisnikAndDatum(Long idKorisnik, LocalDate datum);
+
+    /** Bulk brisanje; konzumacije briše baza (ON DELETE CASCADE). */
+    @Modifying
+    @Query("delete from Obrok o where o.idKorisnik = :idKorisnik")
+    int obrisiSveZaKorisnika(@Param("idKorisnik") Long idKorisnik);
+
+    @Modifying
+    @Query("delete from Obrok o where o.idKorisnik = :idKorisnik and o.izvor = :izvor")
+    int obrisiPoIzvoru(@Param("idKorisnik") Long idKorisnik, @Param("izvor") String izvor);
 
     List<Obrok> findByIdKorisnikAndDatumBetween(Long idKorisnik, LocalDate datumOd, LocalDate datumDo);
 
@@ -69,7 +81,12 @@ public interface ObrokRepository extends JpaRepository<Obrok, Long> {
                    EXISTS (
                        SELECT 1 FROM obrok op
                        WHERE op.id_korisnik = :idKorisnik AND op.datum < CAST(:pocetak AS date)
-                   )                 AS "imaPrethodni"
+                   )                 AS "imaPrethodni",
+                   EXISTS (
+                       SELECT 1 FROM obrok opr
+                       WHERE opr.id_korisnik = :idKorisnik AND opr.izvor = 'PRIMJER'
+                         AND opr.datum BETWEEN CAST(:pocetak AS date) AND CAST(:pocetak AS date) + 6
+                   )                 AS "imaPrimjer"
             FROM dani d
             LEFT JOIN totali t ON t.datum = d.datum
             LEFT JOIN LATERAL (
@@ -94,6 +111,7 @@ public interface ObrokRepository extends JpaRepository<Obrok, Long> {
         Integer getCiljUgljikohidrati();
         Integer getCiljMasti();
         Boolean getImaPrethodni();
+        Boolean getImaPrimjer();
     }
 
     interface TipObrokaRed {

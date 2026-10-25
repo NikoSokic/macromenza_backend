@@ -21,6 +21,7 @@ public class TjedanDTO {
     private NutritivneVrijednostiDTO prosjekCilj;
     private boolean imaPrethodni;
     private boolean imaSljedeci;
+    private boolean imaPrimjer;
 
     public TjedanDTO() {
     }
@@ -34,8 +35,10 @@ public class TjedanDTO {
             NutritivneVrijednostiDTO prosjek,
             NutritivneVrijednostiDTO prosjekCilj,
             boolean imaPrethodni,
-            boolean imaSljedeci
+            boolean imaSljedeci,
+            boolean imaPrimjer
     ) {
+        this.imaPrimjer = imaPrimjer;
         this.pocetak = pocetak;
         this.kraj = kraj;
         this.dani = dani;
@@ -81,6 +84,11 @@ public class TjedanDTO {
 
     public boolean getImaSljedeci() {
         return imaSljedeci;
+    }
+
+    /** Tjedan sadrži barem jedan obrok s izvorom PRIMJER. */
+    public boolean getImaPrimjer() {
+        return imaPrimjer;
     }
 
     /** Dan tjedna; [ciljKalorije] je null kad za taj dan nema preporuke. */

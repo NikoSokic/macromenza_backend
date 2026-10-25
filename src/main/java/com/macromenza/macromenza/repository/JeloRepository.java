@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface JeloRepository extends JpaRepository<Jelo, Long> {
     List<Jelo> findByAktivnoTrueOrderByNaziv();
 
+    long countByAktivnoTrue();
+
     List<Jelo> findByAktivnoTrueAndNazivContainingIgnoreCaseOrderByNaziv(String naziv);
 
     @Query("""

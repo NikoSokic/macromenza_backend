@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public interface KonzumacijaRepository extends JpaRepository<Konzumacija, Long> {
 
     List<Konzumacija> findByIdKorisnik(Long idKorisnik);
+    long countByIdKorisnik(Long idKorisnik);
     List<Konzumacija> findByIdObrokIn(Collection<Long> idObroka);
     List<Konzumacija> findByIdObrokOrderByIdAsc(Long idObrok);
 
@@ -48,7 +49,7 @@ public interface KonzumacijaRepository extends JpaRepository<Konzumacija, Long> 
             join Obrok o on o.id = k.idObrok
             join Jelo j on j.id = k.idJelo
             join JeloNutritivno n on n.idJelo = j.id
-            where o.idKorisnik = :idKorisnik and o.datum >= :od and j.aktivno = true
+            where o.idKorisnik = :idKorisnik and o.datum >= :od and j.aktivno = true and o.izvor <> 'PRIMJER'
             group by j.id, j.naziv, j.opis, j.sifra, j.kategorija, j.cijenaEur, j.napomena,
                      n.kalorije, n.proteini, n.ugljikohidrati, n.masti
             order by count(distinct k.idObrok) desc, max(o.datum) desc, j.naziv

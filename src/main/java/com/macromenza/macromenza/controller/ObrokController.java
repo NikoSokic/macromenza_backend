@@ -5,6 +5,7 @@ import com.macromenza.macromenza.dto.ObrokDTO;
 import com.macromenza.macromenza.dto.ObrokRequest;
 import com.macromenza.macromenza.dto.TjedanDTO;
 import com.macromenza.macromenza.services.ObrokService;
+import com.macromenza.macromenza.services.PrimjerTjednaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -21,8 +22,23 @@ public class ObrokController {
 
     private final ObrokService obrokService;
 
-    public ObrokController(ObrokService obrokService) {
+    private final PrimjerTjednaService primjerTjednaService;
+
+    public ObrokController(ObrokService obrokService, PrimjerTjednaService primjerTjednaService) {
         this.obrokService = obrokService;
+        this.primjerTjednaService = primjerTjednaService;
+    }
+
+    /** Stvara primjer za zadnjih 7 dana (bez danas) bez ijednog obroka; vraća broj stvorenih obroka po danu. */
+    @PostMapping("/primjer-tjedna")
+    public Map<String, Integer> ucitajPrimjerTjedna(@RequestParam Long idKorisnik) {
+        return primjerTjednaService.ucitaj(idKorisnik);
+    }
+
+    /** Briše samo obroke s izvorom PRIMJER. */
+    @DeleteMapping("/primjer-tjedna")
+    public Map<String, Integer> ukloniPrimjerTjedna(@RequestParam Long idKorisnik) {
+        return Map.of("obrisano", primjerTjednaService.ukloni(idKorisnik));
     }
 
     @PostMapping
