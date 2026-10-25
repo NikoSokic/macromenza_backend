@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Tajne i testni podaci ###
+.env
+db/test-slike/
