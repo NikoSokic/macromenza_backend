@@ -22,6 +22,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -57,19 +58,71 @@ public class ObrokService {
     @Transactional
     public ObrokDTO spremiObrok(ObrokRequest request) {
 
-        String izvor = request.getIzvor() == null ? "RUCNO" : request.getIzvor();
-        provjeri(request, izvor);
+        String izvor = izvor(request);
+        provjeri(request, izvor, Set.of());
 
         Obrok obrok = new Obrok();
         obrok.setIdKorisnik(request.getIdKorisnik());
+        postaviPodatke(obrok, request, izvor);
+        obrok = obrokRepository.save(obrok);
+
+        upisiStavke(obrok, request.getStavke());
+
+        return mapiraj(List.of(obrok)).get(0);
+    }
+
+    public ObrokDTO dohvatiObrok(Long id, Long idKorisnik) {
+        return mapiraj(List.of(nadiObrok(id, idKorisnik))).get(0);
+    }
+
+    /**
+     * Mijenja obrok i zamjenjuje sve njegove stavke u jednoj transakciji (sve ili ništa).
+     * Konzumacije dobivaju datum, tip i korisnika iz obroka, pa ostaju usklađene s njim.
+     */
+    @Transactional
+    public ObrokDTO azurirajObrok(Long id, Long idKorisnik, ObrokRequest request) {
+
+        // Vlasništvo se provjerava prije validacije: tuđi obrok uvijek daje 404.
+        Obrok obrok = nadiObrok(id, idKorisnik);
+        List<Konzumacija> stare = konzumacijaRepository.findByIdObrokOrderByIdAsc(id);
+
+        request.setIdKorisnik(idKorisnik);
+        String izvor = izvor(request);
+        // Jelo koje je već u obroku smije ostati i ako je u međuvremenu deaktivirano.
+        provjeri(request, izvor, stare.stream().map(Konzumacija::getIdJelo).collect(Collectors.toSet()));
+
+        postaviPodatke(obrok, request, izvor);
+        obrok = obrokRepository.save(obrok);
+
+        konzumacijaRepository.deleteAllInBatch(stare);
+        upisiStavke(obrok, request.getStavke());
+
+        return mapiraj(List.of(obrok)).get(0);
+    }
+
+    public List<ObrokDTO> dohvatiObroke(Long idKorisnik, LocalDate datum) {
+        return mapiraj(obrokRepository.findByIdKorisnikAndDatumOrderByVrijemeAscIdAsc(idKorisnik, datum));
+    }
+
+    private Obrok nadiObrok(Long id, Long idKorisnik) {
+        return obrokRepository.findByIdAndIdKorisnik(id, idKorisnik)
+                .orElseThrow(() -> new NoSuchElementException("Obrok ne postoji."));
+    }
+
+    private String izvor(ObrokRequest request) {
+        return request.getIzvor() == null ? "RUCNO" : request.getIzvor();
+    }
+
+    private void postaviPodatke(Obrok obrok, ObrokRequest request, String izvor) {
         obrok.setDatum(request.getDatum());
         obrok.setVrijeme(request.getVrijeme().truncatedTo(ChronoUnit.MINUTES));
         obrok.setTipObroka(request.getTipObroka());
         obrok.setIzvor(izvor);
-        obrok = obrokRepository.save(obrok);
+    }
 
+    private void upisiStavke(Obrok obrok, List<ObrokRequest.Stavka> stavke) {
         List<Konzumacija> konzumacije = new ArrayList<>();
-        for (ObrokRequest.Stavka stavka : request.getStavke()) {
+        for (ObrokRequest.Stavka stavka : stavke) {
             Konzumacija k = new Konzumacija();
             k.setIdKorisnik(obrok.getIdKorisnik());
             k.setIdJelo(stavka.getIdJelo());
@@ -80,15 +133,10 @@ public class ObrokService {
             konzumacije.add(k);
         }
         konzumacijaRepository.saveAllAndFlush(konzumacije);
-
-        return mapiraj(List.of(obrok)).get(0);
     }
 
-    public List<ObrokDTO> dohvatiObroke(Long idKorisnik, LocalDate datum) {
-        return mapiraj(obrokRepository.findByIdKorisnikAndDatumOrderByVrijemeAscIdAsc(idKorisnik, datum));
-    }
-
-    private void provjeri(ObrokRequest request, String izvor) {
+    /** [dopustenaNeaktivna]: jela koja smiju biti neaktivna (ona koja su već bila u obroku koji se uređuje). */
+    private void provjeri(ObrokRequest request, String izvor, Set<Long> dopustenaNeaktivna) {
 
         if (request.getIdKorisnik() == null) {
             throw new IllegalArgumentException("Korisnik je obavezan.");
@@ -156,7 +204,7 @@ public class ObrokService {
                 throw new IllegalArgumentException("Jelo " + idJelo + " ne postoji.");
             }
 
-            if (!Boolean.TRUE.equals(jelo.getAktivno())) {
+            if (!Boolean.TRUE.equals(jelo.getAktivno()) && !dopustenaNeaktivna.contains(idJelo)) {
                 throw new IllegalArgumentException("Jelo " + idJelo + " nije aktivno.");
             }
         }

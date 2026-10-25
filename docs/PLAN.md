@@ -12,8 +12,8 @@ Jedan korak = jedna funkcija, kompletno backend + frontend. Status: ⬜ nije zap
 | 6 | Pretraga po kategorijama i "Često jedeš" (filter po makronutrijentima ostaje) | ✅ |
 | 7 | Detalj jela: sastojci, gramaža, napomena | ✅ |
 | 8 | Meniji u unosu obroka | ✅ |
-| 9 | Sažetak obroka pri dnu ekrana | ⬜ |
-| 10 | Uređivanje obroka | ⬜ |
+| 9 | Sažetak obroka pri dnu ekrana | ✅ |
+| 10 | Uređivanje obroka | ✅ |
 | 11 | Brisanje obroka s potvrdom | ⬜ |
 | 12 | Početni ekran: prsten kalorija po obrocima i savjet dana | ⬜ |
 | 13 | Povijest: listanje tjedana, graf s linijom cilja, dani u cilju (±10 %), prosjek makronutrijenata | ⬜ |

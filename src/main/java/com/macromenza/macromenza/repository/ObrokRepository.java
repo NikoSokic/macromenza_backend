@@ -7,8 +7,11 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface ObrokRepository extends JpaRepository<Obrok, Long> {
+
+    Optional<Obrok> findByIdAndIdKorisnik(Long id, Long idKorisnik);
 
     List<Obrok> findByIdKorisnikAndDatumOrderByVrijemeAscIdAsc(Long idKorisnik, LocalDate datum);
 
