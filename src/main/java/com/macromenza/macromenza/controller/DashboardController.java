@@ -4,6 +4,8 @@ import com.macromenza.macromenza.dto.DashboardDTO;
 import com.macromenza.macromenza.services.DashboardService;
 import org.springframework.web.bind.annotation.*;
 
+/** Zamijenjen s GET /api/obroci/dan-pregled; Home ga više ne koristi. */
+@Deprecated
 @RestController
 @RequestMapping("/api/dashboard")
 public class DashboardController {

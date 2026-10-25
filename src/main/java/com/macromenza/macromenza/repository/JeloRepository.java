@@ -2,11 +2,13 @@ package com.macromenza.macromenza.repository;
 
 import com.macromenza.macromenza.dto.KategorijaJelaDTO;
 import com.macromenza.macromenza.model.Jelo;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,33 @@ public interface JeloRepository extends JpaRepository<Jelo, Long> {
             where j.id = :id
             """)
     Optional<JeloDetaljRed> findDetalj(@Param("id") Long id);
+
+    /** Aktivna jela s najviše proteina po kaloriji (savjet dana); jela do 100 kcal se preskaču. */
+    @Query("""
+            select j.id as idJelo, j.naziv as naziv, n.kalorije as kalorije, n.proteini as proteini
+            from Jelo j
+            join JeloNutritivno n on n.idJelo = j.id
+            where j.aktivno = true and n.kalorije > 100
+            order by n.proteini / n.kalorije desc, j.naziv
+            """)
+    List<SavjetJeloRed> findProteinskaJela(Limit limit);
+
+    /** Aktivna jela iz zadanih kategorija s najmanje kalorija (savjet dana). */
+    @Query("""
+            select j.id as idJelo, j.naziv as naziv, n.kalorije as kalorije, n.proteini as proteini
+            from Jelo j
+            join JeloNutritivno n on n.idJelo = j.id
+            where j.aktivno = true and j.kategorija in :kategorije
+            order by n.kalorije, j.naziv
+            """)
+    List<SavjetJeloRed> findLaganaJela(@Param("kategorije") Collection<String> kategorije, Limit limit);
+
+    interface SavjetJeloRed {
+        Long getIdJelo();
+        String getNaziv();
+        BigDecimal getKalorije();
+        BigDecimal getProteini();
+    }
 
     interface JeloDetaljRed {
         Long getIdJelo();

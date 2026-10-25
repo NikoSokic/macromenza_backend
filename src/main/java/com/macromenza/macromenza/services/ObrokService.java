@@ -1,5 +1,7 @@
 package com.macromenza.macromenza.services;
 
+import com.macromenza.macromenza.dto.DanPregledDTO;
+import com.macromenza.macromenza.dto.NutritivneVrijednostiDTO;
 import com.macromenza.macromenza.dto.ObrokDTO;
 import com.macromenza.macromenza.dto.ObrokRequest;
 import com.macromenza.macromenza.model.Jelo;
@@ -10,12 +12,15 @@ import com.macromenza.macromenza.repository.KonzumacijaRepository;
 import com.macromenza.macromenza.repository.KonzumacijaRepository.StavkaObrokaRed;
 import com.macromenza.macromenza.repository.KorisnikRepository;
 import com.macromenza.macromenza.repository.ObrokRepository;
+import com.macromenza.macromenza.repository.ObrokRepository.TipObrokaRed;
+import com.macromenza.macromenza.repository.PreporukaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -32,7 +37,8 @@ public class ObrokService {
 
     public static final ZoneId ZAGREB = ZoneId.of("Europe/Zagreb");
 
-    private static final Set<String> TIPOVI = Set.of("DORUCAK", "RUCAK", "UZINA", "VECERA");
+    private static final List<String> REDOSLIJED_TIPOVA = List.of("DORUCAK", "RUCAK", "UZINA", "VECERA");
+    private static final Set<String> TIPOVI = Set.copyOf(REDOSLIJED_TIPOVA);
     private static final Set<String> IZVORI = Set.of("RUCNO", "MENI", "SLIKA", "OPIS");
     private static final BigDecimal NAJVISE_PORCIJA = new BigDecimal("99.5");
     private static final DateTimeFormatter FORMAT_VREMENA = DateTimeFormatter.ofPattern("HH:mm");
@@ -41,17 +47,23 @@ public class ObrokService {
     private final KonzumacijaRepository konzumacijaRepository;
     private final JeloRepository jeloRepository;
     private final KorisnikRepository korisnikRepository;
+    private final PreporukaRepository preporukaRepository;
+    private final SavjetService savjetService;
 
     public ObrokService(
             ObrokRepository obrokRepository,
             KonzumacijaRepository konzumacijaRepository,
             JeloRepository jeloRepository,
-            KorisnikRepository korisnikRepository
+            KorisnikRepository korisnikRepository,
+            PreporukaRepository preporukaRepository,
+            SavjetService savjetService
     ) {
         this.obrokRepository = obrokRepository;
         this.konzumacijaRepository = konzumacijaRepository;
         this.jeloRepository = jeloRepository;
         this.korisnikRepository = korisnikRepository;
+        this.preporukaRepository = preporukaRepository;
+        this.savjetService = savjetService;
     }
 
     /** Sprema obrok i sve njegove stavke u jednoj transakciji (sve ili ništa). */
@@ -108,6 +120,69 @@ public class ObrokService {
 
     public List<ObrokDTO> dohvatiObroke(Long idKorisnik, LocalDate datum) {
         return mapiraj(obrokRepository.findByIdKorisnikAndDatumOrderByVrijemeAscIdAsc(idKorisnik, datum));
+    }
+
+    /**
+     * Pregled dana za početni ekran: cilj (zadnja preporuka s datumom <= datum), pojedeno, kalorije po tipu obroka
+     * i savjet dana. Totali se računaju jednim upitom; [datum] zadano je danas (Europe/Zagreb).
+     */
+    public DanPregledDTO dohvatiDanPregled(Long idKorisnik, LocalDate datum) {
+
+        if (!korisnikRepository.existsById(idKorisnik)) {
+            throw new NoSuchElementException("Korisnik ne postoji.");
+        }
+
+        LocalDate danas = LocalDate.now(ZAGREB);
+        LocalDate trazeniDatum = datum == null ? danas : datum;
+
+        Map<String, TipObrokaRed> redovi = obrokRepository.findTotaliPoTipu(idKorisnik, trazeniDatum).stream()
+                .collect(Collectors.toMap(TipObrokaRed::getTipObroka, Function.identity()));
+
+        List<DanPregledDTO.PoTipu> poTipu = new ArrayList<>();
+        BigDecimal kalorije = BigDecimal.ZERO;
+        BigDecimal proteini = BigDecimal.ZERO;
+        BigDecimal ugljikohidrati = BigDecimal.ZERO;
+        BigDecimal masti = BigDecimal.ZERO;
+
+        // Pojedeno je zbroj već zaokruženih vrijednosti, pa zbroj poTipu.kalorije uvijek jednak pojedeno.kalorije.
+        for (String tip : REDOSLIJED_TIPOVA) {
+            TipObrokaRed red = redovi.get(tip);
+
+            if (red == null) {
+                poTipu.add(new DanPregledDTO.PoTipu(tip, BigDecimal.ZERO.setScale(2), 0));
+                continue;
+            }
+
+            BigDecimal kalorijeTipa = zaokruzi(red.getKalorije());
+            poTipu.add(new DanPregledDTO.PoTipu(tip, kalorijeTipa, red.getBrojObroka()));
+
+            kalorije = kalorije.add(kalorijeTipa);
+            proteini = proteini.add(zaokruzi(red.getProteini()));
+            ugljikohidrati = ugljikohidrati.add(zaokruzi(red.getUgljikohidrati()));
+            masti = masti.add(zaokruzi(red.getMasti()));
+        }
+
+        NutritivneVrijednostiDTO pojedeno = new NutritivneVrijednostiDTO(kalorije, proteini, ugljikohidrati, masti);
+
+        NutritivneVrijednostiDTO cilj = preporukaRepository
+                .findTopByIdKorisnikAndDatumLessThanEqualOrderByDatumDescIdDesc(idKorisnik, trazeniDatum)
+                .map(p -> new NutritivneVrijednostiDTO(
+                        BigDecimal.valueOf(p.getKalorije()),
+                        BigDecimal.valueOf(p.getProteini()),
+                        BigDecimal.valueOf(p.getUgljikohidrati()),
+                        BigDecimal.valueOf(p.getMasti())
+                ))
+                .orElse(null);
+
+        DanPregledDTO.Savjet savjet = savjetService.odaberi(
+                cilj, pojedeno, trazeniDatum, danas, LocalTime.now(ZAGREB)
+        );
+
+        return new DanPregledDTO(cilj, pojedeno, poTipu, savjet);
+    }
+
+    private BigDecimal zaokruzi(BigDecimal vrijednost) {
+        return vrijednost.setScale(2, RoundingMode.HALF_UP);
     }
 
     private Obrok nadiObrok(Long id, Long idKorisnik) {

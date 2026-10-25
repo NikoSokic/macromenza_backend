@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 
 
 
+/** Zamijenjen s ObrokService.dohvatiDanPregled; Home ga više ne koristi. */
+@Deprecated
 @Service
 public class DashboardService {
 

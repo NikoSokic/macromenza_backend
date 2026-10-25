@@ -1,5 +1,6 @@
 package com.macromenza.macromenza.controller;
 
+import com.macromenza.macromenza.dto.DanPregledDTO;
 import com.macromenza.macromenza.dto.ObrokDTO;
 import com.macromenza.macromenza.dto.ObrokRequest;
 import com.macromenza.macromenza.services.ObrokService;
@@ -31,6 +32,15 @@ public class ObrokController {
     @GetMapping
     public List<ObrokDTO> getObroci(@RequestParam Long idKorisnik, @RequestParam LocalDate datum) {
         return obrokService.dohvatiObroke(idKorisnik, datum);
+    }
+
+    /** Pregled dana za početni ekran; [datum] je opcionalan, zadano danas (Europe/Zagreb). */
+    @GetMapping("/dan-pregled")
+    public DanPregledDTO getDanPregled(
+            @RequestParam Long idKorisnik,
+            @RequestParam(required = false) LocalDate datum
+    ) {
+        return obrokService.dohvatiDanPregled(idKorisnik, datum);
     }
 
     @GetMapping("/{id}")
