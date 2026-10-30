@@ -1,5 +1,6 @@
 package com.macromenza.macromenza.controller;
 
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.dto.BrzoMjerenjeDTO;
 import com.macromenza.macromenza.dto.BrzoMjerenjeRequest;
 import com.macromenza.macromenza.dto.MjerenjeMaseDTO;
@@ -17,8 +18,10 @@ import java.util.Map;
 public class MjerenjeApiController {
 
     private final MjerenjeService mjerenjeService;
+    private final TrenutniKorisnik trenutni;
 
-    public MjerenjeApiController(MjerenjeService mjerenjeService) {
+    public MjerenjeApiController(MjerenjeService mjerenjeService, TrenutniKorisnik trenutni) {
+        this.trenutni = trenutni;
         this.mjerenjeService = mjerenjeService;
     }
 
@@ -29,12 +32,14 @@ public class MjerenjeApiController {
             @RequestParam(required = false) LocalDate od,
             @RequestParam(name = "do", required = false) LocalDate doDatuma
     ) {
+        trenutni.provjeri(idKorisnik);
         return mjerenjeService.dohvatiMase(idKorisnik, od, doDatuma);
     }
 
     /** Današnja masa u jednom pozivu; vraća spremljeno mjerenje i novu preporuku. */
     @PostMapping("/brzo")
     public BrzoMjerenjeDTO brzoMjerenje(@RequestBody BrzoMjerenjeRequest request) {
+        trenutni.provjeri(request.getIdKorisnik());
         return mjerenjeService.brzoMjerenje(request);
     }
 

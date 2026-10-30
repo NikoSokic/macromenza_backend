@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
@@ -78,12 +79,14 @@ class ObrokControllerIT extends IntegracijskiTest {
     void tudiObrokJeNevidljiv() throws Exception {
         Number id = objavi("/api/obroci", obrokJson(korisnik, DANAS, "RUCAK", stavka(jeloA.get("id"), "1")))
                 .ocekuj(200).put("$.id");
+        UUID mojUid = trenutniUid;
         long drugi = noviKorisnik();
 
         dohvati("/api/obroci/{id}?idKorisnik={k}", id, drugi).ocekuj(404);
         zamijeni("/api/obroci/{id}?idKorisnik={k}",
                 obrokJson(drugi, DANAS, "RUCAK", stavka(jeloA.get("id"), "2")), id, drugi).ocekuj(404);
         obrisi("/api/obroci/{id}?idKorisnik={k}", id, drugi).ocekuj(404);
+        kao(mojUid);
         dohvati("/api/obroci/{id}?idKorisnik={k}", id, korisnik).ocekuj(200);
     }
 
@@ -101,8 +104,8 @@ class ObrokControllerIT extends IntegracijskiTest {
         assertThat(broj(d.put("$.pojedeno.kalorije"))).isCloseTo(pojedeno, within(0.02));
         assertThat(d.<String>put("$.savjet.naslov")).isNotBlank();
 
-        Odgovor nepostojeci = dohvati("/api/obroci/dan-pregled?idKorisnik={k}", -1).ocekuj(404);
-        assertThat(nepostojeci.poruka()).isEqualTo("Korisnik ne postoji.");
+        Odgovor nepostojeci = dohvati("/api/obroci/dan-pregled?idKorisnik={k}", -1).ocekuj(403);
+        assertThat(nepostojeci.poruka()).isEqualTo("Nemaš pristup podacima drugog korisnika.");
     }
 
     @Test
@@ -121,7 +124,7 @@ class ObrokControllerIT extends IntegracijskiTest {
         assertThat(prosli.<Integer>put("$.daniSUnosom")).isZero();
 
         dohvati("/api/obroci/tjedan?idKorisnik={k}&pocetak={p}", korisnik, DANAS.plusWeeks(1)).ocekuj(400);
-        dohvati("/api/obroci/tjedan?idKorisnik={k}", -1).ocekuj(404);
+        dohvati("/api/obroci/tjedan?idKorisnik={k}", -1).ocekuj(403);
     }
 
     @Test

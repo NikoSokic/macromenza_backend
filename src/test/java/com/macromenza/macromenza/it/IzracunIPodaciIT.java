@@ -73,6 +73,6 @@ class IzracunIPodaciIT extends IntegracijskiTest {
         dohvati("/korisnici/{id}", k).ocekuj(200);
         assertThat(dohvati("/profil/korisnik/{id}", k).<Integer>put("$.visina")).isEqualTo(180);
 
-        obrisi("/api/korisnici/{id}/podaci?potvrda=OBRISI", -1).ocekuj(404);
+        obrisi("/api/korisnici/{id}/podaci?potvrda=OBRISI", -1).ocekuj(403);
     }
 }

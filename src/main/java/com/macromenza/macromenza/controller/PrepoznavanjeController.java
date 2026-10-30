@@ -1,5 +1,6 @@
 package com.macromenza.macromenza.controller;
 
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.dto.PrijedlogObrokaDTO;
 import com.macromenza.macromenza.services.PrepoznavanjeException;
 import com.macromenza.macromenza.services.PrepoznavanjeService;
@@ -18,8 +19,10 @@ import java.util.Map;
 public class PrepoznavanjeController {
 
     private final PrepoznavanjeService prepoznavanjeService;
+    private final TrenutniKorisnik trenutni;
 
-    public PrepoznavanjeController(PrepoznavanjeService prepoznavanjeService) {
+    public PrepoznavanjeController(PrepoznavanjeService prepoznavanjeService, TrenutniKorisnik trenutni) {
+        this.trenutni = trenutni;
         this.prepoznavanjeService = prepoznavanjeService;
     }
 
@@ -30,6 +33,7 @@ public class PrepoznavanjeController {
             @RequestParam(required = false) MultipartFile slika,
             @RequestParam(required = false) String opis
     ) {
+        trenutni.provjeri(idKorisnik);
         return prepoznavanjeService.prepoznaj(idKorisnik, slika, opis);
     }
 

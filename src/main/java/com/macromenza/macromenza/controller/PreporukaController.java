@@ -2,9 +2,9 @@ package com.macromenza.macromenza.controller;
 
 import com.macromenza.macromenza.model.Preporuka;
 import com.macromenza.macromenza.repository.PreporukaRepository;
-import org.springframework.web.bind.annotation.*;
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.services.IzracunPreporukeService;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,43 +14,27 @@ public class PreporukaController {
 
     private final PreporukaRepository preporukaRepository;
     private final IzracunPreporukeService izracunPreporukeService;
+    private final TrenutniKorisnik trenutni;
 
     public PreporukaController(
             PreporukaRepository preporukaRepository,
-            IzracunPreporukeService izracunPreporukeService
+            IzracunPreporukeService izracunPreporukeService,
+            TrenutniKorisnik trenutni
     ) {
         this.preporukaRepository = preporukaRepository;
         this.izracunPreporukeService = izracunPreporukeService;
-    }
-
-
-    @GetMapping
-    public List<Preporuka> getSvePreporuke() {
-        return preporukaRepository.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Preporuka getPreporukaPoId(@PathVariable Long id) {
-        return preporukaRepository.findById(id).orElse(null);
+        this.trenutni = trenutni;
     }
 
     @GetMapping("/korisnik/{idKorisnik}")
     public List<Preporuka> getPreporukeZaKorisnika(@PathVariable Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         return preporukaRepository.findByIdKorisnik(idKorisnik);
-    }
-
-    @PostMapping
-    public Preporuka dodajPreporuku(@RequestBody Preporuka preporuka) {
-        return preporukaRepository.save(preporuka);
-    }
-
-    @DeleteMapping("/{id}")
-    public void obrisiPreporuku(@PathVariable Long id) {
-        preporukaRepository.deleteById(id);
     }
 
     @PostMapping("/izracunaj/{idKorisnik}")
     public Preporuka izracunajPreporuku(@PathVariable Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         return izracunPreporukeService.izracunajPreporuku(idKorisnik);
     }
 

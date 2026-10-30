@@ -1,0 +1,22 @@
+# Render Blueprint: New > Blueprint, odaberi repozitorij macromenza_backend.
+# Vrijednosti s sync: false upisuješ ručno u Render (Environment), nikad u repozitorij.
+services:
+  - type: web
+    name: macromenza-backend
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: master
+    healthCheckPath: /api/ping
+    autoDeploy: true
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        value: https://nncjmtrxderijntybnhb.supabase.co

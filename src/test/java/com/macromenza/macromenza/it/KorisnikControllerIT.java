@@ -39,6 +39,7 @@ class KorisnikControllerIT extends IntegracijskiTest {
     @Test
     void ponovnaRegistracijaIstogUidaNeStvaraDuplikat() throws Exception {
         String uid = UUID.randomUUID().toString();
+        kao(UUID.fromString(uid));
         String zahtjev = """
                 {"supabaseUid":"%s","email":"dup@macromenza.test","ime":"Ana","prezime":"Anić","spol":"Z",
                  "visina":165,"dob":30,"masa":60.0,"razinaAktivnosti":"sjedilacka","tipCilja":"mrsavljenje"}""";
@@ -52,14 +53,11 @@ class KorisnikControllerIT extends IntegracijskiTest {
         assertThat(dohvati("/api/preporuke/{id}", prvi).<Integer>put("$.kalorije")).isEqualTo(1084);
 
         Odgovor supabase = objavi("/korisnici/supabase", """
-                {"supabaseUid":"%s","ime":"X","prezime":"Y","email":"x@y.z","lozinka_hash":""}""".formatted(uid))
+                {"supabaseUid":"%s","ime":"X","prezime":"Y","email":"x@y.z"}""".formatted(uid))
                 .ocekuj(200);
         KotlinUgovor.provjeri(supabase.json(), "Korisnik");
         assertThat(supabase.<Number>put("$.id").longValue()).isEqualTo(prvi.longValue());
         assertThat(supabase.<String>put("$.ime")).isEqualTo("Ivana"); // postojeći se ne prepisuje
-
-        Number poUidu = dohvati("/korisnici/supabase/{uid}", uid).ocekuj(200).put("$.id");
-        assertThat(poUidu.longValue()).isEqualTo(prvi.longValue());
     }
 
     @Test
@@ -67,7 +65,7 @@ class KorisnikControllerIT extends IntegracijskiTest {
         long id = noviKorisnik();
 
         Odgovor k = zamijeni("/korisnici/{id}", """
-                {"ime":"Marko","prezime":"Marić","email":"marko@macromenza.test","lozinka_hash":""}""", id)
+                {"ime":"Marko","prezime":"Marić","email":"marko@macromenza.test"}""", id)
                 .ocekuj(200);
         KotlinUgovor.provjeri(k.json(), "Korisnik");
         assertThat(k.<String>put("$.prezime")).isEqualTo("Marić");
@@ -93,11 +91,14 @@ class KorisnikControllerIT extends IntegracijskiTest {
 
     @Test
     void onboardingNijeZavrsenBezMjerenjaIliZaNepostojecegKorisnika() throws Exception {
-        assertThat(dohvati("/korisnici/{id}/onboarding-status", -1).<Boolean>put("$.onboardingZavrsen")).isFalse();
+        // Tuđi ili nepostojeći id: korisnik iz tokena nije vlasnik, pa je odgovor 403.
+        dohvati("/korisnici/{id}/onboarding-status", -1).ocekuj(403);
 
+        UUID uid = UUID.randomUUID();
+        kao(uid);
         Number id = objavi("/korisnici/supabase", """
-                {"supabaseUid":"%s","ime":"EMPTY","prezime":"EMPTY","email":"novi@macromenza.test","lozinka_hash":""}"""
-                .formatted(UUID.randomUUID())).ocekuj(200).put("$.id");
+                {"supabaseUid":"%s","ime":"EMPTY","prezime":"EMPTY","email":"novi@macromenza.test"}"""
+                .formatted(uid)).ocekuj(200).put("$.id");
         assertThat(dohvati("/korisnici/{id}/onboarding-status", id).<Boolean>put("$.onboardingZavrsen")).isFalse();
     }
 }

@@ -1,5 +1,6 @@
 package com.macromenza.macromenza.controller;
 
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.dto.IzracunDTO;
 import com.macromenza.macromenza.dto.IzracunPreporukeRequest;
 import com.macromenza.macromenza.model.Preporuka;
@@ -15,13 +16,16 @@ import java.util.Set;
 public class IzracunPreporukeController {
 
     private final IzracunPreporukeService izracunPreporukeService;
+    private final TrenutniKorisnik trenutni;
 
-    public IzracunPreporukeController(IzracunPreporukeService izracunPreporukeService) {
+    public IzracunPreporukeController(IzracunPreporukeService izracunPreporukeService, TrenutniKorisnik trenutni) {
+        this.trenutni = trenutni;
         this.izracunPreporukeService = izracunPreporukeService;
     }
 
     @PostMapping("/izracunaj/{korisnikId}")
     public Preporuka izracunajPreporuku(@PathVariable Long korisnikId) {
+        trenutni.provjeri(korisnikId);
         return izracunPreporukeService.izracunajPreporuku(korisnikId);
     }
 
@@ -66,6 +70,7 @@ public class IzracunPreporukeController {
 
     @GetMapping("/{korisnikId}")
     public Preporuka dohvatiZadnjuPreporuku(@PathVariable Long korisnikId) {
+        trenutni.provjeri(korisnikId);
         return izracunPreporukeService.dohvatiZadnjuPreporuku(korisnikId);
     }
 }

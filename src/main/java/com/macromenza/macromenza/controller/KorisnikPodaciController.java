@@ -1,5 +1,6 @@
 package com.macromenza.macromenza.controller;
 
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.services.BrisanjePodatakaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,10 @@ import java.util.NoSuchElementException;
 public class KorisnikPodaciController {
 
     private final BrisanjePodatakaService brisanjePodatakaService;
+    private final TrenutniKorisnik trenutni;
 
-    public KorisnikPodaciController(BrisanjePodatakaService brisanjePodatakaService) {
+    public KorisnikPodaciController(BrisanjePodatakaService brisanjePodatakaService, TrenutniKorisnik trenutni) {
+        this.trenutni = trenutni;
         this.brisanjePodatakaService = brisanjePodatakaService;
     }
 
@@ -24,6 +27,7 @@ public class KorisnikPodaciController {
             @PathVariable Long id,
             @RequestParam(required = false) String potvrda
     ) {
+        trenutni.provjeri(id);
         return brisanjePodatakaService.obrisiSvePodatke(id, potvrda);
     }
 

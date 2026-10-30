@@ -2,6 +2,7 @@ package com.macromenza.macromenza.controller;
 
 import com.macromenza.macromenza.model.Mjerenje;
 import com.macromenza.macromenza.repository.MjerenjeRepository;
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,38 +12,22 @@ import java.util.List;
 public class MjerenjeController {
 
     private final MjerenjeRepository mjerenjeRepository;
+    private final TrenutniKorisnik trenutni;
 
-    public MjerenjeController(MjerenjeRepository mjerenjeRepository) {
-
+    public MjerenjeController(MjerenjeRepository mjerenjeRepository, TrenutniKorisnik trenutni) {
         this.mjerenjeRepository = mjerenjeRepository;
-    }
-
-    @GetMapping
-    public List<Mjerenje> getSvaMjerenja() {
-
-        return mjerenjeRepository.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Mjerenje getMjerenjePoId(@PathVariable Long id) {
-
-        return mjerenjeRepository.findById(id).orElse(null);
+        this.trenutni = trenutni;
     }
 
     @GetMapping("/korisnik/{idKorisnik}")
     public List<Mjerenje> getMjerenjaZaKorisnika(@PathVariable Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         return mjerenjeRepository.findByIdKorisnik(idKorisnik);
     }
 
     @PostMapping
     public Mjerenje dodajMjerenje(@RequestBody Mjerenje mjerenje) {
-
+        trenutni.provjeri(mjerenje.getIdKorisnik());
         return mjerenjeRepository.save(mjerenje);
-    }
-
-    @DeleteMapping("/{id}")
-    public void obrisiMjerenje(@PathVariable Long id) {
-
-        mjerenjeRepository.deleteById(id);
     }
 }

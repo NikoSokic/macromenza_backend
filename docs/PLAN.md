@@ -21,9 +21,9 @@ Jedan korak = jedna funkcija, kompletno backend + frontend. Status: ⬜ nije zap
 | 15 | Objašnjenje izračuna u onboardingu, ekran "Odakle su kalorije", brisanje svih podataka, primjer tjedna | ✅ |
 | 16 | Backend: prepoznavanje obroka sa slike ili opisa (Gemini API, ključ u env varijabli; prije implementacije provjeri aktualni model i besplatne limite) | ✅ |
 | 17 | Android: ekran "Slika ili opis" + dijeljenje screenshota u aplikaciju | ✅ |
-| 18 | Nova lozinka baze, vjerodajnice u env varijable, `.gitignore` | ⬜ |
-| 19 | Supabase JWT autorizacija (korisnik iz tokena, zatvoriti `/korisnici`, ukloniti `lozinka_hash`) | ⬜ |
-| 20 | Ispravni HTTP statusi grešaka + odluka o hostingu | ⬜ |
+| 18 | Nova lozinka baze, vjerodajnice u env varijable, `.gitignore` | ✅ (osim nove lozinke: mijenja je Niko ručno u Supabaseu) |
+| 19 | Supabase JWT autorizacija (korisnik iz tokena, zatvoriti `/korisnici`, ukloniti `lozinka_hash`) | ✅ |
+| 20 | Ispravni HTTP statusi grešaka + odluka o hostingu (Render, Docker + `render.yaml`) | ✅ |
 
 ## Lokalno pokretanje (korak 1)
 

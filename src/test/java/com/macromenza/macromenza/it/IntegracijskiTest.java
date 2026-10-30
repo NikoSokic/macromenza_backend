@@ -7,7 +7,9 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
@@ -18,6 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,6 +39,14 @@ abstract class IntegracijskiTest {
 
     @Autowired
     protected MockMvc mvc;
+
+    /** Supabase uid iz kojeg se šalje token; null znači zahtjev bez tokena. */
+    protected UUID trenutniUid = UUID.randomUUID();
+
+    /** Daljnji zahtjevi idu kao korisnik s ovim uidom (token se potpisuje kod prave aplikacije, ovdje ga simulira Security). */
+    protected void kao(UUID uid) {
+        this.trenutniUid = uid;
+    }
 
     /** Odgovor zahtjeva: HTTP status i JSON (Map/List/vrijednost ili null kad je tijelo prazno). */
     record Odgovor(int status, String tijelo) {
@@ -68,7 +79,12 @@ abstract class IntegracijskiTest {
     }
 
     Odgovor posalji(RequestBuilder zahtjev) throws Exception {
-        MvcResult r = mvc.perform(zahtjev).andReturn();
+        RequestBuilder sTokenom = trenutniUid == null ? zahtjev : kontekst -> {
+            MockHttpServletRequest zahtjevSTokenom = zahtjev.buildRequest(kontekst);
+            RequestPostProcessor token = jwt().jwt(j -> j.subject(trenutniUid.toString()));
+            return token.postProcessRequest(zahtjevSTokenom);
+        };
+        MvcResult r = mvc.perform(sTokenom).andReturn();
         return new Odgovor(r.getResponse().getStatus(), r.getResponse().getContentAsString(StandardCharsets.UTF_8));
     }
 
@@ -90,10 +106,12 @@ abstract class IntegracijskiTest {
 
     /** Novi korisnik kroz isti endpoint kao registracija u aplikaciji (M, 25, 180 cm, 80 kg → cilj 2798 kcal). */
     long noviKorisnik() throws Exception {
+        UUID uid = UUID.randomUUID();
+        kao(uid);
         return objavi("/korisnici/registracija-profil", """
                 {"supabaseUid":"%s","email":"test-%s@macromenza.test","ime":"Test","prezime":"Korisnik",
                  "spol":"M","visina":180,"dob":25,"masa":80.0,"razinaAktivnosti":"umjerena","tipCilja":"odrzavanje"}
-                """.formatted(UUID.randomUUID(), UUID.randomUUID()))
+                """.formatted(uid, UUID.randomUUID()))
                 .ocekuj(200)
                 .<Number>put("$.id").longValue();
     }

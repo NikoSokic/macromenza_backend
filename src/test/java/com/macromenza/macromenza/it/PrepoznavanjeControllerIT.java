@@ -79,7 +79,7 @@ class PrepoznavanjeControllerIT extends IntegracijskiTest {
                 .file(new MockMultipartFile("slika", "a.gif", "image/gif", new byte[]{1}))
                 .param("idKorisnik", String.valueOf(korisnik))).ocekuj(400).poruka())
                 .isEqualTo("Slika mora biti JPEG, PNG ili WebP.");
-        posalji(multipart("/api/prepoznavanje").param("idKorisnik", "-1").param("opis", "grah")).ocekuj(404);
+        posalji(multipart("/api/prepoznavanje").param("idKorisnik", "-1").param("opis", "grah")).ocekuj(403);
 
         when(gemini.imaKljuc()).thenReturn(false);
         posalji(multipart("/api/prepoznavanje").param("idKorisnik", String.valueOf(korisnik)).param("opis", "grah"))

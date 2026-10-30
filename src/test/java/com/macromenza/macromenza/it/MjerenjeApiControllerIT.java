@@ -42,9 +42,11 @@ class MjerenjeApiControllerIT extends IntegracijskiTest {
         assertThat(objavi("/api/mjerenja/brzo", "{\"idKorisnik\":%d,\"masa\":\"puno\"}".formatted(k)).ocekuj(400).poruka())
                 .startsWith("Neispravan format zahtjeva");
 
+        java.util.UUID uid = java.util.UUID.randomUUID();
+        kao(uid);
         long bezOnboardinga = objavi("/korisnici/supabase", """
-                {"supabaseUid":"%s","ime":"EMPTY","prezime":"EMPTY","email":"m@macromenza.test","lozinka_hash":""}"""
-                .formatted(java.util.UUID.randomUUID())).<Number>put("$.id").longValue();
+                {"supabaseUid":"%s","ime":"EMPTY","prezime":"EMPTY","email":"m@macromenza.test"}"""
+                .formatted(uid)).<Number>put("$.id").longValue();
         assertThat(objavi("/api/mjerenja/brzo", "{\"idKorisnik\":%d,\"masa\":70}".formatted(bezOnboardinga))
                 .ocekuj(400).poruka()).startsWith("Korisnik nema mjerenje");
     }

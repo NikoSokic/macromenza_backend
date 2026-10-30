@@ -1,7 +1,6 @@
 package com.macromenza.macromenza.controller;
 
-import com.macromenza.macromenza.model.Konzumacija;
-import com.macromenza.macromenza.repository.KonzumacijaRepository;
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.services.KonzumacijaService;
 import com.macromenza.macromenza.dto.UkupniUnosDTO;
 import com.macromenza.macromenza.dto.PovijestDanaDTO;
@@ -15,46 +14,20 @@ import java.util.List;
 @RequestMapping("/api/konzumacije")
 public class KonzumacijaController {
 
-    private final KonzumacijaRepository konzumacijaRepository;
     private final KonzumacijaService konzumacijaService;
+    private final TrenutniKorisnik trenutni;
 
     public KonzumacijaController(
-            KonzumacijaRepository konzumacijaRepository,
-            KonzumacijaService konzumacijaService
+            KonzumacijaService konzumacijaService,
+            TrenutniKorisnik trenutni
     ) {
-        this.konzumacijaRepository = konzumacijaRepository;
         this.konzumacijaService = konzumacijaService;
-    }
-
-    @GetMapping
-    public List<Konzumacija> getSveKonzumacije() {
-        return konzumacijaRepository.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Konzumacija getKonzumacijaPoId(@PathVariable Long id) {
-        return konzumacijaRepository.findById(id).orElse(null);
-    }
-
-    @GetMapping("/korisnik/{idKorisnik}")
-    public List<Konzumacija> getKonzumacijeZaKorisnika(@PathVariable Long idKorisnik) {
-        return konzumacijaRepository.findByIdKorisnik(idKorisnik);
-    }
-
-    /** Zastarjelo: koristi POST /api/obroci. Interno stvara obrok s jednom stavkom. */
-    @Deprecated
-    @PostMapping
-    public Konzumacija dodajKonzumaciju(@RequestBody Konzumacija konzumacija) {
-        return konzumacijaService.dodajKonzumaciju(konzumacija);
-    }
-
-    @DeleteMapping("/{id}")
-    public void obrisiKonzumaciju(@PathVariable Long id) {
-        konzumacijaRepository.deleteById(id);
+        this.trenutni = trenutni;
     }
 
     @GetMapping("/ukupno/{idKorisnik}")
     public UkupniUnosDTO ukupniUnos(@PathVariable Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         return konzumacijaService.izracunajDnevniUnos(idKorisnik);
     }
 
@@ -62,11 +35,13 @@ public class KonzumacijaController {
     @Deprecated
     @GetMapping("/povijest/dani/{idKorisnik}")
     public List<LocalDate> povijestDana(@PathVariable Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         return konzumacijaService.dohvatiPovijestDana(idKorisnik);
     }
 
     @GetMapping("/povijest/{idKorisnik}")
     public PovijestDanaDTO povijestZaDan(@PathVariable Long idKorisnik, @RequestParam LocalDate datum) {
+        trenutni.provjeri(idKorisnik);
         return konzumacijaService.dohvatiPovijestZaDan(idKorisnik, datum);
     }
 
@@ -74,12 +49,8 @@ public class KonzumacijaController {
     @Deprecated
     @GetMapping("/tjedni-pregled/{idKorisnik}")
     public TjedniPregledDTO tjedniPregled(@PathVariable Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         return konzumacijaService.dohvatiTjedniPregled(idKorisnik);
-    }
-
-    @PutMapping("/{id}")
-    public Konzumacija azurirajKonzumaciju(@PathVariable Long id,@RequestBody Konzumacija novaKonzumacija) {
-        return konzumacijaService.azurirajKonzumaciju(id, novaKonzumacija);
     }
 
 }

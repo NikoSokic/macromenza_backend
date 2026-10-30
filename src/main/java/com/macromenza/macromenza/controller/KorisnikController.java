@@ -8,12 +8,14 @@ import com.macromenza.macromenza.dto.RegistracijaProfilRequest;
 import com.macromenza.macromenza.model.ProfilPodaci;
 import com.macromenza.macromenza.model.Mjerenje;
 import com.macromenza.macromenza.repository.ProfilPodaciRepository;
+import com.macromenza.macromenza.security.PristupZabranjenException;
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.services.IzracunPreporukeService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,49 +27,42 @@ public class KorisnikController {
     private final MjerenjeRepository mjerenjeRepository;
     private final ProfilPodaciRepository profilPodaciRepository;
     private final IzracunPreporukeService izracunPreporukeService;
+    private final TrenutniKorisnik trenutni;
 
     public KorisnikController(
             KorisnikRepository korisnikRepository,
             MjerenjeRepository mjerenjeRepository,
             ProfilPodaciRepository profilPodaciRepository,
-            IzracunPreporukeService izracunPreporukeService
+            IzracunPreporukeService izracunPreporukeService,
+            TrenutniKorisnik trenutni
     ) {
         this.korisnikRepository = korisnikRepository;
         this.mjerenjeRepository = mjerenjeRepository;
         this.profilPodaciRepository = profilPodaciRepository;
         this.izracunPreporukeService = izracunPreporukeService;
-    }
-
-    @GetMapping
-    public List<Korisnik> getSviKorisnici() {
-        return korisnikRepository.findAll();
+        this.trenutni = trenutni;
     }
 
     @GetMapping("/{id}")
     public Korisnik getKorisnikPoId(@PathVariable Long id) {
-        return korisnikRepository.findById(id).orElse(null);
+        trenutni.provjeri(id);
+        return korisnikRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Korisnik ne postoji."));
     }
 
-    @GetMapping("/supabase/{supabaseUid}")
-    public Korisnik getKorisnikPoSupabaseUid(@PathVariable UUID supabaseUid) {
-        return korisnikRepository.findBySupabaseUid(supabaseUid).orElse(null);
-    }
-
-    @PostMapping
-    public Korisnik dodajKorisnika(@RequestBody Korisnik korisnik) {
-        return korisnikRepository.save(korisnik);
-    }
-
+    /** Pronalazi korisnika prijavljenog tokenom ili ga stvara; uid dolazi iz tokena, a ne iz tijela zahtjeva. */
     @PostMapping("/supabase")
     public Korisnik pronadiIliDodajKorisnikaPrekoSupabase(
             @RequestBody Korisnik noviKorisnik
     ) {
-        if (noviKorisnik.getSupabaseUid() == null) {
-            return null;
+        UUID uid = trenutni.supabaseUid();
+        if (noviKorisnik.getSupabaseUid() != null && !uid.equals(noviKorisnik.getSupabaseUid())) {
+            throw new PristupZabranjenException("Token ne pripada traženom korisniku.");
         }
+        noviKorisnik.setSupabaseUid(uid);
 
         return korisnikRepository
-                .findBySupabaseUid(noviKorisnik.getSupabaseUid())
+                .findBySupabaseUid(uid)
                 .orElseGet(() -> korisnikRepository.save(noviKorisnik));
     }
 
@@ -76,28 +71,20 @@ public class KorisnikController {
             @PathVariable Long id,
             @RequestBody Korisnik noviKorisnik
     ) {
-        Korisnik korisnik =
-                korisnikRepository.findById(id).orElse(null);
-
-        if (korisnik == null) {
-            return null;
-        }
+        trenutni.provjeri(id);
+        Korisnik korisnik = korisnikRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Korisnik ne postoji."));
 
         korisnik.setIme(noviKorisnik.getIme());
         korisnik.setPrezime(noviKorisnik.getPrezime());
         korisnik.setEmail(noviKorisnik.getEmail());
-        korisnik.setLozinka_hash(noviKorisnik.getLozinka_hash());
 
         return korisnikRepository.save(korisnik);
     }
 
-    @DeleteMapping("/{id}")
-    public void obrisiKorisnika(@PathVariable Long id) {
-        korisnikRepository.deleteById(id);
-    }
-
     @GetMapping("/{id}/onboarding-status")
     public Map<String, Boolean> getOnboardingStatus(@PathVariable Long id) {
+        trenutni.provjeri(id);
 
         Korisnik korisnik =
                 korisnikRepository.findById(id).orElse(null);
@@ -135,19 +122,19 @@ public class KorisnikController {
     @PostMapping("/registracija-profil")
     public Korisnik registracijaProfil(@RequestBody RegistracijaProfilRequest request) {
 
-        if (request.getSupabaseUid() == null) {
-            return null;
+        UUID uid = trenutni.supabaseUid();
+        if (request.getSupabaseUid() != null && !uid.equals(request.getSupabaseUid())) {
+            throw new PristupZabranjenException("Token ne pripada traženom korisniku.");
         }
 
         Korisnik korisnik = korisnikRepository
-                .findBySupabaseUid(request.getSupabaseUid())
+                .findBySupabaseUid(uid)
                 .orElseGet(Korisnik::new);
 
-        korisnik.setSupabaseUid(request.getSupabaseUid());
+        korisnik.setSupabaseUid(uid);
         korisnik.setEmail(request.getEmail());
         korisnik.setIme(request.getIme());
         korisnik.setPrezime(request.getPrezime());
-        korisnik.setLozinka_hash("");
 
         Korisnik spremljeniKorisnik = korisnikRepository.save(korisnik);
 

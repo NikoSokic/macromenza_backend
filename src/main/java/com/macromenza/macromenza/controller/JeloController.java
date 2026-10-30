@@ -1,11 +1,10 @@
 package com.macromenza.macromenza.controller;
 
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.dto.CestoJedenoDTO;
 import com.macromenza.macromenza.dto.JeloDTO;
 import com.macromenza.macromenza.dto.JeloDetaljDTO;
 import com.macromenza.macromenza.dto.KategorijaJelaDTO;
-import com.macromenza.macromenza.model.Jelo;
-import com.macromenza.macromenza.repository.JeloRepository;
 import com.macromenza.macromenza.services.JeloService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +16,12 @@ import java.util.List;
 @RequestMapping("/api/jela")
 public class JeloController {
 
-    private final JeloRepository jeloRepository;
     private final JeloService jeloService;
+    private final TrenutniKorisnik trenutni;
 
-    public JeloController(JeloRepository jeloRepository, JeloService jeloService) {
-        this.jeloRepository = jeloRepository;
+    public JeloController(JeloService jeloService, TrenutniKorisnik trenutni) {
         this.jeloService = jeloService;
+        this.trenutni = trenutni;
     }
 
     @GetMapping
@@ -57,45 +56,19 @@ public class JeloController {
             @RequestParam Long idKorisnik,
             @RequestParam(defaultValue = "10") int limit
     ) {
+        trenutni.provjeri(idKorisnik);
         return jeloService.dohvatiCestoJedeno(idKorisnik, limit);
     }
 
     @GetMapping("/{id}")
     public JeloDTO getJeloPoId(@PathVariable Long id) {
-        return jeloService.dohvatiJelo(id).orElse(null);
+        return jeloService.dohvatiJelo(id)
+                .orElseThrow(() -> new java.util.NoSuchElementException("Jelo ne postoji."));
     }
 
     @GetMapping("/{id}/detalj")
     public ResponseEntity<JeloDetaljDTO> getJeloDetalj(@PathVariable Long id) {
         return ResponseEntity.of(jeloService.dohvatiDetalj(id));
-    }
-
-    @PostMapping
-    public Jelo dodajJelo(@RequestBody Jelo jelo) {
-        return jeloRepository.save(jelo);
-    }
-
-    @PutMapping("/{id}")
-    public Jelo azurirajJelo(@PathVariable Long id, @RequestBody Jelo novoJelo) {
-        Jelo jelo = jeloRepository.findById(id).orElse(null);
-
-        if (jelo == null) {
-            return null;
-        }
-
-        jelo.setNaziv(novoJelo.getNaziv());
-        jelo.setOpis(novoJelo.getOpis());
-        jelo.setKalorije(novoJelo.getKalorije());
-        jelo.setProteini(novoJelo.getProteini());
-        jelo.setUgljikohidrati(novoJelo.getUgljikohidrati());
-        jelo.setMasti(novoJelo.getMasti());
-
-        return jeloRepository.save(jelo);
-    }
-
-    @DeleteMapping("/{id}")
-    public void obrisiJelo(@PathVariable Long id) {
-        jeloRepository.deleteById(id);
     }
 
     @GetMapping("/pretraga")

@@ -150,8 +150,7 @@ class JeloControllerIT extends IntegracijskiTest {
     void jednoJeloPoId() throws Exception {
         Map<String, Object> jelo = aktivnaJela(1).get(0);
         assertThat(dohvati("/api/jela/{id}", jelo.get("id")).ocekuj(200).objekt()).isEqualTo(jelo);
-        // Trenutno ponašanje (ispravni statusi su korak 20): nepostojeće jelo daje 200 s praznim tijelom.
-        assertThat(dohvati("/api/jela/{id}", -1).ocekuj(200).json()).isNull();
+        assertThat(dohvati("/api/jela/{id}", -1).ocekuj(404).poruka()).isEqualTo("Jelo ne postoji.");
     }
 
     static List<Map<String, String>> csv(String datoteka) throws IOException {

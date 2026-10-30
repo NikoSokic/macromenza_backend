@@ -42,6 +42,5 @@ class KonzumacijaControllerIT extends IntegracijskiTest {
         assertThat(dohvati("/api/konzumacije/povijest/dani/{k}", k).ocekuj(200).<List<String>>put("$"))
                 .contains(DANAS.toString());
         dohvati("/api/konzumacije/tjedni-pregled/{k}", k).ocekuj(200);
-        assertThat(dohvati("/api/konzumacije/korisnik/{k}", k).ocekuj(200).lista()).hasSize(1);
     }
 }

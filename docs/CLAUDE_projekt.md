@@ -27,7 +27,7 @@ Na laptopu je Windows i PowerShell 5.1 (nema `&&`, a skripte se pozivaju s `.\`)
 2. Sve što aplikacija sada radi mora nastaviti raditi.
 3. **DTO-ovi moraju biti usklađeni s obje strane** (nazivi polja, `@SerializedName`, tipovi). Kad mijenjaš API, mijenjaš i Retrofit model i ViewModel.
 4. **Promjene baze** idu kao numerirane SQL skripte u `backend/db/migracije/` (`V002__namirnica.sql`...), koje mi pokažeš prije pokretanja. Nikad ne briši ni ne mijenjaj postojeće podatke bez backup tablice ili izričite potvrde.
-5. **Nikad ne ispisuj, ne kopiraj i ne premještaj lozinku baze, ključeve ni tokene.** Ne diraj autentikaciju ni `application.properties` vjerodajnice. Sigurnost je planirana za korake 18–20.
+5. **Nikad ne ispisuj, ne kopiraj i ne premještaj lozinku baze, ključeve ni tokene.** Ne diraj autentikaciju ni `application.properties` vjerodajnice. Sigurnost iz koraka 18–20 je gotova: svi endpointi (osim `/api/ping`) traže Supabase token, a `idKorisnik` mora biti korisnik iz tokena (inače 403).
 6. Nakon svake promjene: backend se mora kompajlirati i pokrenuti, `gradlew assembleDebug` mora proći, a nove endpointe testiraš pozivom i pokažeš odgovor. Ako nešto ne možeš provjeriti, reci to izričito.
 7. Imenovanje je na hrvatskom, kao u postojećem kodu (`jelo`, `konzumacija`, `obrok`, `namirnica`, `mjerenje`...).
 8. Dizajn ostaje isti: zelena `MacroGreen 0xFF7CB342`, `MacroLightGreen 0xFFA4D65E`, tamna pozadina `0xFF101411`, Material3.
@@ -61,9 +61,9 @@ Na laptopu je Windows i PowerShell 5.1 (nema `&&`, a skripte se pozivaju s `.\`)
 | 15 | Objašnjenje izračuna u onboardingu, ekran "Odakle su kalorije", brisanje svih podataka, primjer tjedna | ⬜ |
 | 16 | Backend: prepoznavanje obroka sa slike ili opisa (Gemini API, ključ u env varijabli; prije implementacije provjeri aktualni model i besplatne limite) | ⬜ |
 | 17 | Android: ekran "Slika ili opis" + dijeljenje screenshota u aplikaciju | ⬜ |
-| 18 | Nova lozinka baze, vjerodajnice u env varijable, `.gitignore` | ⬜ |
-| 19 | Supabase JWT autorizacija (korisnik iz tokena, zatvoriti `/korisnici`, ukloniti `lozinka_hash`) | ⬜ |
-| 20 | Ispravni HTTP statusi grešaka + odluka o hostingu | ⬜ |
+| 18 | Nova lozinka baze, vjerodajnice u env varijable, `.gitignore` | ✅ (osim nove lozinke: mijenja je Niko ručno u Supabaseu) |
+| 19 | Supabase JWT autorizacija (korisnik iz tokena, zatvoriti `/korisnici`, ukloniti `lozinka_hash`) | ✅ |
+| 20 | Ispravni HTTP statusi grešaka + odluka o hostingu (Render, Docker + `render.yaml`) | ✅ |
 
 ## Trenutno stanje (poznati problemi)
 - `application.properties`: datasource URL završava s `}` (korak 1). Lozinka je u kodu i javno na GitHubu (korak 18).

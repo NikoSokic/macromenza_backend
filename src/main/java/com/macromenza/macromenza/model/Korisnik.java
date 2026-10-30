@@ -17,7 +17,6 @@ public class Korisnik {
     private String ime;
     private String prezime;
     private String email;
-    private String lozinka_hash;
 
     public Korisnik() {
     }
@@ -42,9 +41,6 @@ public class Korisnik {
         return email;
     }
 
-    public String getLozinka_hash() {
-        return lozinka_hash;
-    }
 
     public void setSupabaseUid(UUID supabaseUid) {
         this.supabaseUid = supabaseUid;
@@ -62,7 +58,4 @@ public class Korisnik {
         this.email = email;
     }
 
-    public void setLozinka_hash(String lozinka_hash) {
-        this.lozinka_hash = lozinka_hash;
-    }
 }

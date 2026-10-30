@@ -1,5 +1,6 @@
 package com.macromenza.macromenza.controller;
 
+import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.dto.DanPregledDTO;
 import com.macromenza.macromenza.dto.ObrokDTO;
 import com.macromenza.macromenza.dto.ObrokRequest;
@@ -23,8 +24,10 @@ public class ObrokController {
     private final ObrokService obrokService;
 
     private final PrimjerTjednaService primjerTjednaService;
+    private final TrenutniKorisnik trenutni;
 
-    public ObrokController(ObrokService obrokService, PrimjerTjednaService primjerTjednaService) {
+    public ObrokController(ObrokService obrokService, PrimjerTjednaService primjerTjednaService, TrenutniKorisnik trenutni) {
+        this.trenutni = trenutni;
         this.obrokService = obrokService;
         this.primjerTjednaService = primjerTjednaService;
     }
@@ -32,22 +35,26 @@ public class ObrokController {
     /** Stvara primjer za zadnjih 7 dana (bez danas) bez ijednog obroka; vraća broj stvorenih obroka po danu. */
     @PostMapping("/primjer-tjedna")
     public Map<String, Integer> ucitajPrimjerTjedna(@RequestParam Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         return primjerTjednaService.ucitaj(idKorisnik);
     }
 
     /** Briše samo obroke s izvorom PRIMJER. */
     @DeleteMapping("/primjer-tjedna")
     public Map<String, Integer> ukloniPrimjerTjedna(@RequestParam Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         return Map.of("obrisano", primjerTjednaService.ukloni(idKorisnik));
     }
 
     @PostMapping
     public ObrokDTO spremiObrok(@RequestBody ObrokRequest request) {
+        trenutni.provjeri(request.getIdKorisnik());
         return obrokService.spremiObrok(request);
     }
 
     @GetMapping
     public List<ObrokDTO> getObroci(@RequestParam Long idKorisnik, @RequestParam LocalDate datum) {
+        trenutni.provjeri(idKorisnik);
         return obrokService.dohvatiObroke(idKorisnik, datum);
     }
 
@@ -57,6 +64,7 @@ public class ObrokController {
             @RequestParam Long idKorisnik,
             @RequestParam(required = false) LocalDate datum
     ) {
+        trenutni.provjeri(idKorisnik);
         return obrokService.dohvatiDanPregled(idKorisnik, datum);
     }
 
@@ -66,11 +74,13 @@ public class ObrokController {
             @RequestParam Long idKorisnik,
             @RequestParam(required = false) LocalDate pocetak
     ) {
+        trenutni.provjeri(idKorisnik);
         return obrokService.dohvatiTjedan(idKorisnik, pocetak);
     }
 
     @GetMapping("/{id}")
     public ObrokDTO getObrok(@PathVariable Long id, @RequestParam Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         return obrokService.dohvatiObrok(id, idKorisnik);
     }
 
@@ -80,11 +90,13 @@ public class ObrokController {
             @RequestParam Long idKorisnik,
             @RequestBody ObrokRequest request
     ) {
+        trenutni.provjeri(idKorisnik);
         return obrokService.azurirajObrok(id, idKorisnik, request);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> obrisiObrok(@PathVariable Long id, @RequestParam Long idKorisnik) {
+        trenutni.provjeri(idKorisnik);
         obrokService.obrisiObrok(id, idKorisnik);
         return ResponseEntity.noContent().build();
     }
