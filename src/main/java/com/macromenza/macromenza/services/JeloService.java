@@ -45,10 +45,6 @@ public class JeloService {
         this.jeloSastojakNutritivnoRepository = jeloSastojakNutritivnoRepository;
     }
 
-    public List<JeloDTO> dohvatiJela(String search) {
-        return dohvatiJela(search, null, null, null, null, null, null, null, null, null);
-    }
-
     /** Tekst, kategorija i rasponi makronutrijenata kombiniraju se (I); prazan ili null parametar ne filtrira. */
     public List<JeloDTO> dohvatiJela(
             String search, String kategorija,
@@ -104,12 +100,6 @@ public class JeloService {
                 .toList();
     }
 
-    public Optional<JeloDTO> dohvatiJelo(Long id) {
-        return jeloRepository.findById(id).map(jelo ->
-                uDto(jelo, jeloNutritivnoRepository.findById(id).orElse(null))
-        );
-    }
-
     /** Detalj jela: jedan upit za jelo i vrijednosti, jedan za sastojke (sortirani po gramima silazno). */
     public Optional<JeloDetaljDTO> dohvatiDetalj(Long id) {
         return jeloRepository.findDetalj(id).map(r -> new JeloDetaljDTO(
@@ -125,37 +115,6 @@ public class JeloService {
                         ))
                         .toList()
         ));
-    }
-
-    public List<JeloDTO> filtrirajJela(
-            BigDecimal minKalorije, BigDecimal maxKalorije,
-            BigDecimal minProteini, BigDecimal maxProteini,
-            BigDecimal minUgljikohidrati, BigDecimal maxUgljikohidrati,
-            BigDecimal minMasti, BigDecimal maxMasti
-    ) {
-        return filtrirajJela(
-                null, null,
-                minKalorije, maxKalorije,
-                minProteini, maxProteini,
-                minUgljikohidrati, maxUgljikohidrati,
-                minMasti, maxMasti
-        );
-    }
-
-    public List<JeloDTO> filtrirajJela(
-            String search, String kategorija,
-            BigDecimal minKalorije, BigDecimal maxKalorije,
-            BigDecimal minProteini, BigDecimal maxProteini,
-            BigDecimal minUgljikohidrati, BigDecimal maxUgljikohidrati,
-            BigDecimal minMasti, BigDecimal maxMasti
-    ) {
-        return dohvatiJela(
-                search, kategorija,
-                minKalorije, maxKalorije,
-                minProteini, maxProteini,
-                minUgljikohidrati, maxUgljikohidrati,
-                minMasti, maxMasti
-        );
     }
 
     private boolean uOpsegu(BigDecimal vrijednost, BigDecimal min, BigDecimal max) {

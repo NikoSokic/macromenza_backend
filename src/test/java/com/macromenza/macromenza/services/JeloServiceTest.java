@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,14 +58,14 @@ class JeloServiceTest {
 
     @Test
     void bezFilteraSvaAktivnaJela() {
-        assertThat(id(servis.dohvatiJela(null))).containsExactly(1L, 2L, 3L);
-        assertThat(id(servis.dohvatiJela("   "))).containsExactly(1L, 2L, 3L);
+        assertThat(id(pretrazi(null))).containsExactly(1L, 2L, 3L);
+        assertThat(id(pretrazi("   "))).containsExactly(1L, 2L, 3L);
         verify(jeloRepository, never()).findByAktivnoTrueAndNazivContainingIgnoreCaseOrderByNaziv(any());
     }
 
     @Test
     void pretragaJeObrezana() {
-        assertThat(id(servis.dohvatiJela("  grah "))).containsExactly(1L);
+        assertThat(id(pretrazi("  grah "))).containsExactly(1L);
     }
 
     @Test
@@ -77,13 +76,13 @@ class JeloServiceTest {
 
     @Test
     void rasponiMakronutrijenataSeKombiniraju() {
-        assertThat(id(servis.filtrirajJela(new BigDecimal("300"), null, null, null, null, null, null, null)))
+        assertThat(id(servis.dohvatiJela(null, null, new BigDecimal("300"), null, null, null, null, null, null, null)))
                 .containsExactly(1L, 2L); // jelo bez vrijednosti ispada čim postoji filter
-        assertThat(id(servis.filtrirajJela(null, new BigDecimal("400"), new BigDecimal("10"), null,
+        assertThat(id(servis.dohvatiJela(null, null, null, new BigDecimal("400"), new BigDecimal("10"), null,
                 null, null, null, null))).containsExactly(1L);
-        assertThat(id(servis.filtrirajJela(new BigDecimal("320"), new BigDecimal("320"), null, null,
+        assertThat(id(servis.dohvatiJela(null, null, new BigDecimal("320"), new BigDecimal("320"), null, null,
                 null, null, null, null))).containsExactly(1L); // granice su uključive
-        assertThat(id(servis.filtrirajJela(null, null, new BigDecimal("31"), null,
+        assertThat(id(servis.dohvatiJela(null, null, null, null, new BigDecimal("31"), null,
                 null, null, null, null))).isEmpty();
     }
 
@@ -100,10 +99,8 @@ class JeloServiceTest {
         assertThat(limit.getAllValues()).extracting(Limit::max).containsExactly(1, 50);
     }
 
-    @Test
-    void nepostojeceJelo() {
-        when(jeloRepository.findById(999L)).thenReturn(Optional.empty());
-        assertThat(servis.dohvatiJelo(999L)).isEmpty();
+    private List<JeloDTO> pretrazi(String search) {
+        return servis.dohvatiJela(search, null, null, null, null, null, null, null, null, null);
     }
 
     private List<Long> id(List<JeloDTO> jela) {

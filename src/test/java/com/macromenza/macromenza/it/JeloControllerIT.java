@@ -119,10 +119,6 @@ class JeloControllerIT extends IntegracijskiTest {
             assertThat(broj(j.get("proteini"))).isGreaterThanOrEqualTo(20);
             assertThat(broj(j.get("kalorije"))).isLessThanOrEqualTo(500);
         });
-
-        // /filter i /pretraga daju isto kao glavni endpoint
-        assertThat(dohvati("/api/jela/filter?minMasti=30").lista()).isEqualTo(dohvati("/api/jela?minMasti=30").lista());
-        assertThat(dohvati("/api/jela/pretraga?naziv=grah").lista()).isEqualTo(dohvati("/api/jela?search=grah").lista());
     }
 
     @Test
@@ -144,13 +140,6 @@ class JeloControllerIT extends IntegracijskiTest {
         assertThat(r.<String>put("$[0].zadnjiPut")).isEqualTo(DANAS.toString());
 
         assertThat(dohvati("/api/jela/cesto?idKorisnik={k}&limit=1", korisnik).lista()).hasSize(1);
-    }
-
-    @Test
-    void jednoJeloPoId() throws Exception {
-        Map<String, Object> jelo = aktivnaJela(1).get(0);
-        assertThat(dohvati("/api/jela/{id}", jelo.get("id")).ocekuj(200).objekt()).isEqualTo(jelo);
-        assertThat(dohvati("/api/jela/{id}", -1).ocekuj(404).poruka()).isEqualTo("Jelo ne postoji.");
     }
 
     static List<Map<String, String>> csv(String datoteka) throws IOException {

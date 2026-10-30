@@ -2,7 +2,6 @@ package com.macromenza.macromenza.controller;
 
 import com.macromenza.macromenza.dto.MeniDTO;
 import com.macromenza.macromenza.services.MeniService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +22,5 @@ public class MeniController {
             @RequestParam(required = false) Boolean vegetarijanski
     ) {
         return meniService.dohvatiMenije(tip, vegetarijanski);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<MeniDTO> getMeniPoId(@PathVariable Long id) {
-        return ResponseEntity.of(meniService.dohvatiMeni(id));
     }
 }

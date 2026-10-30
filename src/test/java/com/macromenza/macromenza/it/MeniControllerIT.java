@@ -62,11 +62,4 @@ class MeniControllerIT extends IntegracijskiTest {
         }
         assertThat(poTipu).isEqualTo(ukupno);
     }
-
-    @Test
-    void jedanMeni() throws Exception {
-        Map<String, Object> prvi = dohvati("/api/meniji").lista().get(0);
-        assertThat(dohvati("/api/meniji/{id}", prvi.get("id")).ocekuj(200).objekt()).isEqualTo(prvi);
-        dohvati("/api/meniji/{id}", -1).ocekuj(404);
-    }
 }

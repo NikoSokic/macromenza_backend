@@ -1,9 +1,7 @@
 package com.macromenza.macromenza.controller;
 
-import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.dto.IzracunDTO;
 import com.macromenza.macromenza.dto.IzracunPreporukeRequest;
-import com.macromenza.macromenza.model.Preporuka;
 import com.macromenza.macromenza.services.IzracunPreporukeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +14,9 @@ import java.util.Set;
 public class IzracunPreporukeController {
 
     private final IzracunPreporukeService izracunPreporukeService;
-    private final TrenutniKorisnik trenutni;
 
-    public IzracunPreporukeController(IzracunPreporukeService izracunPreporukeService, TrenutniKorisnik trenutni) {
-        this.trenutni = trenutni;
+    public IzracunPreporukeController(IzracunPreporukeService izracunPreporukeService) {
         this.izracunPreporukeService = izracunPreporukeService;
-    }
-
-    @PostMapping("/izracunaj/{korisnikId}")
-    public Preporuka izracunajPreporuku(@PathVariable Long korisnikId) {
-        trenutni.provjeri(korisnikId);
-        return izracunPreporukeService.izracunajPreporuku(korisnikId);
     }
 
     /** Koraci izračuna za zadane ulaze; ništa se ne sprema. */
@@ -66,12 +56,6 @@ public class IzracunPreporukeController {
             return "Tip cilja mora biti mrsavljenje, odrzavanje ili dobivanje_mase.";
         }
         return null;
-    }
-
-    @GetMapping("/{korisnikId}")
-    public Preporuka dohvatiZadnjuPreporuku(@PathVariable Long korisnikId) {
-        trenutni.provjeri(korisnikId);
-        return izracunPreporukeService.dohvatiZadnjuPreporuku(korisnikId);
     }
 }
 

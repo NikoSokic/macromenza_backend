@@ -2,12 +2,9 @@ package com.macromenza.macromenza.controller;
 
 import com.macromenza.macromenza.security.TrenutniKorisnik;
 import com.macromenza.macromenza.services.BrisanjePodatakaService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/korisnici")
@@ -17,8 +14,8 @@ public class KorisnikPodaciController {
     private final TrenutniKorisnik trenutni;
 
     public KorisnikPodaciController(BrisanjePodatakaService brisanjePodatakaService, TrenutniKorisnik trenutni) {
-        this.trenutni = trenutni;
         this.brisanjePodatakaService = brisanjePodatakaService;
+        this.trenutni = trenutni;
     }
 
     /** Briše obroke, mjerenja i preporuke; račun i profil ostaju. Zahtijeva potvrda=OBRISI. */
@@ -29,15 +26,5 @@ public class KorisnikPodaciController {
     ) {
         trenutni.provjeri(id);
         return brisanjePodatakaService.obrisiSvePodatke(id, potvrda);
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Map<String, String>> nijePronaden(NoSuchElementException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("poruka", e.getMessage()));
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> neispravanZahtjev(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(Map.of("poruka", e.getMessage()));
     }
 }

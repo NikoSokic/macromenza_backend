@@ -37,9 +37,6 @@ class SigurnostIT extends IntegracijskiTest {
         dohvati("/mjerenja/korisnik/{id}", tudi).ocekuj(403);
         dohvati("/preporuke/korisnik/{id}", tudi).ocekuj(403);
         objavi("/preporuke/izracunaj/{id}", "", tudi).ocekuj(403);
-        objavi("/api/preporuke/izracunaj/{id}", "", tudi).ocekuj(403);
-        dohvati("/api/preporuke/{id}", tudi).ocekuj(403);
-        dohvati("/api/dashboard/{id}", tudi).ocekuj(403);
         dohvati("/api/jela/cesto?idKorisnik={k}", tudi).ocekuj(403);
         dohvati("/api/obroci?idKorisnik={k}&datum={d}", tudi, DANAS).ocekuj(403);
         dohvati("/api/obroci/dan-pregled?idKorisnik={k}", tudi).ocekuj(403);
@@ -50,7 +47,6 @@ class SigurnostIT extends IntegracijskiTest {
         obrisi("/api/obroci/primjer-tjedna?idKorisnik={k}", tudi).ocekuj(403);
         dohvati("/api/mjerenja?idKorisnik={k}", tudi).ocekuj(403);
         dohvati("/api/konzumacije/povijest/{k}?datum={d}", tudi, DANAS).ocekuj(403);
-        dohvati("/api/konzumacije/ukupno/{k}", tudi).ocekuj(403);
         obrisi("/api/korisnici/{id}/podaci?potvrda=OBRISI", tudi).ocekuj(403);
 
         objavi("/api/obroci", obrokJson(tudi, DANAS, "RUCAK", stavka(aktivnaJela(1).get(0).get("id"), "1"))).ocekuj(403);
@@ -120,7 +116,6 @@ class SigurnostIT extends IntegracijskiTest {
     void greskeImajuIspravneStatuse() throws Exception {
         long id = noviKorisnik();
 
-        dohvati("/api/jela/{id}", 999999).ocekuj(404);
         dohvati("/api/jela/{id}/detalj", 999999).ocekuj(404);
         dohvati("/nema-takvog-puta").ocekuj(404);
         dohvati("/api/obroci?idKorisnik={k}", id).ocekuj(400);

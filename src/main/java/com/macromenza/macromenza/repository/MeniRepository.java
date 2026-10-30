@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MeniRepository extends JpaRepository<Meni, Long> {
 
@@ -22,12 +21,4 @@ public interface MeniRepository extends JpaRepository<Meni, Long> {
             @Param("tip") String tip,
             @Param("vegetarijanski") Boolean vegetarijanski
     );
-
-    @Query("""
-            SELECT m FROM Meni m
-            LEFT JOIN FETCH m.stavke s
-            LEFT JOIN FETCH s.jelo
-            WHERE m.id = :id
-            """)
-    Optional<Meni> pronadiPoId(@Param("id") Long id);
 }

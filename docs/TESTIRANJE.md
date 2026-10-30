@@ -4,9 +4,9 @@ Tri razine automatskih testova i kratka lista ručnih provjera. Sve naredbe su z
 
 | Razina | Gdje | Broj | Naredba |
 |---|---|---|---|
-| Backend: unit + integracijski (prava baza, rollback) | `backend/src/test` | 128 (1 preskočen) | `cd backend; .\mvnw.cmd test` |
-| Frontend: unit, ugovor s backendom, pravila dizajna, snimke ekrana | `frontend/app/src/test` | 470 | `cd frontend; .\gradlew.bat verifyRoborazziDebug` |
-| Frontend: E2E na emulatoru protiv lokalnog backenda | `frontend/app/src/androidTest` | 26 | vidi niže |
+| Backend: unit + integracijski (prava baza, rollback) | `backend/src/test` | 130 (1 preskočen) | `cd backend; .\mvnw.cmd test` |
+| Frontend: unit, ugovor s backendom, pravila dizajna, snimke ekrana | `frontend/app/src/test` | 472 | `cd frontend; .\gradlew.bat verifyRoborazziDebug` |
+| Frontend: E2E na emulatoru protiv lokalnog backenda | `frontend/app/src/androidTest` | 26 | vidi niže (trenutno ne prolazi, vidi „E2E na emulatoru“) |
 
 Gradle traži JDK 17 (`$env:JAVA_HOME = "C:\Program Files\Java\jdk-17"; $env:Path = "$env:JAVA_HOME\bin;$env:Path"`).
 
@@ -17,6 +17,20 @@ Svaki integracijski test radi u transakciji koja se poništava, a `BezOstatakaIT
 (e-mail `@macromenza.test`) i ispisuje broj redova glavnih tablica. Treba mreža do Supabasea; traje oko 2 minute.
 
 Gemini se u testovima nikad ne zove (`@MockitoBean GeminiKlijent`).
+
+### Prijava u testovima
+Backend traži Supabase token na svakom zahtjevu osim `/api/ping`. Integracijski testovi ne zovu Supabase: Spring
+Security test (`jwt()`) postavlja token sa zadanim `sub`. `IntegracijskiTest` svaki zahtjev šalje kao korisnik
+`trenutniUid`. `noviKorisnik()` stvara korisnika i prebacuje se na njega, `kao(uid)` mijenja korisnika, a
+`kao(null)` šalje zahtjev bez tokena.
+
+`SigurnostIT` provjerava:
+- bez tokena dobiva se 401, a `/api/ping` je otvoren;
+- tuđi `idKorisnik` na svakom endpointu daje 403;
+- uid u tijelu zahtjeva mora odgovarati tokenu;
+- odgovor korisnika nema lozinku;
+- uklonjeni endpointi više ne postoje;
+- greške imaju ispravne statuse (400, 404, 405).
 
 ### Snimanje stvarnih odgovora za Android testove
 `SnimiOdgovoreIT` je po zadanom isključen. Kad se promijeni oblik odgovora API-ja:
@@ -43,6 +57,10 @@ Nakon `verify` razlike su u `app/build/outputs/roborazzi/*_compare.png` (staro |
 pregledaj prije commita.
 
 ## E2E na emulatoru
+
+> **Trenutno ne prolazi.** Od koraka 19 backend traži Supabase token, a E2E testovi korisnika stvaraju i sesiju
+> upisuju bez prijave, pa dobivaju 401. Za popravak testovi trebaju pravi token, na primjer prijavom testnim
+> Supabase računom (e-mail i lozinka u `local.properties`, izvan gita).
 
 Aplikacija radi pravi tok (backend na laptopu, Supabase baza). Svaki test stvara testnog korisnika preko
 `POST /korisnici/registracija-profil` i upisuje sesiju izravno u DataStore, pa se **Supabase prijava ne dodiruje**.
@@ -85,12 +103,14 @@ sustava, brisanje svih podataka (traži upis OBRIŠI), Odakle su kalorije, Slika
   16 s (mnogo pojedinačnih upisa u udaljenu bazu), a Retrofit klijent aplikacije ima zadani timeout od 10 s. Aplikacija
   javi grešku veze iako backend podatke upiše.
 - Obrazac „Postavke ciljeva“ se ne popunjava iz profila (visina, dob i masa uvijek kreću prazni).
-- `ProfilViewModel.spremiProfil` šalje `lozinka_hash = "test"` kad korisnik još nije učitan (korak 19).
 - `CiljeviViewModel.spremiCilj` šalje datum po vremenu uređaja, ne po `Europe/Zagreb`.
 
 ## Ručne provjere (ne mogu se automatizirati)
 - [ ] Pravi mobitel preko Wi-Fi IP-a laptopa (ili `adb reverse tcp:8080 tcp:8080`): cijeli tok unosa obroka.
 - [ ] Registracija i prijava sa stvarnim Supabaseom, potvrda e-maila, onboarding novog korisnika, odjava.
+- [ ] Istek tokena: nakon više od sat vremena aplikacija i dalje radi (token se sam osvježi). Ako refresh token više
+      ne vrijedi, aplikacija vraća na prijavu.
+- [ ] Render: prvi poziv nakon uspavanog servisa (do minute) ne javlja grešku veze.
 - [ ] Kamera: „Fotografiraj“ vraća sliku u ekran (FileProvider se u Robolectricu ne može provjeriti), „Iz galerije“.
 - [ ] Dijeljenje slike iz druge aplikacije (Galerija → Podijeli → MacroMenza) otvara „Slika ili opis“.
 - [ ] Rotacija ekrana usred unosa obroka i uređivanja (stanje se ne gubi).

@@ -21,8 +21,8 @@ public class MjerenjeApiController {
     private final TrenutniKorisnik trenutni;
 
     public MjerenjeApiController(MjerenjeService mjerenjeService, TrenutniKorisnik trenutni) {
-        this.trenutni = trenutni;
         this.mjerenjeService = mjerenjeService;
+        this.trenutni = trenutni;
     }
 
     /** Mase za graf, po datumu uzlazno (jedna po danu); [od] i [do] su opcionalni. */
@@ -41,11 +41,6 @@ public class MjerenjeApiController {
     public BrzoMjerenjeDTO brzoMjerenje(@RequestBody BrzoMjerenjeRequest request) {
         trenutni.provjeri(request.getIdKorisnik());
         return mjerenjeService.brzoMjerenje(request);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> neispravanZahtjev(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(Map.of("poruka", e.getMessage()));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

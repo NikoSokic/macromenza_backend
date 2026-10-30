@@ -7,7 +7,6 @@ import com.macromenza.macromenza.dto.ObrokRequest;
 import com.macromenza.macromenza.dto.TjedanDTO;
 import com.macromenza.macromenza.services.ObrokService;
 import com.macromenza.macromenza.services.PrimjerTjednaService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/obroci")
@@ -27,9 +25,9 @@ public class ObrokController {
     private final TrenutniKorisnik trenutni;
 
     public ObrokController(ObrokService obrokService, PrimjerTjednaService primjerTjednaService, TrenutniKorisnik trenutni) {
-        this.trenutni = trenutni;
         this.obrokService = obrokService;
         this.primjerTjednaService = primjerTjednaService;
+        this.trenutni = trenutni;
     }
 
     /** Stvara primjer za zadnjih 7 dana (bez danas) bez ijednog obroka; vraća broj stvorenih obroka po danu. */
@@ -99,16 +97,6 @@ public class ObrokController {
         trenutni.provjeri(idKorisnik);
         obrokService.obrisiObrok(id, idKorisnik);
         return ResponseEntity.noContent().build();
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Map<String, String>> nijePronaden(NoSuchElementException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("poruka", e.getMessage()));
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> neispravanZahtjev(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(Map.of("poruka", e.getMessage()));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

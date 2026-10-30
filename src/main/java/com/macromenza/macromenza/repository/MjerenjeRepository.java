@@ -22,11 +22,8 @@ public interface MjerenjeRepository extends JpaRepository<Mjerenje, Long> {
 
     List<Mjerenje> findByIdKorisnikAndDatumBetweenOrderByDatumAscIdAsc(Long idKorisnik, LocalDate od, LocalDate doDatuma);
 
-    Optional<Mjerenje> findTopByIdKorisnikOrderByDatumDesc(Long idKorisnik);
-
     Optional<Mjerenje> findTopByIdKorisnikOrderByIdDesc(Long idKorisnik);
 
     @Query("SELECT m FROM Mjerenje m WHERE m.idKorisnik = :idKorisnik ORDER BY m.id DESC")
     List<Mjerenje> findZadnjaMjerenjaZaKorisnika(@Param("idKorisnik") Long idKorisnik);
-
 }

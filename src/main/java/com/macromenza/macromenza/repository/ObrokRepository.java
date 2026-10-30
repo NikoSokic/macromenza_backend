@@ -28,11 +28,6 @@ public interface ObrokRepository extends JpaRepository<Obrok, Long> {
     @Query("delete from Obrok o where o.idKorisnik = :idKorisnik and o.izvor = :izvor")
     int obrisiPoIzvoru(@Param("idKorisnik") Long idKorisnik, @Param("izvor") String izvor);
 
-    List<Obrok> findByIdKorisnikAndDatumBetween(Long idKorisnik, LocalDate datumOd, LocalDate datumDo);
-
-    @Query("select distinct o.datum from Obrok o where o.idKorisnik = :idKorisnik order by o.datum desc")
-    List<LocalDate> findDatumiZaKorisnika(@Param("idKorisnik") Long idKorisnik);
-
     /** Totali dana po tipu obroka (v_jelo_nutritivno × kolicina); jedan upit. Tipovi bez obroka nisu u rezultatu. */
     @Query("""
             select o.tipObroka as tipObroka, count(distinct o.id) as brojObroka,

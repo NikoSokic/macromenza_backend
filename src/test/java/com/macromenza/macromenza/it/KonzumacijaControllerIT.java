@@ -30,17 +30,4 @@ class KonzumacijaControllerIT extends IntegracijskiTest {
         Odgovor prazan = dohvati("/api/konzumacije/povijest/{k}?datum={d}", k, DANAS.minusDays(3)).ocekuj(200);
         assertThat(broj(prazan.put("$.ukupnoKalorije"))).isZero();
     }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    void zastarjeliEndpointiJosOdgovaraju() throws Exception {
-        long k = noviKorisnik();
-        objavi("/api/obroci", obrokJson(k, DANAS, "RUCAK", stavka(aktivnaJela(1).get(0).get("id"), "1"))).ocekuj(200);
-
-        dohvati("/api/dashboard/{k}", k).ocekuj(200);
-        dohvati("/api/konzumacije/ukupno/{k}", k).ocekuj(200);
-        assertThat(dohvati("/api/konzumacije/povijest/dani/{k}", k).ocekuj(200).<List<String>>put("$"))
-                .contains(DANAS.toString());
-        dohvati("/api/konzumacije/tjedni-pregled/{k}", k).ocekuj(200);
-    }
 }

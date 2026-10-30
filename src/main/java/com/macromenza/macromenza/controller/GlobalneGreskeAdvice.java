@@ -12,6 +12,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Map;
@@ -57,6 +58,12 @@ public class GlobalneGreskeAdvice {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Map<String, String>> krivTipParametra(MethodArgumentTypeMismatchException e) {
         return odgovor(HttpStatus.BAD_REQUEST, "Neispravna vrijednost parametra " + e.getName() + ".");
+    }
+
+    /** Prevelik upload se odbija prije kontrolera (slike ≤ 8 MB). */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Map<String, String>> prevelikaSlika(MaxUploadSizeExceededException e) {
+        return odgovor(HttpStatus.BAD_REQUEST, "Slika može imati najviše 8 MB.");
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)

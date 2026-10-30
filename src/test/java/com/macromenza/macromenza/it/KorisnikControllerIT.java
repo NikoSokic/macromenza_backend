@@ -50,7 +50,7 @@ class KorisnikControllerIT extends IntegracijskiTest {
         assertThat(drugi.longValue()).isEqualTo(prvi.longValue());
         assertThat(dohvati("/korisnici/{id}", prvi).<String>put("$.ime")).isEqualTo("Ivana");
         // Ž, 30, 165, 60, sjedilačka, mršavljenje = 1084 kcal
-        assertThat(dohvati("/api/preporuke/{id}", prvi).<Integer>put("$.kalorije")).isEqualTo(1084);
+        assertThat(dohvati("/preporuke/korisnik/{id}", prvi).<List<Integer>>put("$[*].kalorije")).contains(1084);
 
         Odgovor supabase = objavi("/korisnici/supabase", """
                 {"supabaseUid":"%s","ime":"X","prezime":"Y","email":"x@y.z"}""".formatted(uid))
@@ -86,7 +86,7 @@ class KorisnikControllerIT extends IntegracijskiTest {
         KotlinUgovor.provjeri(pr.json(), "Preporuka");
         // 10·78,5 + 6,25·182 − 5·26 + 5 = 1797,5; ×1,725 = 3100,7; +300 = 3400,7
         assertThat(pr.<Integer>put("$.kalorije")).isEqualTo(3401);
-        assertThat(dohvati("/api/preporuke/{id}", id).<Integer>put("$.kalorije")).isEqualTo(3401);
+        assertThat(dohvati("/preporuke/korisnik/{id}", id).<List<Integer>>put("$[*].kalorije")).contains(3401);
     }
 
     @Test

@@ -125,13 +125,6 @@
                 default -> kalorije;
             };
         }
-        public Preporuka dohvatiZadnjuPreporuku(Long korisnikId) {
-
-            return preporukaRepository
-                    .findTopByIdKorisnikOrderByIdDesc(korisnikId)
-                    .orElseGet(() -> izracunajPreporuku(korisnikId));
-
-        }
 
 
     }

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -37,10 +36,6 @@ public class MeniService {
     public List<MeniDTO> dohvatiMenije(String tip, Boolean vegetarijanski) {
         String tipObroka = (tip != null && !tip.isBlank()) ? tip.trim().toUpperCase() : null;
         return uDtoLista(meniRepository.pronadiMenije(tipObroka, vegetarijanski));
-    }
-
-    public Optional<MeniDTO> dohvatiMeni(Long id) {
-        return meniRepository.pronadiPoId(id).map(m -> uDtoLista(List.of(m)).get(0));
     }
 
     private List<MeniDTO> uDtoLista(List<Meni> meniji) {

@@ -150,16 +150,6 @@ class IzracunPreporukeServiceTest {
         assertThatThrownBy(() -> servis.izracunajPreporuku(7L)).hasMessage("Korisnik nema profil podatke");
     }
 
-    @Test
-    void zadnjaPreporukaSeNePreracunavaAkoPostoji() {
-        Preporuka postojeca = new Preporuka();
-        postojeca.setKalorije(2100);
-        when(preporukaRepository.findTopByIdKorisnikOrderByIdDesc(7L)).thenReturn(Optional.of(postojeca));
-
-        assertThat(servis.dohvatiZadnjuPreporuku(7L)).isSameAs(postojeca);
-        verify(preporukaRepository, never()).save(any());
-    }
-
     private Mjerenje mjerenje(Long idKorisnik, String masa) {
         Mjerenje m = new Mjerenje();
         m.setIdKorisnik(idKorisnik);

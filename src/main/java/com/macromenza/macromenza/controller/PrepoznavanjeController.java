@@ -22,8 +22,8 @@ public class PrepoznavanjeController {
     private final TrenutniKorisnik trenutni;
 
     public PrepoznavanjeController(PrepoznavanjeService prepoznavanjeService, TrenutniKorisnik trenutni) {
-        this.trenutni = trenutni;
         this.prepoznavanjeService = prepoznavanjeService;
+        this.trenutni = trenutni;
     }
 
     /** Prijedlog obroka iz slike i/ili opisa; ništa se ne sprema (potvrda ide preko POST /api/obroci). */

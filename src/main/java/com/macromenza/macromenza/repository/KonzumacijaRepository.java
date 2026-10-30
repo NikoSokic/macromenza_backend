@@ -11,12 +11,10 @@ import java.util.Collection;
 import java.util.List;
 import java.time.LocalDate;
 
-
 public interface KonzumacijaRepository extends JpaRepository<Konzumacija, Long> {
 
     List<Konzumacija> findByIdKorisnik(Long idKorisnik);
     long countByIdKorisnik(Long idKorisnik);
-    List<Konzumacija> findByIdObrokIn(Collection<Long> idObroka);
     List<Konzumacija> findByIdObrokOrderByIdAsc(Long idObrok);
 
     @Query("""
